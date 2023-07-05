@@ -2,7 +2,7 @@
 
 A modern and easy to use Client/UI for `Etcd`
 
-![](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/images/ui.png) 
+![ui](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/images/ui.png) 
 
 ## How to use
 
