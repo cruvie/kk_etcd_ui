@@ -28,7 +28,7 @@ some unexpected errors).
 ## Docker
 change `version` to a specific version on [docker hub](https://hub.docker.com/r/kangxhcmk/kk_etcd_ui/tags)
 ```shell
-docker run --name kk_etcd_ui -p 2334:2333 kangxhcmk/kk_etcd_ui:version
+docker run --name kk_etcd_ui -p 2334:80 kangxhcmk/kk_etcd_ui:version
 ```
 
 docker-compose
@@ -38,10 +38,10 @@ version: "3"
 
 services:
   kk-etcd-ui:
-    image: kangxhcmk/kk_etcd_ui:1.0
+    image: kangxhcmk/kk_etcd_ui:version
     container_name: kk-etcd-ui
     ports:
-      - "2334:2333"
+      - "2334:80"
     restart: unless-stopped
 
 ```
