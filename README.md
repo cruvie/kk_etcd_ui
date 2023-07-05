@@ -81,4 +81,4 @@ Buy me a cup of coffee ☕️ if you like this project and want to keep it activ
 
 | Alipay                                 | Wechat                                 | Paypal                                 |
 |----------------------------------------|----------------------------------------|----------------------------------------|
-| ![alipay](./lib/assets/pay/alipay.png) | ![wechat](./lib/assets/pay/wechat.png) | ![wechat](./lib/assets/pay/wechat.png) |
+| ![alipay](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/pay/alipay.png) | ![wechat](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/pay/wechat.png) | ![wechat](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/pay/wechat.png) |
