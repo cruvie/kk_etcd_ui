@@ -4,7 +4,7 @@ A modern and easy to use Client/UI for `Etcd`
 
 ## How to use
 
-You need to run the [server](https://github.com/gkdgo/kk_etcd_go) first, then you can use the [client](https://github.com/gkdgo/kk_etcd_ui) to connect to the server.
+You need to run the [server](https://github.com/cruvie/kk_etcd_go) first, then you can use the [client](https://github.com/cruvie/kk_etcd_ui) to connect to the server.
 
 Yes, you need to use them together.
 
@@ -16,7 +16,7 @@ some unexpected errors).
 
 # Client
 
-[Homepage Client](https://github.com/gkdgo/kk_etcd_ui)
+[Homepage Client](https://github.com/cruvie/kk_etcd_ui)
 
 | Windows | MacOS | Linux | Web | Docker |
 |---------|-------|-------|-----|--------| 
@@ -24,7 +24,7 @@ some unexpected errors).
 | need to build by yourself      | need to build by yourself     | need to build by yourself     | ✅   | ✅      |
 
 ## Docker
-change `version` to a specific version on [docker hub](https://hub.docker.com/r/kangxhcmk/kk_etcd_go/tags)
+change `version` to a specific version on [docker hub](https://hub.docker.com/r/kangxhcmk/kk_etcd_ui/tags)
 ```shell
 docker run --name kk_etcd_ui -p 2334:2333 kangxhcmk/kk_etcd_ui:version
 ```
@@ -46,7 +46,7 @@ services:
 
 # Server
 
-[Homepage Server](https://github.com/gkdgo/kk_etcd_go)
+[Homepage Server](https://github.com/cruvie/kk_etcd_go)
 
 ## Docker
 change `version` to a specific version on [docker hub](https://hub.docker.com/r/kangxhcmk/kk_etcd_go/tags)
