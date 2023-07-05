@@ -20,15 +20,27 @@ some unexpected errors).
 
 | Windows | MacOS | Linux | Web | Docker |
 |---------|-------|-------|-----|--------| 
-| ✅       | ✅     | ✅     | ✅   | ✅      | 
+| ✅       | ✅     | ✅     | ✅   | ✅      |
+| need to build by yourself      | need to build by yourself     | need to build by yourself     | ✅   | ✅      |
 
-## Download client
+## Docker
+change `version` to a specific version on [docker hub](https://hub.docker.com/r/kangxhcmk/kk_etcd_go/tags)
+```shell
+docker run --name kk_etcd_ui -p 2334:2333 kangxhcmk/kk_etcd_ui:version
+```
 
-[Realease](https://github.com/miguelpruivo/flutter_file_picker/releases)
-
-## Use docker-compose to run and access Web UI
+docker-compose
 
 ```yaml
+version: "3"
+
+services:
+  kk-etcd-ui:
+    image: kangxhcmk/kk_etcd_ui:1.0
+    container_name: kk-etcd-ui
+    ports:
+      - "2334:2333"
+    restart: unless-stopped
 
 ```
 
