@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+
+#  kk-etcd-ui:
+#    image: alpine:latest
+#    container_name: kk-etcd-ui
+#    ports:
+#      - "2333:2333"
+#    restart: unless-stopped
+#    volumes:
+#      - ./kk_etcd_go:/kk_etcd_go/kk_etcd_go
+#      - ./config:/kk_etcd_go/config
+#    command: ./kk_etcd_go/kk_etcd_go
+
+  kk-etcd-ui:
+    image: kangxhcmk/kk_etcd_go:1.0
+    container_name: kk-etcd-ui
+    ports:
+      - "2333:2333"
+    restart: unless-stopped
+    volumes:
+      - ./config/config.yml:/kk_etcd_go/config/config.yml

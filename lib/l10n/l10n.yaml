@@ -1,0 +1,9 @@
+arb-dir: lib/l10n/language
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+output-dir: lib/l10n/generated
+synthetic-package: false
+# flutter gen-l10n --arb-dir=lib/l10n/language --template-arb-file=app_en.arb --output-dir=lib/l10n/generated --no-synthetic-package
+
+
+#https://flutter.cn/docs/development/accessibility-and-localization/internationalization

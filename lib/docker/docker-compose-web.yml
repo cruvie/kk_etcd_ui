@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+
+  kk-etcd-ui:
+    image: nginx:latest
+    container_name: kk-etcd-ui
+    restart: unless-stopped
+    volumes:
+      - ./web:/usr/share/nginx/html/web
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "2334:2333"
+
+#  kk-etcd-ui:
+#    image: kangxhcmk/kk_etcd_go:1.0
+#    container_name: kk-etcd-ui
+#    ports:
+#      - "2333:2333"
+#    restart: unless-stopped
+#    volumes:
+#      - ./config/config.yml:/kk_etcd_go/config/config.yml
