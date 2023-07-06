@@ -39,10 +39,6 @@ class _ConfigEditState extends State<ConfigEdit> {
                 }
                 return null;
               },
-              onChanged: (value) {
-                logicEtcdRead(context)
-                    .setCurrentConfigValue(cfgKey, _textController.text);
-              },
             ),
           ),
           Container(
