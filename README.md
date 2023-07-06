@@ -2,7 +2,7 @@
 
 A modern and easy to use Client/UI for `Etcd`
 
-![ui](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/images/ui.png) 
+![ui](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/images/ui.png?raw=true) 
 
 ## How to use
 
@@ -83,4 +83,4 @@ Buy me a cup of coffee ☕️ if you like this project and want to keep it activ
 
 | Alipay                                 | Wechat                                 | Paypal                                 |
 |----------------------------------------|----------------------------------------|----------------------------------------|
-| ![alipay](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/pay/alipay.png) | ![wechat](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/pay/wechat.png) | ![wechat](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/pay/wechat.png) |
+| ![alipay](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/pay/alipay.png?raw=true) | ![wechat](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/pay/wechat.png?raw=true) | ![wechat](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/pay/wechat.png?raw=true) |
