@@ -15,7 +15,7 @@ showLanguagePopupMenu(BuildContext context) {
               LanguageMap.languageMap[languageList[i]]!.keys.first;
           String countryCode =
               LanguageMap.languageMap[languageList[i]]![languageCode]!;
-          KKULanguage.changeLang(context, languageCode, countryCode);
+          KKULanguage.changeLang(languageCode, countryCode);
         },
       ),
     );

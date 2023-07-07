@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
+import 'package:kk_etcd_ui/page_logics/logic_etcd/dart/pb_user.pb.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 
 class PageUser extends StatefulWidget {
@@ -13,16 +15,15 @@ class _PageUserState extends State<PageUser> {
   @override
   void initState() {
     super.initState();
-    logicEtcdRead(context).getUserList();
+    LogicEtcd.to.getUserList();
   }
 
-  List<DataRow> userDataRows = [];
   final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     assembleData();
-    return Scaffold(
+    return Obx(() => Scaffold(
       body: ListView(
         children: [
           Scrollbar(
@@ -31,7 +32,7 @@ class _PageUserState extends State<PageUser> {
               controller: _scrollController,
               scrollDirection: Axis.horizontal,
               child: DataTable(
-                columns:  <DataColumn>[
+                columns: <DataColumn>[
                   DataColumn(
                     label: Expanded(
                       child: Text(
@@ -57,18 +58,18 @@ class _PageUserState extends State<PageUser> {
                     ),
                   ),
                 ],
-                rows: userDataRows,
+                rows: assembleData(),
               ),
             ),
           )
         ],
       ),
-    );
+    ));
   }
 
-  assembleData() {
-    userDataRows.clear();
-    logicEtcdWatch(context).pbListUser.listUser.forEach((element) {
+  List<DataRow> assembleData() {
+    List<DataRow> userDataRows = [];
+    for (PBUser element in LogicEtcd.to.pbListUser.value.listUser) {
       userDataRows.add(
         DataRow(
           cells: <DataCell>[
@@ -76,20 +77,21 @@ class _PageUserState extends State<PageUser> {
             DataCell(Text(element.roles.toString())),
             DataCell(Row(
               children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      logicEtcdRead(context).deleteUser(context,element.userName);
-                    },
-                    child: Text(
-                      lTr(context).delete,
-                      style: const TextStyle(color: Colors.red),
-                    ),
-                  )
+                ElevatedButton(
+                  onPressed: () {
+                    LogicEtcd.to.deleteUser(context, element.userName);
+                  },
+                  child: Text(
+                    lTr(context).delete,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                )
               ],
             )),
           ],
         ),
       );
-    });
+    }
+    return userDataRows;
   }
 }

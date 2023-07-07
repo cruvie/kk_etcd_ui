@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 import 'package:kk_etcd_ui/page_logics/logic_navigation/logic_navigation.dart';
-import 'package:kk_ui/kk_const/kkc_theme.dart';
-import 'package:kk_ui/kk_util/kku_theme.dart';
-import 'package:kk_ui/kk_util/kku_theme_mode.dart';
+import 'package:kk_ui/kk_widget/kk_theme_mode_switcher.dart';
 
 import 'cpts/about_info.dart';
 import 'cpts/show_language_popup_menu.dart';
@@ -18,11 +16,11 @@ class LeftSideMenu extends StatefulWidget {
 }
 
 class _LeftSideMenuState extends State<LeftSideMenu> {
-  bool isLight = false;
+
 
   @override
   Widget build(BuildContext context) {
-    isLight = !KKUTheme.isAppInDarkMode(context);
+
     return Drawer(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -45,37 +43,7 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           showLanguagePopupMenu(context),
-                          Material(
-                            color: Colors.transparent,
-                            child: Transform.scale(
-                              scale: 0.7,
-                              child: Switch(
-                                value: isLight,
-                                onChanged: (bool value) {
-                                  if (value) {
-                                    KKUThemeMode.changeThemeMode(
-                                        context, KKCTheme.themeLight);
-                                  } else {
-                                    KKUThemeMode.changeThemeMode(
-                                        context, KKCTheme.themeDark);
-                                  }
-                                  setState(() {
-                                    isLight = value;
-                                  });
-                                },
-                                thumbIcon: MaterialStateProperty.resolveWith(
-                                  (states) => isLight
-                                      ? const Icon(
-                                          Icons.wb_sunny_outlined,
-                                          color: Colors.yellow,
-                                        )
-                                      : const Icon(Icons.nights_stay_outlined,
-                                          color: Color.fromRGBO(
-                                              255, 255, 82, 1.0)),
-                                ),
-                              ),
-                            ),
-                          ),
+                          const KKThemeModeSwitcher(),
                         ],
                       ),
                     ],
@@ -86,14 +54,14 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                     title: GestureDetector(
                       child: Text(lTr(context).pageConfig),
                       onTap: () {
-                        logicNavigationRead(context).changeDestination(0);
+                        LogicNavigation.to.changeDestination(0);
                       },
                     ),
                     childrenPadding: const EdgeInsets.only(left: 20),
                     children: [
                       ListTile(
                         onTap: () {
-                          logicNavigationRead(context).changeDestination(1);
+                          LogicNavigation.to.changeDestination(1);
                         },
                         leading: const Icon(Icons.edit_note_outlined),
                         title: Text(lTr(context).pageAddConfig),
@@ -104,14 +72,14 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                     title: GestureDetector(
                       child: Text(lTr(context).pageUser),
                       onTap: () {
-                        logicNavigationRead(context).changeDestination(2);
+                        LogicNavigation.to.changeDestination(2);
                       },
                     ),
                     childrenPadding: const EdgeInsets.only(left: 20),
                     children: [
                       ListTile(
                         onTap: () {
-                          logicNavigationRead(context).changeDestination(3);
+                          LogicNavigation.to.changeDestination(3);
                         },
                         leading: const Icon(Icons.edit_note_outlined),
                         title: Text(lTr(context).pageAddUser),
@@ -129,7 +97,7 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
             ),
             IconButton(
               onPressed: () {
-                logicEtcdRead(context).logout(context);
+                LogicEtcd.to.logout(context);
               },
               icon: const Icon(Icons.logout_outlined),
             ),

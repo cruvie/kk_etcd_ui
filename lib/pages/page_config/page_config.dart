@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
+import 'package:kk_etcd_ui/page_logics/logic_etcd/dart/pb_kv.pb.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 
 import 'cpts/config_edit.dart';
@@ -15,16 +17,14 @@ class _PageConfigState extends State<PageConfig> {
   @override
   void initState() {
     super.initState();
-    logicEtcdRead(context).kVGetConfigList();
+    LogicEtcd.to.kVGetConfigList();
   }
 
-  List<DataRow> configDataRows = [];
   final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    assembleData();
-    return Scaffold(
+    return Obx(() => Scaffold(
       body: Row(
         children: [
           Expanded(
@@ -36,12 +36,13 @@ class _PageConfigState extends State<PageConfig> {
                     controller: _scrollController,
                     scrollDirection: Axis.horizontal,
                     child: DataTable(
-                      columns:  <DataColumn>[
+                      columns: <DataColumn>[
                         DataColumn(
                           label: Expanded(
                             child: Text(
                               lTr(context).name,
-                              style: const TextStyle(fontStyle: FontStyle.italic),
+                              style:
+                                  const TextStyle(fontStyle: FontStyle.italic),
                             ),
                           ),
                         ),
@@ -49,12 +50,13 @@ class _PageConfigState extends State<PageConfig> {
                           label: Expanded(
                             child: Text(
                               lTr(context).action,
-                              style: const TextStyle(fontStyle: FontStyle.italic),
+                              style:
+                                  const TextStyle(fontStyle: FontStyle.italic),
                             ),
                           ),
                         ),
                       ],
-                      rows: configDataRows,
+                      rows: assembleData(),
                     ),
                   ),
                 )
@@ -64,42 +66,41 @@ class _PageConfigState extends State<PageConfig> {
           const Expanded(child: ConfigEdit())
         ],
       ),
-    );
+    ));
   }
 
-  assembleData() {
-    configDataRows.clear();
-    logicEtcdWatch(context).pbConfigList.listKV.forEach(
-      (element) {
-        configDataRows.add(
-          DataRow(
-            cells: <DataCell>[
-              DataCell(Text(element.key)),
-              DataCell(
-                Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        logicEtcdRead(context).kVGetConfig(element.key);
-                      },
-                      child:  Text(lTr(context).view),
+  List<DataRow> assembleData() {
+    List<DataRow> configDataRows = [];
+    for (PBKV element in LogicEtcd.to.pbConfigList.value.listKV) {
+      configDataRows.add(
+        DataRow(
+          cells: <DataCell>[
+            DataCell(Text(element.key)),
+            DataCell(
+              Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      LogicEtcd.to.kVGetConfig(element.key);
+                    },
+                    child: Text(lTr(context).view),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      LogicEtcd.to.kVDelConfig(element.key);
+                    },
+                    child: Text(
+                      lTr(context).delete,
+                      style: const TextStyle(color: Colors.red),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        logicEtcdRead(context).kVDelConfig(element.key);
-                      },
-                      child: Text(
-                        lTr(context).delete,
-                        style: const TextStyle(color: Colors.red),
-                      ),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
-            ],
-          ),
-        );
-      },
-    );
+            ),
+          ],
+        ),
+      );
+    }
+    return configDataRows;
   }
 }

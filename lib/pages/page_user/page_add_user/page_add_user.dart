@@ -58,7 +58,7 @@ class _PageAddUserState extends State<PageAddUser> {
               child: ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    bool success = await logicEtcdRead(context).addUser(
+                    bool success = await LogicEtcd.to.addUser(
                       _nameController.text,
                       _passwordController.text,
                     );

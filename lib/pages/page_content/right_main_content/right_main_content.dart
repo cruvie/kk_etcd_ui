@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kk_etcd_ui/page_logics/logic_navigation/logic_navigation.dart';
 
 class RightMainContent extends StatefulWidget {
@@ -11,9 +12,9 @@ class RightMainContent extends StatefulWidget {
 class _RightMainContentState extends State<RightMainContent> {
   @override
   Widget build(BuildContext context) {
-    return PageView(
-        controller: logicNavigationWatch(context).pageController,
+    return Obx(() => PageView(
+        controller: LogicNavigation.to.pageController.value,
         physics: const NeverScrollableScrollPhysics(),
-        children: LogicNavigation.pages);
+        children: LogicNavigation.pages));
   }
 }

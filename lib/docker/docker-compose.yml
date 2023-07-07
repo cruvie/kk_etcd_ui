@@ -12,18 +12,18 @@ services:
 #    ports:
 #      - "2334:80"
 
-  kk-etcd-ui:
-    image: jitesoft/lighttpd:latest
-    container_name: kk-etcd-ui
-    restart: unless-stopped
-    volumes:
-      - ./web:/var/www/html
-    ports:
-      - "2334:80"
-
 #  kk-etcd-ui:
-#    image: kangxhcmk/kk_etcd_ui:1.0
+#    image: jitesoft/lighttpd:latest
 #    container_name: kk-etcd-ui
+#    restart: unless-stopped
+#    volumes:
+#      - ./web:/var/www/html
 #    ports:
 #      - "2334:80"
-#    restart: unless-stopped
+
+  kk-etcd-ui:
+    image: kangxhcmk/kk_etcd_ui:1.0
+    container_name: kk-etcd-ui
+    ports:
+      - "2334:80"
+    restart: unless-stopped

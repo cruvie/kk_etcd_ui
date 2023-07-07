@@ -1,16 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:kk_ui/kk_util/kku_sp.dart';
-import 'package:provider/provider.dart';
 
-LogicGlobal logicGlobalWatch(BuildContext context) {
-  return context.watch<LogicGlobal>();
-}
-
-LogicGlobal logicGlobalRead(BuildContext context) {
-  return context.read<LogicGlobal>();
-}
-class LogicGlobal  with ChangeNotifier {
-
+class LogicGlobal  extends GetxController {
+  static LogicGlobal get to => Get.find();
  static Future<bool> cleanAllLocal() async {
     if (await KKUSp.clear() == true) {
       return true;

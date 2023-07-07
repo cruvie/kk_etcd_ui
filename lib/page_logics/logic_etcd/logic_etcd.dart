@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kk_etcd_ui/global/request_api/api.dart';
 import 'package:kk_etcd_ui/global/request_api/api_resp/api_resp.pb.dart';
@@ -11,24 +12,17 @@ import 'package:kk_etcd_ui/page_routes/router_path.dart';
 import 'package:kk_ui/kk_const/index.dart';
 import 'package:kk_ui/kk_util/kku_sp.dart';
 import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
-import 'package:provider/provider.dart';
 
 import 'dart/pb_user.pb.dart';
 
-LogicEtcd logicEtcdWatch(BuildContext context) {
-  return context.watch<LogicEtcd>();
-}
+class LogicEtcd extends GetxController {
+  static LogicEtcd get to => Get.find();
 
-LogicEtcd logicEtcdRead(BuildContext context) {
-  return context.read<LogicEtcd>();
-}
+  late Rx<PBUser> myPBUserInfo = PBUser().obs;
 
-class LogicEtcd with ChangeNotifier {
-  late PBUser myPBUserInfo = PBUser();
+  RxString username = ''.obs;
 
-  static String username = '';
-
-  static String password = '';
+  RxString password = ''.obs;
 
   Future<bool> login(BuildContext context) async {
     bool result = false;
@@ -36,8 +30,8 @@ class LogicEtcd with ChangeNotifier {
       return false;
     }
     PBUser user = PBUser();
-    user.userName = username;
-    user.password = password;
+    user.userName = username.value;
+    user.password = password.value;
     KKUSp.setLocalStorage(ConstRequestApi.username, username);
     KKUSp.setLocalStorage(ConstRequestApi.password, password);
     KKUSp.setLocalStorage(ConstRequestApi.serverAddr, Api.serverAddr);
@@ -69,15 +63,16 @@ class LogicEtcd with ChangeNotifier {
     bool hasData = false;
     await RequestHttp.httpPost("/User/MyInfo").then((ApiResp res) async {
       if (res.code == 200) {
-        myPBUserInfo.clear();
-        res.data.unpackInto(myPBUserInfo);
+        myPBUserInfo.value.clear();
+        res.data.unpackInto(myPBUserInfo.value);
         await KKUSp.setLocalStorage(
-            StaticEtcd.myInfo, myPBUserInfo.writeToJson());
+            StaticEtcd.myInfo, myPBUserInfo.value.writeToJson());
         hasData = true;
       } else {
         hasData = false;
       }
     });
+    myPBUserInfo.refresh();
     return hasData;
   }
 
@@ -86,25 +81,27 @@ class LogicEtcd with ChangeNotifier {
         !KKUSp.containsKey(StaticEtcd.myInfo)) {
       await getMyInfo();
     }
-    myPBUserInfo = PBUser.fromJson(KKUSp.getLocalStorage(StaticEtcd.myInfo));
+    myPBUserInfo.value =
+        PBUser.fromJson(KKUSp.getLocalStorage(StaticEtcd.myInfo));
+    myPBUserInfo.refresh();
     // debugPrint('myInfo：${myPBUserInfo }');
   }
 
-  PBListUser pbListUser = PBListUser();
+  Rx<PBListUser> pbListUser = PBListUser().obs;
 
   Future<bool> getUserList() async {
     bool finished = false;
     await RequestHttp.httpPost("/User/UserList").then((ApiResp res) {
       if (res.code == 200) {
-        pbListUser.clear();
-        res.data.unpackInto(pbListUser);
+        pbListUser.value.clear();
+        res.data.unpackInto(pbListUser.value);
         finished = true;
       } else {
         debugPrint('failed to get user list!');
         finished = false;
       }
     });
-    notifyListeners();
+    pbListUser.refresh();
     return finished;
   }
 
@@ -121,7 +118,7 @@ class LogicEtcd with ChangeNotifier {
         finished = false;
       }
     });
-    notifyListeners();
+
     return finished;
   }
 
@@ -131,7 +128,7 @@ class LogicEtcd with ChangeNotifier {
             queryParameters: PBUser(userName: userName).writeToBuffer())
         .then((ApiResp res) {
       if (res.code == 200) {
-        pbListUser.listUser
+        pbListUser.value.listUser
             .removeWhere((element) => element.userName == userName);
         finished = true;
       } else {
@@ -139,35 +136,29 @@ class LogicEtcd with ChangeNotifier {
         finished = false;
       }
     });
-    notifyListeners();
+    pbListUser.refresh();
     return finished;
   }
 
-  PBListKV pbConfigList = PBListKV();
+  Rx<PBListKV> pbConfigList = PBListKV().obs;
 
   Future<bool> kVGetConfigList() async {
     bool finished = false;
     await RequestHttp.httpPost("/KV/KVGetConfigList").then((ApiResp res) {
       if (res.code == 200) {
-        pbConfigList.clear();
-        res.data.unpackInto(pbConfigList);
+        pbConfigList.value.clear();
+        res.data.unpackInto(pbConfigList.value);
         finished = true;
       } else {
         debugPrint('failed to get config list!');
         finished = false;
       }
     });
-    notifyListeners();
+    pbConfigList.refresh();
     return finished;
   }
 
-  PBKV currentConfig = PBKV();
-
-  setCurrentConfigValue(String key, String value) {
-    currentConfig.key = key;
-    currentConfig.value = value;
-    notifyListeners();
-  }
+  Rx<PBKV> currentConfig = PBKV().obs;
 
   Future<bool> kVGetConfig(String key) async {
     bool finished = false;
@@ -175,15 +166,15 @@ class LogicEtcd with ChangeNotifier {
             queryParameters: PBKV(key: key).writeToBuffer())
         .then((ApiResp res) {
       if (res.code == 200) {
-        currentConfig.clear();
-        res.data.unpackInto(currentConfig);
+        currentConfig.value.clear();
+        res.data.unpackInto(currentConfig.value);
         finished = true;
       } else {
         debugPrint('failed to get config !');
         finished = false;
       }
     });
-    notifyListeners();
+    currentConfig.refresh();
     return finished;
   }
 
@@ -208,21 +199,21 @@ class LogicEtcd with ChangeNotifier {
             queryParameters: PBKV(key: key).writeToBuffer())
         .then((ApiResp res) {
       if (res.code == 200) {
-        pbConfigList.listKV.removeWhere((element) => element.key == key);
+        pbConfigList.value.listKV.removeWhere((element) => element.key == key);
         finished = true;
       } else {
         debugPrint('failed to delete config !');
         finished = false;
       }
     });
-    notifyListeners();
+    pbConfigList.refresh();
     return finished;
   }
 
   Future<bool> logout(BuildContext context) async {
     bool result = false;
     await RequestHttp.httpPost("/User/Logout",
-            queryParameters: myPBUserInfo.writeToBuffer())
+            queryParameters: myPBUserInfo.value.writeToBuffer())
         .then((ApiResp res) async {
       if (context.mounted) {
         context.go(RouterPath.pageLogin);

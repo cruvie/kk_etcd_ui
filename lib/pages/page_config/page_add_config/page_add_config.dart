@@ -61,7 +61,7 @@ class _PageAddConfigState extends State<PageAddConfig> {
               child: ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    bool success = await logicEtcdRead(context).kVPutConfig(
+                    bool success = await LogicEtcd.to.kVPutConfig(
                       _nameController.text,
                       _valueController.text,
                     );

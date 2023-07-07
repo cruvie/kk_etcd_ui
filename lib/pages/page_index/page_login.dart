@@ -5,11 +5,7 @@ import 'package:kk_etcd_ui/global/request_api/const_request_api.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 import 'package:kk_etcd_ui/page_routes/router_path.dart';
-import 'package:kk_ui/kk_const/kkc_locale.dart';
-import 'package:kk_ui/kk_const/kkc_theme.dart';
-import 'package:kk_ui/kk_util/kku_language.dart';
 import 'package:kk_ui/kk_util/kku_sp.dart';
-import 'package:kk_ui/kk_util/kku_theme_mode.dart';
 
 class PageLogin extends StatefulWidget {
   const PageLogin({super.key});
@@ -19,33 +15,15 @@ class PageLogin extends StatefulWidget {
 }
 
 class _PageLoginState extends State<PageLogin> {
-  @override
-  void initState() {
-    super.initState();
-
-    if (KKUSp.containsKey(KKCLocale.locale)) {
-      Map local = KKUSp.getMap(KKCLocale.locale);
-      // debugPrint(local.toString());
-      String languageCode = local.keys.first;
-      String countryCode = local[languageCode]!;
-      KKULanguage.changeLang(context, languageCode, countryCode);
-    }
-
-    if (KKUSp.containsKey(KKCTheme.themeMode)) {
-      // debugPrint(KKUSp.getLocalStorage(KKCTheme.themeMode));
-      KKUThemeMode.changeThemeMode(
-          context, KKUSp.getLocalStorage(KKCTheme.themeMode));
-    }
-  }
-
   bool showPassword = false;
-  bool isUserAgreement = false;
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    LogicEtcd.username = KKUSp.getLocalStorage(ConstRequestApi.username) ?? '';
-    LogicEtcd.password = KKUSp.getLocalStorage(ConstRequestApi.password) ?? '';
+    LogicEtcd.to.username.value =
+        KKUSp.getLocalStorage(ConstRequestApi.username) ?? '';
+    LogicEtcd.to.password.value =
+        KKUSp.getLocalStorage(ConstRequestApi.password) ?? '';
     Api.serverAddr = KKUSp.getLocalStorage(ConstRequestApi.serverAddr) ?? '';
     return Scaffold(
       appBar: AppBar(
@@ -76,7 +54,7 @@ class _PageLoginState extends State<PageLogin> {
               Container(
                 margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                 child: TextFormField(
-                  initialValue: LogicEtcd.username,
+                  initialValue: LogicEtcd.to.username.value,
                   decoration: InputDecoration(
                     labelText: lTr(context).username,
                     hintText: lTr(context).enterUsername,
@@ -91,14 +69,14 @@ class _PageLoginState extends State<PageLogin> {
                     return null;
                   },
                   onChanged: (value) {
-                    LogicEtcd.username = value;
+                    LogicEtcd.to.username.value = value;
                   },
                 ),
               ),
               Container(
                 margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                 child: TextFormField(
-                  initialValue: LogicEtcd.password,
+                  initialValue: LogicEtcd.to.password.value,
                   decoration: InputDecoration(
                     labelText: lTr(context).password,
                     hintText: lTr(context).enterPassword,
@@ -124,7 +102,7 @@ class _PageLoginState extends State<PageLogin> {
                   },
                   obscureText: !showPassword,
                   onChanged: (value) {
-                    LogicEtcd.password = value;
+                    LogicEtcd.to.password.value = value;
                   },
                 ),
               ),
@@ -133,8 +111,7 @@ class _PageLoginState extends State<PageLogin> {
                 child: ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      bool success =
-                          await logicEtcdRead(context).login(context);
+                      bool success = await LogicEtcd.to.login(context);
                       if (context.mounted && success) {
                         context.go(RouterPath.pageHome);
                       }

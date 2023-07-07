@@ -16,7 +16,7 @@ class _PageNavigation extends State<PageContent> {
   void initState() {
     super.initState();
 
-    logicEtcdRead(context).loadUserInfo();
+ LogicEtcd.to.loadUserInfo();
   }
 
   @override

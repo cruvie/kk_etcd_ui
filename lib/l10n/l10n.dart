@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'generated/app_localizations.dart';
 
 AppLocalizations lTr(BuildContext context) {
-  AppLocalizations.supportedLocales;
   return AppLocalizations.of(context);
 }
 

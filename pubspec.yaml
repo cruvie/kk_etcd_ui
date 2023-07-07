@@ -4,7 +4,7 @@ description: Etcd UI
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 2023.7.1
+version: 2023.7.7
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -33,9 +33,9 @@ dependencies:
   shared_preferences: ^2.2.0  # all BSD-3-Clause
   protobuf: ^3.0.0 # all BSD-3-Clause
   http: ^1.1.0 # all BSD-3-Clause
-  provider: ^6.0.5 # all MIT
   intl: any # all BSD-3-Clause
-  go_router: ^9.0.0 # all BSD-3-Clause
+  go_router: ^9.0.2 # all BSD-3-Clause
+  get: ^4.6.5 # all MIT
 
 
 dev_dependencies:
