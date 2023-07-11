@@ -119,10 +119,13 @@ type Config struct {
 var (
 	endpoints = []string{"http://127.0.0.1:2379"} //http://etcd:2379  http://127.0.0.1:2379
 	configKey = "my_config"
+
+	userName = "admin"
+	password = "admin"
 )
 
 func InitEtcd() {
-	kk_etcd.InitEtcd(endpoints)
+	kk_etcd.InitEtcd(endpoints, userName, password)
 	kk_etcd.GetConfig(configKey, &GlobalConfig)
 }
 ```

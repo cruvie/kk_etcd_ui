@@ -28,13 +28,13 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2 # all MIT
   package_info_plus: ^4.0.1 # all BSD-3-Clause
-  url_launcher: ^6.1.11 # all BSD-3-Clause
+  url_launcher: ^6.1.12 # all BSD-3-Clause
   date_format: ^2.0.7  # all BSD-3-Clause
   shared_preferences: ^2.2.0  # all BSD-3-Clause
   protobuf: ^3.0.0 # all BSD-3-Clause
   http: ^1.1.0 # all BSD-3-Clause
   intl: any # all BSD-3-Clause
-  go_router: ^9.0.2 # all BSD-3-Clause
+  go_router: ^9.0.3 # all BSD-3-Clause
   get: ^4.6.5 # all MIT
 
 
