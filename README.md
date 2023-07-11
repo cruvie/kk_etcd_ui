@@ -1,6 +1,7 @@
 # Etcd UI
 
 A modern and easy to use Client/UI for `Etcd`
+A configuration center based on `Etcd`
 
 ![ui](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/images/ui.png?raw=true) 
 
