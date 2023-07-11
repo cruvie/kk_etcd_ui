@@ -45,6 +45,7 @@ services:
     restart: unless-stopped
 
 ```
+http://localhost:2334
 
 # Server
 
@@ -79,7 +80,7 @@ we only provide `go` sdk now
 ```
 init and get config from etcd
 
-`my_config` in etcd
+`my_config` in etcd (yaml format)
 ```yaml
 ServerAddr: 127.0.0.1:8759
 
@@ -93,7 +94,7 @@ Redis:
 MinIO:
   AccessEndpoint: http://127.0.0.1:9000/
 ```
-
+get config in your project from etcd
 ```go
 
 import "github.com/cruvie/kk_etcd_go/kk_etcd"
