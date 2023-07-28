@@ -39,7 +39,7 @@ aboutInfo(BuildContext context) {
                     TextButton(
                       onPressed: () {
                         launchUrl(
-                          Uri.parse("https://github.com/gkdgo/kk_etcd_ui"),
+                          Uri.parse("https://github.com/cruvie/kk_etcd_ui"),
                           mode: LaunchMode.externalApplication,
                         );
                       },

@@ -21,10 +21,12 @@ some unexpected errors).
 
 [Homepage Client](https://github.com/cruvie/kk_etcd_ui)
 
-| Windows | MacOS | Linux | Web | Docker |
-|---------|-------|-------|-----|--------| 
-| ✅       | ✅     | ✅     | ✅   | ✅      |
-| need to build by yourself      | need to build by yourself     | need to build by yourself     | ✅   | ✅      |
+[Download](https://github.com/cruvie/kk_etcd_ui/releases)
+
+| Windows                   | MacOS                                       | Linux                     | Web | Docker |
+|---------------------------|---------------------------------------------|---------------------------|-----|--------| 
+| ✅                         | ✅                                           | ✅                         | ✅   | ✅      |
+| need to build by yourself | `arm64`✅<br/>`x86`need to build by yourself | need to build by yourself | ✅   | ✅      |
 
 ## Docker
 change `version` to a specific version on [docker hub](https://hub.docker.com/r/kangxhcmk/kk_etcd_ui/tags)

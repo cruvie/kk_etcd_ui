@@ -4,10 +4,10 @@ description: Etcd UI
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 2023.7.7
+version: 2023.7.28
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -23,19 +23,22 @@ dependencies:
 
   kk_ui:
     git:
-      url: https://gitee.com/gkdgo/kk_ui.git
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2 # all MIT
-  package_info_plus: ^4.0.1 # all BSD-3-Clause
-  url_launcher: ^6.1.12 # all BSD-3-Clause
-  date_format: ^2.0.7  # all BSD-3-Clause
-  shared_preferences: ^2.2.0  # all BSD-3-Clause
-  protobuf: ^3.0.0 # all BSD-3-Clause
-  http: ^1.1.0 # all BSD-3-Clause
+      url: https://gitee.com/cruvie/kk_ui.git
+
+  kk_etcd_go:
+    git:
+      url: https://github.com/cruvie/kk_etcd_go.git
+
+  cupertino_icons: any # all MIT
+  package_info_plus: any # all BSD-3-Clause
+  url_launcher: any # all BSD-3-Clause
+  date_format: any  # all BSD-3-Clause
+  shared_preferences: any  # all BSD-3-Clause
+  protobuf: any # all BSD-3-Clause
+  http: any # all BSD-3-Clause
   intl: any # all BSD-3-Clause
-  go_router: ^9.0.3 # all BSD-3-Clause
-  get: ^4.6.5 # all MIT
+  go_router: any # all BSD-3-Clause
+  get: any # all MIT
 
 
 dev_dependencies:
@@ -47,7 +50,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.2
+  flutter_lints: any
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

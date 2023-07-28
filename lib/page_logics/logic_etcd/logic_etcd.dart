@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kk_etcd_go/models/pb_kv.pb.dart';
+import 'package:kk_etcd_go/models/pb_user.pb.dart';
 import 'package:kk_etcd_ui/global/request_api/api.dart';
 import 'package:kk_etcd_ui/global/request_api/api_resp/api_resp.pb.dart';
 import 'package:kk_etcd_ui/global/request_api/const_request_api.dart';
 import 'package:kk_etcd_ui/global/request_api/request_http.dart';
 import 'package:kk_etcd_ui/page_logics/base_proto_type/dart/pb_base_proto_type.pb.dart';
-import 'package:kk_etcd_ui/page_logics/logic_etcd/dart/pb_kv.pb.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/static_etcd.dart';
 import 'package:kk_etcd_ui/page_routes/router_path.dart';
 import 'package:kk_ui/kk_const/index.dart';
 import 'package:kk_ui/kk_util/kku_sp.dart';
 import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
 
-import 'dart/pb_user.pb.dart';
-
 class LogicEtcd extends GetxController {
   static LogicEtcd get to => Get.find();
 
+  ///================== User Manage ==================
   late Rx<PBUser> myPBUserInfo = PBUser().obs;
 
   RxString username = ''.obs;
@@ -140,6 +140,20 @@ class LogicEtcd extends GetxController {
     return finished;
   }
 
+  Future<bool> logout(BuildContext context) async {
+    bool result = false;
+    await RequestHttp.httpPost("/User/Logout",
+            queryParameters: myPBUserInfo.value.writeToBuffer())
+        .then((ApiResp res) async {
+      if (context.mounted) {
+        context.go(RouterPath.pageLogin);
+      }
+      result = true;
+    });
+    return result;
+  }
+
+  ///====================Config Manage====================
   Rx<PBListKV> pbConfigList = PBListKV().obs;
 
   Future<bool> kVGetConfigList() async {
@@ -208,18 +222,5 @@ class LogicEtcd extends GetxController {
     });
     pbConfigList.refresh();
     return finished;
-  }
-
-  Future<bool> logout(BuildContext context) async {
-    bool result = false;
-    await RequestHttp.httpPost("/User/Logout",
-            queryParameters: myPBUserInfo.value.writeToBuffer())
-        .then((ApiResp res) async {
-      if (context.mounted) {
-        context.go(RouterPath.pageLogin);
-      }
-      result = true;
-    });
-    return result;
   }
 }
