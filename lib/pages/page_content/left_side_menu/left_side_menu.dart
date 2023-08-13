@@ -16,11 +16,8 @@ class LeftSideMenu extends StatefulWidget {
 }
 
 class _LeftSideMenuState extends State<LeftSideMenu> {
-
-
   @override
   Widget build(BuildContext context) {
-
     return Drawer(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -34,10 +31,10 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                   child: Column(
                     children: [
                       Image.asset(
-                              'lib/assets/logo.png',
-                              width: 90,
-                              height: 90,
-                            ),
+                        'lib/assets/logo.png',
+                        width: 90,
+                        height: 90,
+                      ),
                       Text(lTr(context).title),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -83,6 +80,24 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                         },
                         leading: const Icon(Icons.edit_note_outlined),
                         title: Text(lTr(context).pageAddUser),
+                      ),
+                    ]),
+                ExpansionTile(
+                    leading: const Icon(Icons.accessibility_new_outlined),
+                    title: GestureDetector(
+                      child: Text(lTr(context).pageRole),
+                      onTap: () {
+                        LogicNavigation.to.changeDestination(4);
+                      },
+                    ),
+                    childrenPadding: const EdgeInsets.only(left: 20),
+                    children: [
+                      ListTile(
+                        onTap: () {
+                          LogicNavigation.to.changeDestination(5);
+                        },
+                        leading: const Icon(Icons.edit_note_outlined),
+                        title: Text(lTr(context).pageAddRole),
                       ),
                     ]),
               ],

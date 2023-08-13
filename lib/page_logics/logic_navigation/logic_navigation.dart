@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kk_etcd_ui/pages/page_config/page_add_config/page_add_config.dart';
 import 'package:kk_etcd_ui/pages/page_config/page_config.dart';
-
+import 'package:kk_etcd_ui/pages/page_role/page_add_role/page_add_role.dart';
+import 'package:kk_etcd_ui/pages/page_role/page_role.dart';
 import 'package:kk_etcd_ui/pages/page_user/page_add_user/page_add_user.dart';
 import 'package:kk_etcd_ui/pages/page_user/page_user.dart';
 
-
 class LogicNavigation extends GetxController {
   static LogicNavigation get to => Get.find();
-  
+
   static List<Widget> pages = [
     const PageConfig(),
     const PageAddConfig(),
     const PageUser(),
     const PageAddUser(),
+    const PageRole(),
+    const PageAddRole(),
   ];
 
   Rx<PageController> pageController = PageController().obs;

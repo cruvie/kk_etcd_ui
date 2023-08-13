@@ -58,16 +58,14 @@ class _PageAddUserState extends State<PageAddUser> {
               child: ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    bool success = await LogicEtcd.to.addUser(
+                    bool success = await LogicEtcd.to.userAdd(
+                      context,
                       _nameController.text,
                       _passwordController.text,
                     );
                     if (success && context.mounted) {
-                      KKSnackBar.ok(context, const Text("add succeed"));
                       _nameController.clear();
                       _passwordController.clear();
-                    } else {
-                      KKSnackBar.error(context, const Text("add failed"));
                     }
                   }
                 },

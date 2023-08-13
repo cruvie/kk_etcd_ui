@@ -119,7 +119,31 @@ class AppLocalizationsZh extends AppLocalizations {
   String get pageAddUser => '添加用户';
 
   @override
+  String get pageRole => '角色管理';
+
+  @override
+  String get pageAddRole => '添加角色';
+
+  @override
+  String get permission => '权限';
+
+  @override
   String get role => '角色';
+
+  @override
+  String get key => 'key';
+
+  @override
+  String get rangeEnd => 'rangeEnd';
+
+  @override
+  String get read => '只读';
+
+  @override
+  String get write => '只写';
+
+  @override
+  String get readWrite => '读写';
 
   @override
   String get ccPageContent => '';

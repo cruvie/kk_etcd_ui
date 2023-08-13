@@ -321,11 +321,59 @@ abstract class AppLocalizations {
   /// **'Add user'**
   String get pageAddUser;
 
+  /// No description provided for @pageRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Role Manager'**
+  String get pageRole;
+
+  /// No description provided for @pageAddRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Add role'**
+  String get pageAddRole;
+
+  /// No description provided for @permission.
+  ///
+  /// In en, this message translates to:
+  /// **'permission(s)'**
+  String get permission;
+
   /// No description provided for @role.
   ///
   /// In en, this message translates to:
   /// **'Role'**
   String get role;
+
+  /// No description provided for @key.
+  ///
+  /// In en, this message translates to:
+  /// **'key'**
+  String get key;
+
+  /// No description provided for @rangeEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'rangeEnd'**
+  String get rangeEnd;
+
+  /// No description provided for @read.
+  ///
+  /// In en, this message translates to:
+  /// **'Read'**
+  String get read;
+
+  /// No description provided for @write.
+  ///
+  /// In en, this message translates to:
+  /// **'Write'**
+  String get write;
+
+  /// No description provided for @readWrite.
+  ///
+  /// In en, this message translates to:
+  /// **'ReadWrite'**
+  String get readWrite;
 
   /// No description provided for @ccPageContent.
   ///

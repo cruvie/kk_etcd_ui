@@ -35,7 +35,7 @@ aboutInfo(BuildContext context) {
                   children: [
                     Text('App Name: ${packageInfo.appName}'),
                     Text('Version : ${packageInfo.version}'),
-                    const Text('License : MIT'),
+                    const Text('BSD 3-Clause License'),
                     TextButton(
                       onPressed: () {
                         launchUrl(

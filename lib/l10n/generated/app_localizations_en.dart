@@ -119,7 +119,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pageAddUser => 'Add user';
 
   @override
+  String get pageRole => 'Role Manager';
+
+  @override
+  String get pageAddRole => 'Add role';
+
+  @override
+  String get permission => 'permission(s)';
+
+  @override
   String get role => 'Role';
+
+  @override
+  String get key => 'key';
+
+  @override
+  String get rangeEnd => 'rangeEnd';
+
+  @override
+  String get read => 'Read';
+
+  @override
+  String get write => 'Write';
+
+  @override
+  String get readWrite => 'ReadWrite';
 
   @override
   String get ccPageContent => '';
