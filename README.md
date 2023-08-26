@@ -29,9 +29,9 @@ some unexpected errors).
 | need to build by yourself | `arm64`✅<br/>`x86`need to build by yourself | need to build by yourself | ✅   | ✅      |
 
 ## Docker
-change `version` to a specific version on [docker hub](https://hub.docker.com/r/kangxhcmk/kk_etcd_ui/tags)
+change `version` to a specific version on [docker hub](https://hub.docker.com/r/cruvie/kk_etcd_ui/tags)
 ```shell
-docker run --name kk_etcd_ui -p 2334:80 kangxhcmk/kk_etcd_ui:version
+docker run --name kk_etcd_ui -p 2334:80 cruvie/kk_etcd_ui:version
 ```
 
 docker-compose
@@ -41,7 +41,7 @@ version: "3"
 
 services:
   kk-etcd-ui:
-    image: kangxhcmk/kk_etcd_ui:version
+    image: cruvie/kk_etcd_ui:version
     container_name: kk-etcd-ui
     ports:
       - "2334:80"
@@ -55,9 +55,9 @@ http://localhost:2334
 [Homepage Server](https://github.com/cruvie/kk_etcd_go)
 
 ## Docker
-change `version` to a specific version on [docker hub](https://hub.docker.com/r/kangxhcmk/kk_etcd_go/tags)
+change `version` to a specific version on [docker hub](https://hub.docker.com/r/cruvie/kk_etcd_go/tags)
 ```shell
-docker run --name kk_etcd_go -p 2333:2333 -v ./config/config.yml:/kk_etcd_go/config/config.yml kangxhcmk/kk_etcd_go:version
+docker run --name kk_etcd_go -p 2333:2333 -v ./config/config.yml:/kk_etcd_go/config/config.yml cruvie/kk_etcd_go:version
 ```
 
 docker-compose
@@ -67,7 +67,7 @@ version: "3"
 
 services:
   kk-etcd-go:
-    image: kangxhcmk/kk_etcd_go:version
+    image: cruvie/kk_etcd_go:version
     container_name: kk-etcd-go
     ports:
       - "2333:2333"
