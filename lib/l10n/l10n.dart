@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'generated/app_localizations.dart';
 
 AppLocalizations lTr(BuildContext context) {
-  return AppLocalizations.of(context);
+  return AppLocalizations.of(context)!;
 }
 
 class L10n {

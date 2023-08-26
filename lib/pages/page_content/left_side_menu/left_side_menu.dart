@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 import 'package:kk_etcd_ui/page_logics/logic_navigation/logic_navigation.dart';
+import 'package:kk_ui/kk_widget/kk_card.dart';
 import 'package:kk_ui/kk_widget/kk_theme_mode_switcher.dart';
 
 import 'cpts/about_info.dart';
@@ -103,20 +104,37 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
               ],
             ),
           ),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            IconButton(
-              onPressed: () {
-                aboutInfo(context);
-              },
-              icon: const Icon(Icons.info_outline),
-            ),
-            IconButton(
-              onPressed: () {
-                LogicEtcd.to.logout(context);
-              },
-              icon: const Icon(Icons.logout_outlined),
-            ),
-          ]),
+          Column(
+            children: [
+              KKCard(
+                padding: const EdgeInsets.all(10),
+                child: Column(children: [
+                  const Icon(Icons.person_pin_circle_outlined),
+                  Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(LogicEtcd.to.loginUserInfo.value.userName),
+                    Text(LogicEtcd.to.loginUserInfo.value.roles.toString()),
+                  ],
+                )
+                ],),
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                IconButton(
+                  onPressed: () {
+                    aboutInfo(context);
+                  },
+                  icon: const Icon(Icons.info_outline),
+                ),
+                IconButton(
+                  onPressed: () {
+                    LogicEtcd.to.logout(context);
+                  },
+                  icon: const Icon(Icons.logout_outlined),
+                ),
+              ]),
+            ],
+          ),
         ],
       ),
     );

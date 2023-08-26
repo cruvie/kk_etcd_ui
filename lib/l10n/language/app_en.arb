@@ -40,7 +40,7 @@
   "pageRole":"",
   "pageRole": "Role Manager",
   "pageAddRole": "Add role",
-  "permission": "permission(s)",
+  "permission": "permission",
   "role": "Role",
     "key": "key",
   "rangeEnd": "rangeEnd",

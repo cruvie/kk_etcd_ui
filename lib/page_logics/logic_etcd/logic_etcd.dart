@@ -11,7 +11,7 @@ import 'package:kk_etcd_ui/global/request_api/request_http.dart';
 import 'package:kk_etcd_ui/page_logics/base_proto_type/dart/pb_base_proto_type.pb.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/static_etcd.dart';
 import 'package:kk_etcd_ui/page_routes/router_path.dart';
-import 'package:kk_ui/kk_const/index.dart';
+import 'package:kk_ui/kk_const/kkc_request_api.dart';
 import 'package:kk_ui/kk_util/kku_sp.dart';
 import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
 import 'package:protobuf/protobuf.dart';
@@ -20,7 +20,7 @@ class LogicEtcd extends GetxController {
   static LogicEtcd get to => Get.find();
 
   ///================== User Manage ==================
-  late Rx<PBUser> myPBUserInfo = PBUser().obs;
+  late Rx<PBUser> loginUserInfo = PBUser().obs;
 
   RxString username = ''.obs;
 
@@ -65,16 +65,16 @@ class LogicEtcd extends GetxController {
     bool hasData = false;
     await RequestHttp.httpPost("/User/MyInfo").then((ApiResp res) async {
       if (res.code == 200) {
-        myPBUserInfo.value.clear();
-        res.data.unpackInto(myPBUserInfo.value);
+        loginUserInfo.value.clear();
+        res.data.unpackInto(loginUserInfo.value);
         await KKUSp.setLocalStorage(
-            StaticEtcd.myInfo, myPBUserInfo.value.writeToJson());
+            StaticEtcd.myInfo, loginUserInfo.value.writeToJson());
         hasData = true;
       } else {
         hasData = false;
       }
     });
-    myPBUserInfo.refresh();
+    loginUserInfo.refresh();
     return hasData;
   }
 
@@ -83,9 +83,9 @@ class LogicEtcd extends GetxController {
         !KKUSp.containsKey(StaticEtcd.myInfo)) {
       await getMyInfo();
     }
-    myPBUserInfo.value =
+    loginUserInfo.value =
         PBUser.fromJson(KKUSp.getLocalStorage(StaticEtcd.myInfo));
-    myPBUserInfo.refresh();
+    loginUserInfo.refresh();
     // debugPrint('myInfo：${myPBUserInfo }');
   }
 
@@ -146,7 +146,7 @@ class LogicEtcd extends GetxController {
   Future<bool> logout(BuildContext context) async {
     bool result = false;
     await RequestHttp.httpPost("/User/Logout",
-            queryParameters: myPBUserInfo.value.writeToBuffer())
+            queryParameters: loginUserInfo.value.writeToBuffer())
         .then((ApiResp res) async {
       if (context.mounted) {
         context.go(RouterPath.pageLogin);
@@ -302,22 +302,25 @@ class LogicEtcd extends GetxController {
     return finished;
   }
 
-  Future<bool> kVPutConfig(String key, String value) async {
+  Future<bool> kVPutConfig(
+      BuildContext context, String key, String value) async {
     bool finished = false;
     await RequestHttp.httpPost("/KV/KVPutConfig",
             queryParameters: PBKV(key: key, value: value).writeToBuffer())
         .then((ApiResp res) {
       if (res.code == 200) {
+        KKSnackBar.ok(context, const Text("update succeed"));
         finished = true;
       } else {
-        debugPrint('failed to put config !');
+        debugPrint(res.msg);
+        KKSnackBar.error(context, Text(res.msg));
         finished = false;
       }
     });
     return finished;
   }
 
-  Future<bool> kVDelConfig(String key) async {
+  Future<bool> kVDelConfig(BuildContext context, String key) async {
     bool finished = false;
     await RequestHttp.httpPost("/KV/KVDelConfig",
             queryParameters: PBKV(key: key).writeToBuffer())
@@ -325,8 +328,10 @@ class LogicEtcd extends GetxController {
       if (res.code == 200) {
         pbConfigList.value.listKV.removeWhere((element) => element.key == key);
         finished = true;
+        KKSnackBar.ok(context, const Text("delete succeed"));
       } else {
-        debugPrint('failed to delete config !');
+        debugPrint(res.msg);
+        KKSnackBar.error(context, Text(res.msg));
         finished = false;
       }
     });

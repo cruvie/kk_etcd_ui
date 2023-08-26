@@ -125,7 +125,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pageAddRole => 'Add role';
 
   @override
-  String get permission => 'permission(s)';
+  String get permission => 'permission';
 
   @override
   String get role => 'Role';

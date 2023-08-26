@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
-import 'package:kk_ui/kk_widget/index.dart';
+import 'package:kk_ui/kk_widget/kk_card.dart';
 import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
 
 class PageAddRole extends StatefulWidget {
@@ -41,11 +41,13 @@ class _PageAddRoleState extends State<PageAddRole> {
                   if (formKey.currentState!.validate()) {
                     bool success =
                         await LogicEtcd.to.roleAdd(nameController.text);
-                    if (success && context.mounted) {
-                      KKSnackBar.ok(context, const Text("add succeed"));
-                      nameController.clear();
-                    } else {
-                      KKSnackBar.error(context, const Text("add failed"));
+                    if (context.mounted) {
+                      if (success) {
+                        KKSnackBar.ok(context, const Text("add succeed"));
+                        nameController.clear();
+                      } else {
+                        KKSnackBar.error(context, const Text("add failed"));
+                      }
                     }
                   }
                 },

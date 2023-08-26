@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
-import 'package:kk_ui/kk_widget/index.dart';
-import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
+import 'package:kk_ui/kk_widget/kk_card.dart';
 
 class PageAddConfig extends StatefulWidget {
   const PageAddConfig({super.key});
@@ -27,7 +26,7 @@ class _PageAddConfigState extends State<PageAddConfig> {
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
               child: TextFormField(
                 controller: _nameController,
-                decoration:  InputDecoration(
+                decoration: InputDecoration(
                   icon: Text(lTr(context).name),
                 ),
                 validator: (String? value) {
@@ -45,7 +44,7 @@ class _PageAddConfigState extends State<PageAddConfig> {
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 minLines: 10,
-                decoration:  InputDecoration(
+                decoration: InputDecoration(
                   icon: Text(lTr(context).value),
                 ),
                 validator: (String? value) {
@@ -62,15 +61,13 @@ class _PageAddConfigState extends State<PageAddConfig> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     bool success = await LogicEtcd.to.kVPutConfig(
+                      context,
                       _nameController.text,
                       _valueController.text,
                     );
-                    if (success && context.mounted) {
-                      KKSnackBar.ok(context, const Text("add succeed"));
+                    if (success) {
                       _nameController.clear();
                       _valueController.clear();
-                    } else {
-                      KKSnackBar.error(context, const Text("add failed"));
                     }
                   }
                 },

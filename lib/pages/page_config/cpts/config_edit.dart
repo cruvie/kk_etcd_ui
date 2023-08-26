@@ -3,7 +3,6 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 import 'package:kk_ui/kk_widget/kk_card.dart';
-import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
 
 class ConfigEdit extends StatefulWidget {
   const ConfigEdit({super.key});
@@ -40,6 +39,9 @@ class _ConfigEditState extends State<ConfigEdit> {
                   }
                   return null;
                 },
+                onChanged: (String value) {
+                  LogicEtcd.to.currentConfig.value.value = value;
+                },
               ),
             ),
             Container(
@@ -47,14 +49,10 @@ class _ConfigEditState extends State<ConfigEdit> {
               child: ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    bool success = await LogicEtcd.to.kVPutConfig(
+                    await LogicEtcd.to.kVPutConfig(
+                        context,
                         LogicEtcd.to.currentConfig.value.key,
-                        LogicEtcd.to.currentConfig.value.value);
-                    if (success && context.mounted) {
-                      KKSnackBar.ok(context, const Text("update succeed"));
-                    } else {
-                      KKSnackBar.error(context, const Text("update failed"));
-                    }
+                        _valueController.text);
                   }
                 },
                 child: Text(lTr(context).buttonSave),

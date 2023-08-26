@@ -87,7 +87,7 @@ class _PageConfigState extends State<PageConfig> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      LogicEtcd.to.kVDelConfig(element.key);
+                      LogicEtcd.to.kVDelConfig(context,element.key);
                     },
                     child: Text(
                       lTr(context).delete,

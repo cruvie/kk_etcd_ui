@@ -12,21 +12,35 @@ class RoleEdit extends StatefulWidget {
 }
 
 class _RoleEditState extends State<RoleEdit> {
+  int permissionREAD = 0;
+  int permissionWRITE = 1;
+  int permissionREADWRITE = 2;
+
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final keyController = TextEditingController();
   final rangeEndController = TextEditingController();
-  final permissionTypeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> permissionTitles = [
+      Row(
+        children: [Text(lTr(context).read), const Icon(Icons.info_outline)],
+      ),
+      Row(
+        children: [Text(lTr(context).write), const Icon(Icons.edit_outlined)],
+      ),
+      Row(
+        children: [
+          Text(lTr(context).readWrite),
+          const Icon(Icons.all_inclusive_outlined),
+        ],
+      ),
+    ];
     return Obx(() {
       nameController.text = LogicEtcd.to.currentRole.value.name;
       keyController.text = LogicEtcd.to.currentRole.value.key;
       rangeEndController.text = LogicEtcd.to.currentRole.value.rangeEnd;
-      permissionTypeController.text =
-          LogicEtcd.to.currentRole.value.permissionType.toString();
-
       return Form(
         key: _formKey,
         child: ListView(
@@ -81,21 +95,43 @@ class _RoleEditState extends State<RoleEdit> {
               ),
             ),
             KKCard(
-              //todo 改为下拉框
               padding: const EdgeInsets.all(20),
-              child: TextFormField(
-                controller: permissionTypeController,
-                decoration: InputDecoration(
-                  icon: Text(lTr(context).permission),
-                ),
-                readOnly: true,
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'value empty';
-                  }
-                  return null;
-                },
-              ),
+              child: Row(children: [
+                Text(lTr(context).permission),
+                Flexible(
+                    child: Column(children: [
+                  RadioListTile(
+                    title: Text(lTr(context).read),
+                    value: permissionREAD,
+                    groupValue: LogicEtcd.to.currentRole.value.permissionType,
+                    onChanged: (value) {
+                      setState(() {
+                        LogicEtcd.to.currentRole.value.permissionType = value!;
+                      });
+                    },
+                  ),
+                  RadioListTile(
+                    title: Text(lTr(context).write),
+                    value: permissionWRITE,
+                    groupValue: LogicEtcd.to.currentRole.value.permissionType,
+                    onChanged: (value) {
+                      setState(() {
+                        LogicEtcd.to.currentRole.value.permissionType = value!;
+                      });
+                    },
+                  ),
+                  RadioListTile(
+                    title: Text(lTr(context).readWrite),
+                    value: permissionREADWRITE,
+                    groupValue: LogicEtcd.to.currentRole.value.permissionType,
+                    onChanged: (value) {
+                      setState(() {
+                        LogicEtcd.to.currentRole.value.permissionType = value!;
+                      });
+                    },
+                  ),
+                ])),
+              ]),
             ),
             Container(
               margin: const EdgeInsets.fromLTRB(20, 20, 20, 20),
@@ -106,8 +142,6 @@ class _RoleEditState extends State<RoleEdit> {
                     LogicEtcd.to.currentRole.value.key = keyController.text;
                     LogicEtcd.to.currentRole.value.rangeEnd =
                         rangeEndController.text;
-                    LogicEtcd.to.currentRole.value.permissionType =
-                        int.parse(permissionTypeController.text);
 
                     await LogicEtcd.to.roleGrantPermission(
                         context, LogicEtcd.to.currentRole.value);

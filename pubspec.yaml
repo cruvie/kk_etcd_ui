@@ -4,10 +4,10 @@ description: Etcd UI
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 2023.7.28
+version: 2023.8.26
 
 environment:
-  sdk: '>=3.0.0'
+  sdk: '>=3.1.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions

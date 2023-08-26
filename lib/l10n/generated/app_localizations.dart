@@ -64,8 +64,8 @@ abstract class AppLocalizations {
 
   final String localeName;
 
-  static AppLocalizations of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
+  static AppLocalizations? of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
   static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
@@ -336,7 +336,7 @@ abstract class AppLocalizations {
   /// No description provided for @permission.
   ///
   /// In en, this message translates to:
-  /// **'permission(s)'**
+  /// **'permission'**
   String get permission;
 
   /// No description provided for @role.
