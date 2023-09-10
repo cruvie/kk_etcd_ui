@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kk_etcd_go/key_prefix.dart';
 import 'package:kk_etcd_go/models/pb_kv.pb.dart';
 import 'package:kk_etcd_go/models/pb_role.pb.dart';
 import 'package:kk_etcd_go/models/pb_user.pb.dart';
@@ -263,15 +264,23 @@ class LogicEtcd extends GetxController {
     currentRole.value = role.deepCopy();
   }
 
-  ///====================Config Manage====================
+  ///====================KV Manage====================
   Rx<PBListKV> pbConfigList = PBListKV().obs;
+  Rx<PBListKV> pbKVList = PBListKV().obs;
 
-  Future<bool> kVGetConfigList() async {
+  Future<bool> kVList({String prefix = ""}) async {
     bool finished = false;
-    await RequestHttp.httpPost("/KV/KVGetConfigList").then((ApiResp res) {
+    await RequestHttp.httpPost("/KV/KVList",
+            queryParameters: PBString(value: prefix).writeToBuffer())
+        .then((ApiResp res) {
       if (res.code == 200) {
-        pbConfigList.value.clear();
-        res.data.unpackInto(pbConfigList.value);
+        if (prefix == KeyPrefix.config) {
+          pbConfigList.value.clear();
+          res.data.unpackInto(pbConfigList.value);
+        } else {
+          pbKVList.value.clear();
+          res.data.unpackInto(pbKVList.value);
+        }
         finished = true;
       } else {
         debugPrint('failed to get config list!');
@@ -282,30 +291,29 @@ class LogicEtcd extends GetxController {
     return finished;
   }
 
-  Rx<PBKV> currentConfig = PBKV().obs;
+  Rx<PBKV> currentKV = PBKV().obs;
 
-  Future<bool> kVGetConfig(String key) async {
+  Future<bool> kVGet(BuildContext context, String key) async {
     bool finished = false;
-    await RequestHttp.httpPost("/KV/KVGetConfig",
+    await RequestHttp.httpPost("/KV/KVGet",
             queryParameters: PBKV(key: key).writeToBuffer())
         .then((ApiResp res) {
       if (res.code == 200) {
-        currentConfig.value.clear();
-        res.data.unpackInto(currentConfig.value);
+        currentKV.value.clear();
+        res.data.unpackInto(currentKV.value);
         finished = true;
       } else {
-        debugPrint('failed to get config !');
+        KKSnackBar.error(context, const Text('failed to get config !'));
         finished = false;
       }
     });
-    currentConfig.refresh();
+    currentKV.refresh();
     return finished;
   }
 
-  Future<bool> kVPutConfig(
-      BuildContext context, String key, String value) async {
+  Future<bool> kVPut(BuildContext context, String key, String value) async {
     bool finished = false;
-    await RequestHttp.httpPost("/KV/KVPutConfig",
+    await RequestHttp.httpPost("/KV/KVPut",
             queryParameters: PBKV(key: key, value: value).writeToBuffer())
         .then((ApiResp res) {
       if (res.code == 200) {
@@ -320,13 +328,14 @@ class LogicEtcd extends GetxController {
     return finished;
   }
 
-  Future<bool> kVDelConfig(BuildContext context, String key) async {
+  Future<bool> kVDel(BuildContext context, String key) async {
     bool finished = false;
-    await RequestHttp.httpPost("/KV/KVDelConfig",
+    await RequestHttp.httpPost("/KV/KVDel",
             queryParameters: PBKV(key: key).writeToBuffer())
         .then((ApiResp res) {
       if (res.code == 200) {
         pbConfigList.value.listKV.removeWhere((element) => element.key == key);
+        pbKVList.value.listKV.removeWhere((element) => element.key == key);
         finished = true;
         KKSnackBar.ok(context, const Text("delete succeed"));
       } else {
@@ -336,6 +345,7 @@ class LogicEtcd extends GetxController {
       }
     });
     pbConfigList.refresh();
+    pbKVList.refresh();
     return finished;
   }
 }

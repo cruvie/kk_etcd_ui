@@ -1,31 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 import 'package:kk_ui/kk_widget/kk_card.dart';
 
-class ConfigEdit extends StatefulWidget {
-  const ConfigEdit({super.key});
+class PageAddKV extends StatefulWidget {
+  const PageAddKV({super.key});
 
   @override
-  State<ConfigEdit> createState() => _ConfigEditState();
+  State<PageAddKV> createState() => _PageAddKVState();
 }
 
-class _ConfigEditState extends State<ConfigEdit> {
+class _PageAddKVState extends State<PageAddKV> {
   final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
   final _valueController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      _valueController.text = LogicEtcd.to.currentKV.value.value;
-      return Form(
+    return Scaffold(
+      body: Form(
         key: _formKey,
         child: ListView(
           children: [
             KKCard(
-                padding: const EdgeInsets.all(20),
-                child: Text(LogicEtcd.to.currentKV.value.key)),
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+              child: TextFormField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                  icon: Text(lTr(context).name),
+                ),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'name empty';
+                  }
+                  return null;
+                },
+              ),
+            ),
             KKCard(
               padding: const EdgeInsets.all(20),
               child: TextFormField(
@@ -33,14 +44,14 @@ class _ConfigEditState extends State<ConfigEdit> {
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 minLines: 10,
+                decoration: InputDecoration(
+                  icon: Text(lTr(context).value),
+                ),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return 'value empty';
                   }
                   return null;
-                },
-                onChanged: (String value) {
-                  LogicEtcd.to.currentKV.value.value = value;
                 },
               ),
             ),
@@ -49,10 +60,15 @@ class _ConfigEditState extends State<ConfigEdit> {
               child: ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    await LogicEtcd.to.kVPut(
-                        context,
-                        LogicEtcd.to.currentKV.value.key,
-                        _valueController.text);
+                    bool success = await LogicEtcd.to.kVPut(
+                      context,
+                      _nameController.text,
+                      _valueController.text,
+                    );
+                    if (success) {
+                      _nameController.clear();
+                      _valueController.clear();
+                    }
                   }
                 },
                 child: Text(lTr(context).buttonSave),
@@ -60,7 +76,7 @@ class _ConfigEditState extends State<ConfigEdit> {
             )
           ],
         ),
-      );
-    });
+      ),
+    );
   }
 }

@@ -285,11 +285,11 @@ abstract class AppLocalizations {
   /// **'Server Address'**
   String get serverAddress;
 
-  /// No description provided for @ccPageConfigManager.
+  /// No description provided for @ccPageConfig.
   ///
   /// In en, this message translates to:
   /// **''**
-  String get ccPageConfigManager;
+  String get ccPageConfig;
 
   /// No description provided for @pageConfig.
   ///
@@ -302,6 +302,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add config'**
   String get pageAddConfig;
+
+  /// No description provided for @ccPageKV.
+  ///
+  /// In en, this message translates to:
+  /// **''**
+  String get ccPageKV;
+
+  /// No description provided for @pageKV.
+  ///
+  /// In en, this message translates to:
+  /// **'KV Manager'**
+  String get pageKV;
+
+  /// No description provided for @pageAddKV.
+  ///
+  /// In en, this message translates to:
+  /// **'Add KV'**
+  String get pageAddKV;
 
   /// No description provided for @ccPageUser.
   ///

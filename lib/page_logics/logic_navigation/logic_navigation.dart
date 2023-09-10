@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kk_etcd_ui/pages/page_kv/page_add_kv/page_add_kv.dart';
+import 'package:kk_etcd_ui/pages/page_kv/page_kv.dart';
 import 'package:kk_etcd_ui/pages/page_config/page_add_config/page_add_config.dart';
 import 'package:kk_etcd_ui/pages/page_config/page_config.dart';
 import 'package:kk_etcd_ui/pages/page_role/page_add_role/page_add_role.dart';
@@ -13,6 +15,8 @@ class LogicNavigation extends GetxController {
   static List<Widget> pages = [
     const PageConfig(),
     const PageAddConfig(),
+    const PageKV(),
+    const PageAddKV(),
     const PageUser(),
     const PageAddUser(),
     const PageRole(),

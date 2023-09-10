@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kk_etcd_go/key_prefix.dart';
-import 'package:kk_etcd_go/models/pb_kv.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
+import 'package:kk_etcd_go/models/pb_kv.pb.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 
-import 'cpts/config_edit.dart';
+import 'cpts/kv_edit.dart';
 
-class PageConfig extends StatefulWidget {
-  const PageConfig({Key? key}) : super(key: key);
+class PageKV extends StatefulWidget {
+  const PageKV({Key? key}) : super(key: key);
 
   @override
-  State<PageConfig> createState() => _PageConfigState();
+  State<PageKV> createState() => _PageKVState();
 }
 
-class _PageConfigState extends State<PageConfig> {
+class _PageKVState extends State<PageKV> {
   @override
   void initState() {
     super.initState();
-    LogicEtcd.to.kVList(prefix: KeyPrefix.config);
+    LogicEtcd.to.kVList();
   }
 
   final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Scaffold(
+    return Obx(() =>
+        Scaffold(
           body: Row(
             children: [
               Expanded(
@@ -42,8 +42,8 @@ class _PageConfigState extends State<PageConfig> {
                               label: Expanded(
                                 child: Text(
                                   lTr(context).name,
-                                  style: const TextStyle(
-                                      fontStyle: FontStyle.italic),
+                                  style:
+                                  const TextStyle(fontStyle: FontStyle.italic),
                                 ),
                               ),
                             ),
@@ -51,8 +51,8 @@ class _PageConfigState extends State<PageConfig> {
                               label: Expanded(
                                 child: Text(
                                   lTr(context).action,
-                                  style: const TextStyle(
-                                      fontStyle: FontStyle.italic),
+                                  style:
+                                  const TextStyle(fontStyle: FontStyle.italic),
                                 ),
                               ),
                             ),
@@ -64,26 +64,25 @@ class _PageConfigState extends State<PageConfig> {
                   ],
                 ),
               ),
-              const Expanded(child: ConfigEdit())
+              const Expanded(child: KVEdit())
             ],
           ),
         ));
   }
 
   List<DataRow> assembleData() {
-    List<DataRow> configDataRows = [];
-    for (PBKV element in LogicEtcd.to.pbConfigList.value.listKV) {
-      configDataRows.add(
+    List<DataRow> kvDataRows = [];
+    for (PBKV element in LogicEtcd.to.pbKVList.value.listKV) {
+      kvDataRows.add(
         DataRow(
           cells: <DataCell>[
-            //remove prefix
-            DataCell(Text(element.key.substring(KeyPrefix.config.length))),
+            DataCell(Text(element.key, overflow:TextOverflow.visible),),
             DataCell(
               Row(
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      LogicEtcd.to.kVGet(context, element.key);
+                      LogicEtcd.to.kVGet(context,element.key);
                     },
                     child: Text(lTr(context).view),
                   ),
@@ -103,6 +102,6 @@ class _PageConfigState extends State<PageConfig> {
         ),
       );
     }
-    return configDataRows;
+    return kvDataRows;
   }
 }

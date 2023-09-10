@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kk_etcd_go/key_prefix.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 import 'package:kk_ui/kk_widget/kk_card.dart';
@@ -60,9 +61,9 @@ class _PageAddConfigState extends State<PageAddConfig> {
               child: ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    bool success = await LogicEtcd.to.kVPutConfig(
+                    bool success = await LogicEtcd.to.kVPut(
                       context,
-                      _nameController.text,
+                      KeyPrefix.config + _nameController.text,
                       _valueController.text,
                     );
                     if (success) {

@@ -4,14 +4,14 @@ import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 import 'package:kk_ui/kk_widget/kk_card.dart';
 
-class ConfigEdit extends StatefulWidget {
-  const ConfigEdit({super.key});
+class KVEdit extends StatefulWidget {
+  const KVEdit({super.key});
 
   @override
-  State<ConfigEdit> createState() => _ConfigEditState();
+  State<KVEdit> createState() => _KVEditState();
 }
 
-class _ConfigEditState extends State<ConfigEdit> {
+class _KVEditState extends State<KVEdit> {
   final _formKey = GlobalKey<FormState>();
   final _valueController = TextEditingController();
 

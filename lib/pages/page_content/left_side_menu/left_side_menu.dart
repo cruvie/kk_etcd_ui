@@ -66,9 +66,9 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                       ),
                     ]),
                 ExpansionTile(
-                    leading: const Icon(CupertinoIcons.person_crop_circle),
+                    leading: const Icon(CupertinoIcons.doc_text),
                     title: GestureDetector(
-                      child: Text(lTr(context).pageUser),
+                      child: Text(lTr(context).pageKV),
                       onTap: () {
                         LogicNavigation.to.changeDestination(2);
                       },
@@ -80,13 +80,13 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                           LogicNavigation.to.changeDestination(3);
                         },
                         leading: const Icon(Icons.edit_note_outlined),
-                        title: Text(lTr(context).pageAddUser),
+                        title: Text(lTr(context).pageAddKV),
                       ),
                     ]),
                 ExpansionTile(
-                    leading: const Icon(Icons.accessibility_new_outlined),
+                    leading: const Icon(CupertinoIcons.person_crop_circle),
                     title: GestureDetector(
-                      child: Text(lTr(context).pageRole),
+                      child: Text(lTr(context).pageUser),
                       onTap: () {
                         LogicNavigation.to.changeDestination(4);
                       },
@@ -96,6 +96,24 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                       ListTile(
                         onTap: () {
                           LogicNavigation.to.changeDestination(5);
+                        },
+                        leading: const Icon(Icons.edit_note_outlined),
+                        title: Text(lTr(context).pageAddUser),
+                      ),
+                    ]),
+                ExpansionTile(
+                    leading: const Icon(Icons.accessibility_new_outlined),
+                    title: GestureDetector(
+                      child: Text(lTr(context).pageRole),
+                      onTap: () {
+                        LogicNavigation.to.changeDestination(6);
+                      },
+                    ),
+                    childrenPadding: const EdgeInsets.only(left: 20),
+                    children: [
+                      ListTile(
+                        onTap: () {
+                          LogicNavigation.to.changeDestination(7);
                         },
                         leading: const Icon(Icons.edit_note_outlined),
                         title: Text(lTr(context).pageAddRole),

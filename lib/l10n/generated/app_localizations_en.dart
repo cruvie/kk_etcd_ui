@@ -101,13 +101,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get serverAddress => 'Server Address';
 
   @override
-  String get ccPageConfigManager => '';
+  String get ccPageConfig => '';
 
   @override
   String get pageConfig => 'Config Manager';
 
   @override
   String get pageAddConfig => 'Add config';
+
+  @override
+  String get ccPageKV => '';
+
+  @override
+  String get pageKV => 'KV Manager';
+
+  @override
+  String get pageAddKV => 'Add KV';
 
   @override
   String get ccPageUser => '';
