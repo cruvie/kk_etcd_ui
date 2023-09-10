@@ -5,6 +5,8 @@ A configuration center based on `Etcd`
 
 ![ui](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/images/ui.png?raw=true) 
 
+![ui](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/images/ui2.png?raw=true) 
+
 ## How to use
 
 You need to run the [server](https://github.com/cruvie/kk_etcd_go) first, then you can use the [client](https://github.com/cruvie/kk_etcd_ui) to connect to the server.
