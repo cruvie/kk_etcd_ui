@@ -303,6 +303,36 @@ abstract class AppLocalizations {
   /// **'Add config'**
   String get pageAddConfig;
 
+  /// No description provided for @ccPageServer.
+  ///
+  /// In en, this message translates to:
+  /// **''**
+  String get ccPageServer;
+
+  /// No description provided for @pageServer.
+  ///
+  /// In en, this message translates to:
+  /// **'Server Manager'**
+  String get pageServer;
+
+  /// No description provided for @address.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get address;
+
+  /// No description provided for @type.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get type;
+
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
+
   /// No description provided for @ccPageKV.
   ///
   /// In en, this message translates to:

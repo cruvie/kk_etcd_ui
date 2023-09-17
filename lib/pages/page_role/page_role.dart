@@ -18,7 +18,11 @@ class _PageRoleState extends State<PageRole> {
   @override
   void initState() {
     super.initState();
-    LogicEtcd.to.roleList();
+    initData();
+  }
+
+  Future<void> initData() async {
+    await LogicEtcd.to.roleList();
   }
 
   final ScrollController _scrollController = ScrollController();
@@ -26,6 +30,11 @@ class _PageRoleState extends State<PageRole> {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
+          floatingActionButton: FloatingActionButton(
+            heroTag: null,
+            onPressed: initData,
+            child: const Icon(Icons.refresh_outlined),
+          ),
           body: Row(
             children: [
               Expanded(

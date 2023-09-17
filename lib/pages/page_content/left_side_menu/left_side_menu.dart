@@ -77,9 +77,9 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                       ),
                     ]),
                 ExpansionTile(
-                  leading: const Icon(CupertinoIcons.doc_text),
+                  leading: const Icon(Icons.alt_route_outlined),
                   title: GestureDetector(
-                    child: Text(lTr(context).pageConfig),
+                    child: Text(lTr(context).pageServer),
                     onTap: () {
                       LogicNavigation.to.changeDestination(const PageServer());
                     },
@@ -87,7 +87,7 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                   childrenPadding: const EdgeInsets.only(left: 20),
                 ),
                 ExpansionTile(
-                    leading: const Icon(CupertinoIcons.doc_text),
+                    leading: const Icon(Icons.auto_awesome_motion_outlined),
                     title: GestureDetector(
                       child: Text(lTr(context).pageKV),
                       onTap: () {

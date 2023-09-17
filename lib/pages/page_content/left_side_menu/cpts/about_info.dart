@@ -24,7 +24,7 @@ aboutInfo(BuildContext context) {
     builder: (BuildContext context) {
       return Container(
         padding: const EdgeInsets.only(bottom: 10),
-        height: MediaQuery.of(context).size.height * 0.8,
+        height: MediaQuery.of(context).size.height * 0.6,
         child: ListView(
           children: [
             Center(

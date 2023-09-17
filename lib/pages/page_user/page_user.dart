@@ -17,7 +17,11 @@ class _PageUserState extends State<PageUser> {
   @override
   void initState() {
     super.initState();
-    LogicEtcd.to.userList();
+    initData();
+  }
+
+  Future<void> initData() async {
+    await LogicEtcd.to.userList();
   }
 
   final ScrollController _scrollController = ScrollController();
@@ -27,6 +31,11 @@ class _PageUserState extends State<PageUser> {
     assembleData();
     return Obx(
       () => Scaffold(
+        floatingActionButton: FloatingActionButton(
+          heroTag: null,
+          onPressed: initData,
+          child: const Icon(Icons.refresh_outlined),
+        ),
         body: Row(
           children: [
             Expanded(

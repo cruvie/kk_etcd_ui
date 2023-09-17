@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_kv.pb.dart';
+import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 
 import 'cpts/kv_edit.dart';
@@ -17,15 +17,23 @@ class _PageKVState extends State<PageKV> {
   @override
   void initState() {
     super.initState();
-    LogicEtcd.to.kVList();
+    initData();
+  }
+
+  Future<void> initData() async {
+    await LogicEtcd.to.kVList();
   }
 
   final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() =>
-        Scaffold(
+    return Obx(() => Scaffold(
+          floatingActionButton: FloatingActionButton(
+            heroTag: null,
+            onPressed: initData,
+            child: const Icon(Icons.refresh_outlined),
+          ),
           body: Row(
             children: [
               Expanded(
@@ -42,8 +50,8 @@ class _PageKVState extends State<PageKV> {
                               label: Expanded(
                                 child: Text(
                                   lTr(context).name,
-                                  style:
-                                  const TextStyle(fontStyle: FontStyle.italic),
+                                  style: const TextStyle(
+                                      fontStyle: FontStyle.italic),
                                 ),
                               ),
                             ),
@@ -51,8 +59,8 @@ class _PageKVState extends State<PageKV> {
                               label: Expanded(
                                 child: Text(
                                   lTr(context).action,
-                                  style:
-                                  const TextStyle(fontStyle: FontStyle.italic),
+                                  style: const TextStyle(
+                                      fontStyle: FontStyle.italic),
                                 ),
                               ),
                             ),
@@ -76,13 +84,15 @@ class _PageKVState extends State<PageKV> {
       kvDataRows.add(
         DataRow(
           cells: <DataCell>[
-            DataCell(Text(element.key, overflow:TextOverflow.visible),),
+            DataCell(
+              Text(element.key, overflow: TextOverflow.visible),
+            ),
             DataCell(
               Row(
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      LogicEtcd.to.kVGet(context,element.key);
+                      LogicEtcd.to.kVGet(context, element.key);
                     },
                     child: Text(lTr(context).view),
                   ),

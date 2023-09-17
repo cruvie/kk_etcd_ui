@@ -352,8 +352,7 @@ class LogicEtcd extends GetxController {
   }
 
   ///====================Server Manage====================
-  Rx<PBListServer> pbListHttpServer = PBListServer().obs;
-  Rx<PBListServer> pbListGrpcServer = PBListServer().obs;
+  Rx<PBListServer> pbListServer = PBListServer().obs;
 
   Future<bool> serverList(BuildContext context, String prefix) async {
     if (prefix.isEmpty) {
@@ -365,15 +364,10 @@ class LogicEtcd extends GetxController {
             queryParameters: PBString(value: prefix).writeToBuffer())
         .then((ApiResp res) {
       if (res.code == 200) {
-        if (prefix == KeyPrefix.serviceHttp) {
-          pbListHttpServer.value.clear();
-          res.data.unpackInto(pbListHttpServer.value);
-          pbListHttpServer.refresh();
-        } else {
-          pbListGrpcServer.value.clear();
-          res.data.unpackInto(pbListGrpcServer.value);
-          pbListGrpcServer.refresh();
-        }
+        pbListServer.value.clear();
+        res.data.unpackInto(pbListServer.value);
+        // debugPrint(pbListServer.value.listServer.toString());
+        pbListServer.refresh();
         finished = true;
       } else {
         KKSnackBar.error(context, const Text('failed to get server list!'));

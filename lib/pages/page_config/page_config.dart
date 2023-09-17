@@ -18,7 +18,11 @@ class _PageConfigState extends State<PageConfig> {
   @override
   void initState() {
     super.initState();
-    LogicEtcd.to.kVList(prefix: KeyPrefix.config);
+    initData();
+  }
+
+  Future<void> initData() async {
+    await LogicEtcd.to.kVList(prefix: KeyPrefix.config);
   }
 
   final ScrollController _scrollController = ScrollController();
@@ -26,6 +30,11 @@ class _PageConfigState extends State<PageConfig> {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
+          floatingActionButton: FloatingActionButton(
+            heroTag: null,
+            onPressed: initData,
+            child: const Icon(Icons.refresh_outlined),
+          ),
           body: Row(
             children: [
               Expanded(

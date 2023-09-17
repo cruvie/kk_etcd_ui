@@ -110,6 +110,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pageAddConfig => 'Add config';
 
   @override
+  String get ccPageServer => '';
+
+  @override
+  String get pageServer => 'Server Manager';
+
+  @override
+  String get address => 'Address';
+
+  @override
+  String get type => 'Type';
+
+  @override
+  String get status => 'Status';
+
+  @override
   String get ccPageKV => '';
 
   @override

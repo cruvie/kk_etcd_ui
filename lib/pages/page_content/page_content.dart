@@ -25,7 +25,7 @@ class _PageNavigation extends State<PageContent> {
       body: Row(
         children: [
           const SizedBox(
-            width: 200,
+            width: 240,
             child: LeftSideMenu(),
           ),
           Expanded(

@@ -110,6 +110,21 @@ class AppLocalizationsZh extends AppLocalizations {
   String get pageAddConfig => '添加配置';
 
   @override
+  String get ccPageServer => '';
+
+  @override
+  String get pageServer => '服务管理';
+
+  @override
+  String get address => '地址';
+
+  @override
+  String get type => '类型';
+
+  @override
+  String get status => '状态';
+
+  @override
   String get ccPageKV => '';
 
   @override
