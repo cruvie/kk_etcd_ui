@@ -36,8 +36,9 @@ class LogicNavigation extends GetxController {
   }
 
   changeDestination(Widget page) {
+    // debugPrint('changeDestination: ${page.toString()}');
     int index =
-        pages.indexWhere((element) => element.toString() == page.toString());
+        pages.indexWhere((element) => element.runtimeType.toString() == page.runtimeType.toString());
     pageController.value.jumpToPage(index);
     pageController.refresh();
   }
