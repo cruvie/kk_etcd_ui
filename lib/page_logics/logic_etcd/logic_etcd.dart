@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kk_etcd_go/base_proto_type/pb_base_proto_type.pb.dart';
 import 'package:kk_etcd_go/key_prefix.dart';
-import 'package:kk_etcd_go/models/pb_kv.pb.dart';
-import 'package:kk_etcd_go/models/pb_role.pb.dart';
-import 'package:kk_etcd_go/models/pb_user.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_models/pb_kv.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_models/pb_role.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_models/pb_serer.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_models/pb_user.pb.dart';
 import 'package:kk_etcd_ui/global/request_api/api.dart';
 import 'package:kk_etcd_ui/global/request_api/api_resp/api_resp.pb.dart';
 import 'package:kk_etcd_ui/global/request_api/const_request_api.dart';
 import 'package:kk_etcd_ui/global/request_api/request_http.dart';
-import 'package:kk_etcd_ui/page_logics/base_proto_type/dart/pb_base_proto_type.pb.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/static_etcd.dart';
 import 'package:kk_etcd_ui/page_routes/router_path.dart';
 import 'package:kk_ui/kk_const/kkc_request_api.dart';
@@ -277,9 +278,11 @@ class LogicEtcd extends GetxController {
         if (prefix == KeyPrefix.config) {
           pbConfigList.value.clear();
           res.data.unpackInto(pbConfigList.value);
+          pbConfigList.refresh();
         } else {
           pbKVList.value.clear();
           res.data.unpackInto(pbKVList.value);
+          pbKVList.refresh();
         }
         finished = true;
       } else {
@@ -287,7 +290,6 @@ class LogicEtcd extends GetxController {
         finished = false;
       }
     });
-    pbConfigList.refresh();
     return finished;
   }
 
@@ -346,6 +348,38 @@ class LogicEtcd extends GetxController {
     });
     pbConfigList.refresh();
     pbKVList.refresh();
+    return finished;
+  }
+
+  ///====================Server Manage====================
+  Rx<PBListServer> pbListHttpServer = PBListServer().obs;
+  Rx<PBListServer> pbListGrpcServer = PBListServer().obs;
+
+  Future<bool> serverList(BuildContext context, String prefix) async {
+    if (prefix.isEmpty) {
+      KKSnackBar.error(context, const Text('prefix is empty'));
+      return false;
+    }
+    bool finished = false;
+    await RequestHttp.httpPost("/Server/ServerList",
+            queryParameters: PBString(value: prefix).writeToBuffer())
+        .then((ApiResp res) {
+      if (res.code == 200) {
+        if (prefix == KeyPrefix.serviceHttp) {
+          pbListHttpServer.value.clear();
+          res.data.unpackInto(pbListHttpServer.value);
+          pbListHttpServer.refresh();
+        } else {
+          pbListGrpcServer.value.clear();
+          res.data.unpackInto(pbListGrpcServer.value);
+          pbListGrpcServer.refresh();
+        }
+        finished = true;
+      } else {
+        KKSnackBar.error(context, const Text('failed to get server list!'));
+        finished = false;
+      }
+    });
     return finished;
   }
 }

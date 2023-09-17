@@ -3,6 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 import 'package:kk_etcd_ui/page_logics/logic_navigation/logic_navigation.dart';
+import 'package:kk_etcd_ui/pages/page_config/page_add_config/page_add_config.dart';
+import 'package:kk_etcd_ui/pages/page_config/page_config.dart';
+import 'package:kk_etcd_ui/pages/page_kv/page_add_kv/page_add_kv.dart';
+import 'package:kk_etcd_ui/pages/page_kv/page_kv.dart';
+import 'package:kk_etcd_ui/pages/page_role/page_add_role/page_add_role.dart';
+import 'package:kk_etcd_ui/pages/page_role/page_role.dart';
+import 'package:kk_etcd_ui/pages/page_server/page_server.dart';
+import 'package:kk_etcd_ui/pages/page_user/page_add_user/page_add_user.dart';
+import 'package:kk_etcd_ui/pages/page_user/page_user.dart';
 import 'package:kk_ui/kk_widget/kk_card.dart';
 import 'package:kk_ui/kk_widget/kk_theme_mode_switcher.dart';
 
@@ -52,32 +61,45 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                     title: GestureDetector(
                       child: Text(lTr(context).pageConfig),
                       onTap: () {
-                        LogicNavigation.to.changeDestination(0);
+                        LogicNavigation.to
+                            .changeDestination(const PageConfig());
                       },
                     ),
                     childrenPadding: const EdgeInsets.only(left: 20),
                     children: [
                       ListTile(
                         onTap: () {
-                          LogicNavigation.to.changeDestination(1);
+                          LogicNavigation.to
+                              .changeDestination(const PageAddConfig());
                         },
                         leading: const Icon(Icons.edit_note_outlined),
                         title: Text(lTr(context).pageAddConfig),
                       ),
                     ]),
                 ExpansionTile(
+                  leading: const Icon(CupertinoIcons.doc_text),
+                  title: GestureDetector(
+                    child: Text(lTr(context).pageConfig),
+                    onTap: () {
+                      LogicNavigation.to.changeDestination(const PageServer());
+                    },
+                  ),
+                  childrenPadding: const EdgeInsets.only(left: 20),
+                ),
+                ExpansionTile(
                     leading: const Icon(CupertinoIcons.doc_text),
                     title: GestureDetector(
                       child: Text(lTr(context).pageKV),
                       onTap: () {
-                        LogicNavigation.to.changeDestination(2);
+                        LogicNavigation.to.changeDestination(const PageKV());
                       },
                     ),
                     childrenPadding: const EdgeInsets.only(left: 20),
                     children: [
                       ListTile(
                         onTap: () {
-                          LogicNavigation.to.changeDestination(3);
+                          LogicNavigation.to
+                              .changeDestination(const PageAddKV());
                         },
                         leading: const Icon(Icons.edit_note_outlined),
                         title: Text(lTr(context).pageAddKV),
@@ -88,14 +110,15 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                     title: GestureDetector(
                       child: Text(lTr(context).pageUser),
                       onTap: () {
-                        LogicNavigation.to.changeDestination(4);
+                        LogicNavigation.to.changeDestination(const PageUser());
                       },
                     ),
                     childrenPadding: const EdgeInsets.only(left: 20),
                     children: [
                       ListTile(
                         onTap: () {
-                          LogicNavigation.to.changeDestination(5);
+                          LogicNavigation.to
+                              .changeDestination(const PageAddUser());
                         },
                         leading: const Icon(Icons.edit_note_outlined),
                         title: Text(lTr(context).pageAddUser),
@@ -106,14 +129,15 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                     title: GestureDetector(
                       child: Text(lTr(context).pageRole),
                       onTap: () {
-                        LogicNavigation.to.changeDestination(6);
+                        LogicNavigation.to.changeDestination(const PageRole());
                       },
                     ),
                     childrenPadding: const EdgeInsets.only(left: 20),
                     children: [
                       ListTile(
                         onTap: () {
-                          LogicNavigation.to.changeDestination(7);
+                          LogicNavigation.to
+                              .changeDestination(const PageAddRole());
                         },
                         leading: const Icon(Icons.edit_note_outlined),
                         title: Text(lTr(context).pageAddRole),
@@ -126,16 +150,18 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
             children: [
               KKCard(
                 padding: const EdgeInsets.all(10),
-                child: Column(children: [
-                  const Icon(Icons.person_pin_circle_outlined),
-                  Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                child: Column(
                   children: [
-                    Text(LogicEtcd.to.loginUserInfo.value.userName),
-                    Text(LogicEtcd.to.loginUserInfo.value.roles.toString()),
+                    const Icon(Icons.person_pin_circle_outlined),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(LogicEtcd.to.loginUserInfo.value.userName),
+                        Text(LogicEtcd.to.loginUserInfo.value.roles.toString()),
+                      ],
+                    )
                   ],
-                )
-                ],),
+                ),
               ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 IconButton(

@@ -194,7 +194,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "7820ba60d493fd4eeccf0458a9b56496c7a2a2be"
+      resolved-ref: a970cf61363b2c97b8c6e2e725622081bf1bf980
       url: "https://github.com/cruvie/kk_etcd_go.git"
     source: git
     version: "0.0.0"
@@ -387,10 +387,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_platform_interface
-      sha256: "23b052f17a25b90ff2b61aad4cc962154da76fb62848a9ce088efe30d7c50ab1"
+      sha256: d4ec5fc9ebb2f2e056c617112aa75dcf92fc2e4faaf2ae999caa297473f75d8a
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.3.0"
+    version: "2.3.1"
   shared_preferences_web:
     dependency: transitive
     description:
@@ -488,10 +488,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_ios
-      sha256: "9af7ea73259886b92199f9e42c116072f05ff9bea2dcb339ab935dfc957392c2"
+      sha256: "7c65021d5dee51813d652357bc65b8dd4a6177082a9966bc8ba6ee477baa795f"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "6.1.4"
+    version: "6.1.5"
   url_launcher_linux:
     dependency: transitive
     description:

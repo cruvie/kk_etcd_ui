@@ -1,11 +1,12 @@
 # Etcd UI
 
 A modern and easy to use Client/UI for `Etcd`
-A configuration center based on `Etcd`
+
+A Configuration center and Service registration and discovery platform based on `Etcd`
 
 ![ui](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/images/ui.png?raw=true) 
 
-![ui](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/images/ui2.png?raw=true) 
+![ui](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/images/ui2.png?raw=true)
 
 ## How to use
 
@@ -81,7 +82,7 @@ services:
 # SDK
 we only provide `go` sdk now
 ```shell
-  go get github.com/cruvie/kk_etcd_go
+  go get github.com/cruvie/kk_etcd_go@latest
 ```
 init and get config from etcd
 
@@ -104,9 +105,9 @@ get config in your project from etcd
 
 import "github.com/cruvie/kk_etcd_go/kk_etcd"
 
-var GlobalConfig Config
+var GlobalConfig config
 
-type Config struct {
+type config struct {
 	ServerAddr string `yaml:"ServerAddr"`
 	Postgres struct {
 		Dsn string `yaml:"Dsn"`
@@ -130,7 +131,7 @@ var (
 
 func InitEtcd() {
 	kk_etcd.InitEtcd(endpoints, userName, password)
-	kk_etcd.GetConfig(configKey, &GlobalConfig)
+kk_etcd.GetConfig(configKey, &GlobalConfig)
 }
 ```
 

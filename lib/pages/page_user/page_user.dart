@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kk_etcd_go/models/pb_user.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_models/pb_user.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 
