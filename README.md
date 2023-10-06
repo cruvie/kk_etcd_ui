@@ -76,7 +76,7 @@ services:
       - "2333:2333"
     restart: unless-stopped
     volumes:
-      - ./config/config.yml:/kk_etcd_go/config/config.yml
+      - ./config/config.yml:/kk_etcd_go/internal/config/config.yml
 
 ```
 # SDK
@@ -84,7 +84,7 @@ we only provide `go` sdk now
 ```shell
   go get github.com/cruvie/kk_etcd_go@latest
 ```
-init and get config from etcd
+## init and get config from etcd
 
 `my_config` in etcd (yaml format)
 ```yaml
@@ -133,6 +133,14 @@ func InitEtcd() {
 	kk_etcd.InitEtcd(endpoints, userName, password)
 kk_etcd.GetConfig(configKey, &GlobalConfig)
 }
+```
+## Register Http/gRPC Service
+```
+refer to https://github.com/cruvie/kk_etcd_go/blob/master/kk_etcd/kk_etcd_test.go
+```
+## GetServiceList
+```
+refer to https://github.com/cruvie/kk_etcd_go/blob/master/kk_etcd/kk_etcd_test.go
 ```
 
 # Contribute
