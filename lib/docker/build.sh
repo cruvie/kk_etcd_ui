@@ -7,4 +7,4 @@ cd ../..
 echo 'build web html'
 flutter build web --web-renderer html
 
-#flutter build macos --release
+#flutter build macos
