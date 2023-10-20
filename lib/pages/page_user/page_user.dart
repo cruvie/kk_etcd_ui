@@ -7,7 +7,7 @@ import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 import 'cpts/add_role_dialog.dart';
 
 class PageUser extends StatefulWidget {
-  const PageUser({Key? key}) : super(key: key);
+  const PageUser({super.key});
 
   @override
   State<PageUser> createState() => _PageUserState();

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:kk_etcd_ui/page_logics/logic_navigation/logic_navigation.dart';
 
 class RightMainContent extends StatefulWidget {
-  const RightMainContent({Key? key}) : super(key: key);
+  const RightMainContent({super.key});
 
   @override
   State<RightMainContent> createState() => _RightMainContentState();

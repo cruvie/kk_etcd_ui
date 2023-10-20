@@ -6,7 +6,7 @@ import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 
 class PageServer extends StatefulWidget {
-  const PageServer({Key? key}) : super(key: key);
+  const PageServer({super.key});
 
   @override
   State<PageServer> createState() => _PageServerState();

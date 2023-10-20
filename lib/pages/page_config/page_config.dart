@@ -8,7 +8,7 @@ import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 import 'cpts/config_edit.dart';
 
 class PageConfig extends StatefulWidget {
-  const PageConfig({Key? key}) : super(key: key);
+  const PageConfig({super.key});
 
   @override
   State<PageConfig> createState() => _PageConfigState();

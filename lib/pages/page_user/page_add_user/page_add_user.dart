@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
-import 'package:kk_ui/kk_widget/index.dart';
 import 'package:kk_ui/kk_widget/kk_card.dart';
-import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
 
 class PageAddUser extends StatefulWidget {
   const PageAddUser({super.key});

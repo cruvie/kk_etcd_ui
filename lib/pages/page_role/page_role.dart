@@ -8,7 +8,7 @@ import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 import 'cpts/role_edit.dart';
 
 class PageRole extends StatefulWidget {
-  const PageRole({Key? key}) : super(key: key);
+  const PageRole({super.key});
 
   @override
   State<PageRole> createState() => _PageRoleState();

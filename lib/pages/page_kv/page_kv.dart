@@ -7,7 +7,7 @@ import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 import 'cpts/kv_edit.dart';
 
 class PageKV extends StatefulWidget {
-  const PageKV({Key? key}) : super(key: key);
+  const PageKV({super.key});
 
   @override
   State<PageKV> createState() => _PageKVState();
