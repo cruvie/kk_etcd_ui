@@ -36,8 +36,8 @@ class _MyAppState extends State<MyApp> {
           onGenerateTitle: (context) {
             return lTr(context).title;
           },
-          theme: ThemeData.light(useMaterial3: true),
-          darkTheme: ThemeData.dark(useMaterial3: true),
+          theme: ThemeData.light(),
+          darkTheme: ThemeData.dark(),
           localizationsDelegates: L10n.localizationsDelegates(),
           supportedLocales: L10n.supportedLocales(),
           debugShowCheckedModeBanner: false,

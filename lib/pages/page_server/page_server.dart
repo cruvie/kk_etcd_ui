@@ -109,7 +109,8 @@ class _PageServerState extends State<PageServer>
             //remove prefix
             DataCell(Text(element.serviceName
                 .replaceFirst(KeyPrefix.serviceHttp, '')
-                .replaceFirst(KeyPrefix.serviceGrpc, ""))),
+                .replaceFirst(KeyPrefix.serviceGrpc, '')
+                .replaceFirst('/', ''))),
             DataCell(Text(element.serviceAddr)),
             DataCell(getServiceTypeTag(element.serviceName)),
             //一个绿色的里面有个对勾的图标
