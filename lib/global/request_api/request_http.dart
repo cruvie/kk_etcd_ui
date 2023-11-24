@@ -3,8 +3,8 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:kk_etcd_go/api_resp/api_resp.pb.dart';
 import 'package:kk_etcd_ui/global/utils/util_navigator.dart';
+import 'package:kk_go_kit/kk_response/kk_response.pb.dart';
 import 'package:kk_ui/kk_const/kkc_request_api.dart';
 import 'package:kk_ui/kk_util/kku_sp.dart';
 import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
@@ -14,7 +14,7 @@ import 'api.dart';
 class RequestHttp {
   static late Map<String, String> header;
   static Response response = Response('', 400);
-  static ApiResp apiResp = ApiResp(code: 400, msg: 'Error');
+  static KKResponse apiResp = KKResponse(code: 400, msg: 'Error');
 
   static requestConfig({String? currentPage, String? pageSize}) async {
     header = {
@@ -27,7 +27,7 @@ class RequestHttp {
     // debugPrint('header: $header');
   }
 
-  static Future<ApiResp> httpPost(String path,
+  static Future<KKResponse> httpPost(String path,
       {Uint8List? queryParameters,
       String? currentPage,
       String? pageSize}) async {
@@ -42,10 +42,10 @@ class RequestHttp {
     return responseInterceptor(response);
   }
 
-  static Future<ApiResp> responseInterceptor(Response response) async {
-    // debugPrint("response:${ApiResp.fromBuffer(response.bodyBytes)}");
+  static Future<KKResponse> responseInterceptor(Response response) async {
+    // debugPrint("response:${KKResponse.fromBuffer(response.bodyBytes)}");
     if (response.statusCode == 200) {
-      apiResp = ApiResp.fromBuffer(response.bodyBytes);
+      apiResp = KKResponse.fromBuffer(response.bodyBytes);
       if (apiResp.code == 401) {
         UtilNavigator.toPageLogin();
         KKSnackBar.ok(UtilNavigator.globalContext, Text(apiResp.msg));

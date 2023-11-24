@@ -29,6 +29,10 @@ dependencies:
     git:
       url: https://github.com/cruvie/kk_etcd_go.git
 
+  kk_go_kit:
+    git:
+      url: https://gitee.com/cruvie/kk_go_kit.git
+
   cupertino_icons: any # all MIT
   package_info_plus: any # all BSD-3-Clause
   url_launcher: any # all BSD-3-Clause

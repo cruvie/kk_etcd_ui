@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kk_etcd_go/api_resp/api_resp.pb.dart';
-import 'package:kk_etcd_go/base_proto_type/pb_base_proto_type.pb.dart';
 import 'package:kk_etcd_go/key_prefix.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_kv.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_role.pb.dart';
@@ -13,6 +11,8 @@ import 'package:kk_etcd_ui/global/request_api/const_request_api.dart';
 import 'package:kk_etcd_ui/global/request_api/request_http.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/static_etcd.dart';
 import 'package:kk_etcd_ui/page_routes/router_path.dart';
+import 'package:kk_go_kit/kk_base_proto_type/kk_base_proto_type.pb.dart';
+import 'package:kk_go_kit/kk_response/kk_response.pb.dart';
 import 'package:kk_ui/kk_const/kkc_request_api.dart';
 import 'package:kk_ui/kk_util/kku_sp.dart';
 import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
@@ -41,7 +41,7 @@ class LogicEtcd extends GetxController {
     KKUSp.setLocalStorage(ConstRequestApi.serverAddr, Api.serverAddr);
     await RequestHttp.httpPost("/User/Login",
             queryParameters: user.writeToBuffer())
-        .then((ApiResp res) async {
+        .then((KKResponse res) async {
       PBString tokenString = PBString();
       if (res.code == 200) {
         res.data.unpackInto(tokenString);
@@ -65,7 +65,7 @@ class LogicEtcd extends GetxController {
 
   Future<bool> getMyInfo() async {
     bool hasData = false;
-    await RequestHttp.httpPost("/User/MyInfo").then((ApiResp res) async {
+    await RequestHttp.httpPost("/User/MyInfo").then((KKResponse res) async {
       if (res.code == 200) {
         loginUserInfo.value.clear();
         res.data.unpackInto(loginUserInfo.value);
@@ -95,7 +95,7 @@ class LogicEtcd extends GetxController {
 
   Future<bool> userList() async {
     bool finished = false;
-    await RequestHttp.httpPost("/User/UserList").then((ApiResp res) {
+    await RequestHttp.httpPost("/User/UserList").then((KKResponse res) {
       if (res.code == 200) {
         pbListUser.value.clear();
         res.data.unpackInto(pbListUser.value);
@@ -115,7 +115,7 @@ class LogicEtcd extends GetxController {
     await RequestHttp.httpPost("/User/UserAdd",
             queryParameters:
                 PBUser(userName: name, password: password).writeToBuffer())
-        .then((ApiResp res) {
+        .then((KKResponse res) {
       if (res.code == 200) {
         KKSnackBar.ok(context, Text(res.msg));
         finished = true;
@@ -131,7 +131,7 @@ class LogicEtcd extends GetxController {
     bool finished = false;
     await RequestHttp.httpPost("/User/UserDelete",
             queryParameters: PBUser(userName: userName).writeToBuffer())
-        .then((ApiResp res) {
+        .then((KKResponse res) {
       if (res.code == 200) {
         pbListUser.value.listUser
             .removeWhere((element) => element.userName == userName);
@@ -149,7 +149,7 @@ class LogicEtcd extends GetxController {
     bool result = false;
     await RequestHttp.httpPost("/User/Logout",
             queryParameters: loginUserInfo.value.writeToBuffer())
-        .then((ApiResp res) async {
+        .then((KKResponse res) async {
       if (context.mounted) {
         context.go(RouterPath.pageLogin);
       }
@@ -164,7 +164,7 @@ class LogicEtcd extends GetxController {
     await RequestHttp.httpPost("/User/UserGrantRole",
             queryParameters:
                 PBUser(userName: userName, roles: roles).writeToBuffer())
-        .then((ApiResp res) {
+        .then((KKResponse res) {
       if (res.code == 200) {
         KKSnackBar.ok(context, Text(res.msg));
         userList();
@@ -183,7 +183,7 @@ class LogicEtcd extends GetxController {
 
   Future<bool> roleList() async {
     bool finished = false;
-    await RequestHttp.httpPost("/Role/RoleList").then((ApiResp res) {
+    await RequestHttp.httpPost("/Role/RoleList").then((KKResponse res) {
       if (res.code == 200) {
         pbListRole.value.clear();
         res.data.unpackInto(pbListRole.value);
@@ -205,7 +205,7 @@ class LogicEtcd extends GetxController {
     }
     await RequestHttp.httpPost("/Role/RoleAdd",
             queryParameters: PBRole(name: name).writeToBuffer())
-        .then((ApiResp res) {
+        .then((KKResponse res) {
       if (res.code == 200) {
         finished = true;
       } else {
@@ -225,7 +225,7 @@ class LogicEtcd extends GetxController {
     }
     await RequestHttp.httpPost("/Role/RoleGrantPermission",
             queryParameters: role.writeToBuffer())
-        .then((ApiResp res) {
+        .then((KKResponse res) {
       if (res.code == 200) {
         finished = true;
         KKSnackBar.ok(context, const Text("update succeed"));
@@ -245,7 +245,7 @@ class LogicEtcd extends GetxController {
     bool finished = false;
     await RequestHttp.httpPost("/Role/RoleDelete",
             queryParameters: PBRole(name: userName).writeToBuffer())
-        .then((ApiResp res) {
+        .then((KKResponse res) {
       if (res.code == 200) {
         pbListRole.value.list
             .removeWhere((element) => element.name == userName);
@@ -273,7 +273,7 @@ class LogicEtcd extends GetxController {
     bool finished = false;
     await RequestHttp.httpPost("/KV/KVList",
             queryParameters: PBString(value: prefix).writeToBuffer())
-        .then((ApiResp res) {
+        .then((KKResponse res) {
       if (res.code == 200) {
         if (prefix == KeyPrefix.config) {
           pbConfigList.value.clear();
@@ -299,7 +299,7 @@ class LogicEtcd extends GetxController {
     bool finished = false;
     await RequestHttp.httpPost("/KV/KVGet",
             queryParameters: PBKV(key: key).writeToBuffer())
-        .then((ApiResp res) {
+        .then((KKResponse res) {
       if (res.code == 200) {
         currentKV.value.clear();
         res.data.unpackInto(currentKV.value);
@@ -317,7 +317,7 @@ class LogicEtcd extends GetxController {
     bool finished = false;
     await RequestHttp.httpPost("/KV/KVPut",
             queryParameters: PBKV(key: key, value: value).writeToBuffer())
-        .then((ApiResp res) {
+        .then((KKResponse res) {
       if (res.code == 200) {
         KKSnackBar.ok(context, const Text("update succeed"));
         finished = true;
@@ -334,7 +334,7 @@ class LogicEtcd extends GetxController {
     bool finished = false;
     await RequestHttp.httpPost("/KV/KVDel",
             queryParameters: PBKV(key: key).writeToBuffer())
-        .then((ApiResp res) {
+        .then((KKResponse res) {
       if (res.code == 200) {
         pbConfigList.value.listKV.removeWhere((element) => element.key == key);
         pbKVList.value.listKV.removeWhere((element) => element.key == key);
@@ -362,7 +362,7 @@ class LogicEtcd extends GetxController {
     bool finished = false;
     await RequestHttp.httpPost("/Server/ServerList",
             queryParameters: PBString(value: prefix).writeToBuffer())
-        .then((ApiResp res) {
+        .then((KKResponse res) {
       if (res.code == 200) {
         pbListServer.value.clear();
         res.data.unpackInto(pbListServer.value);
