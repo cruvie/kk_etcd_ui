@@ -77,6 +77,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./config/config.yml:/kk_etcd_go/internal/config/config.yml
+      - ./backup.yml:/kk_etcd_go/backup
 
 ```
 # SDK
