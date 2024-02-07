@@ -58,5 +58,13 @@
   "ccPageContent": "",
   "donate":"请我吃雪糕🍦！",
   "alipay":"支付宝",
-  "wechatPay":"微信"
+  "wechatPay":"微信",
+  "ccPageBackup": "===========================PageBackup==============================",
+  "pageBackup": "备份管理",
+  "snapshot": "快照备份",
+  "kVBackup": "KV备份",
+  "snapshotRestore": "快照恢复",
+  "snapshotInfo": "快照信息",
+  "allKVsBackup": "全部KV备份",
+  "allKVsRestore": "全部KV恢复"
 }

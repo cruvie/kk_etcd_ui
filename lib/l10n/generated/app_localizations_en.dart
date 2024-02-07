@@ -180,4 +180,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get wechatPay => 'Wechat';
+
+  @override
+  String get ccPageBackup => '===========================PageBackup==============================';
+
+  @override
+  String get pageBackup => 'Backup Manager';
+
+  @override
+  String get snapshot => 'Snapshot Backup';
+
+  @override
+  String get kVBackup => 'KV Backup';
+
+  @override
+  String get snapshotRestore => 'Snapshot Restore';
+
+  @override
+  String get snapshotInfo => 'Snapshot Info';
+
+  @override
+  String get allKVsBackup => 'All KVs Backup';
+
+  @override
+  String get allKVsRestore => 'All KVs Restore';
 }

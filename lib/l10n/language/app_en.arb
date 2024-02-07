@@ -58,5 +58,13 @@
   "ccPageContent": "",
   "donate": "Buy me ice cream🍦!",
   "alipay": "Alipay",
-  "wechatPay": "Wechat"
+  "wechatPay": "Wechat",
+  "ccPageBackup": "===========================PageBackup==============================",
+  "pageBackup": "Backup Manager",
+  "snapshot": "Snapshot Backup",
+  "kVBackup": "KV Backup",
+  "snapshotRestore": "Snapshot Restore",
+  "snapshotInfo": "Snapshot Info",
+  "allKVsBackup": "All KVs Backup",
+  "allKVsRestore": "All KVs Restore"
 }

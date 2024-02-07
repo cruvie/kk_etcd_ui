@@ -446,6 +446,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Wechat'**
   String get wechatPay;
+
+  /// No description provided for @ccPageBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'===========================PageBackup=============================='**
+  String get ccPageBackup;
+
+  /// No description provided for @pageBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Manager'**
+  String get pageBackup;
+
+  /// No description provided for @snapshot.
+  ///
+  /// In en, this message translates to:
+  /// **'Snapshot Backup'**
+  String get snapshot;
+
+  /// No description provided for @kVBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'KV Backup'**
+  String get kVBackup;
+
+  /// No description provided for @snapshotRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Snapshot Restore'**
+  String get snapshotRestore;
+
+  /// No description provided for @snapshotInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Snapshot Info'**
+  String get snapshotInfo;
+
+  /// No description provided for @allKVsBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'All KVs Backup'**
+  String get allKVsBackup;
+
+  /// No description provided for @allKVsRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'All KVs Restore'**
+  String get allKVsRestore;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -180,4 +180,28 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get wechatPay => '微信';
+
+  @override
+  String get ccPageBackup => '===========================PageBackup==============================';
+
+  @override
+  String get pageBackup => '备份管理';
+
+  @override
+  String get snapshot => '快照备份';
+
+  @override
+  String get kVBackup => 'KV备份';
+
+  @override
+  String get snapshotRestore => '快照恢复';
+
+  @override
+  String get snapshotInfo => '快照信息';
+
+  @override
+  String get allKVsBackup => '全部KV备份';
+
+  @override
+  String get allKVsRestore => '全部KV恢复';
 }

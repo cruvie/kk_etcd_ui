@@ -24,14 +24,14 @@ class _PageHomeState extends State<PageHome> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (KKUSp.containsKey(KKCLocale.locale)) {
         Map local = KKUSp.getMap(KKCLocale.locale);
-        // debugPrint(local.toString());
+        // log.info(local.toString());
         String languageCode = local.keys.first;
         String countryCode = local[languageCode]!;
         KKULanguage.changeLang(languageCode, countryCode);
       }
 
       if (KKUSp.containsKey(KKCTheme.themeMode)) {
-        // debugPrint(KKUSp.getLocalStorage(KKCTheme.themeMode));
+        // log.info(KKUSp.getLocalStorage(KKCTheme.themeMode));
         KKUThemeMode.changeThemeMode(KKUSp.getLocalStorage(KKCTheme.themeMode));
       }
     });
@@ -39,7 +39,7 @@ class _PageHomeState extends State<PageHome> {
   @override
   Widget build(BuildContext context) {
     UtilNavigator.globalContext = context;
-    // debugPrint(KKUSp.getLocalStorage(KKCRequestApi.authorizationToken));
+    // log.info(KKUSp.getLocalStorage(KKCRequestApi.authorizationToken));
     return Scaffold(
       body: Column(
         children: [

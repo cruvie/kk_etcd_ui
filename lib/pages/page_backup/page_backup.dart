@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/pages/page_backup/page_kv_backup/page_kv_backup.dart';
 import 'package:kk_etcd_ui/pages/page_backup/page_snapshot/page_snapshot.dart';
 
@@ -19,8 +20,8 @@ class _PageBackupState extends State<PageBackup>
 
   List<Tab> getTabs() {
     return [
-      Tab(text: 'lTr(context).nearby'),
-      Tab(text: 'lTr(context).dazi'),
+      Tab(text: lTr(context).snapshot),
+      Tab(text: lTr(context).kVBackup),
     ];
   }
 

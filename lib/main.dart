@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:kk_etcd_ui/page_routes/router_cfg.dart';
+import 'package:kk_ui/kk_util/kk_log.dart';
 import 'package:kk_ui/kk_util/kku_language.dart';
 import 'package:kk_ui/kk_util/kku_sp.dart';
 import 'package:kk_ui/kk_util/kku_theme_mode.dart';
@@ -10,6 +11,8 @@ import 'l10n/l10n.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  KKLog.initLog();
 
   await KKUSp.initPreferences();
   Initialize.init();

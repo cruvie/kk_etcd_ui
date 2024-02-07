@@ -4,8 +4,6 @@ import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 import 'package:kk_etcd_ui/page_logics/logic_navigation/logic_navigation.dart';
 import 'package:kk_etcd_ui/pages/page_backup/page_backup.dart';
-import 'package:kk_etcd_ui/pages/page_backup/page_kv_backup/page_kv_backup.dart';
-import 'package:kk_etcd_ui/pages/page_backup/page_snapshot/page_snapshot.dart';
 import 'package:kk_etcd_ui/pages/page_config/page_add_config/page_add_config.dart';
 import 'package:kk_etcd_ui/pages/page_config/page_config.dart';
 import 'package:kk_etcd_ui/pages/page_kv/page_add_kv/page_add_kv.dart';
@@ -111,31 +109,14 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                 ExpansionTile(
                     leading: const Icon(Icons.backup_outlined),
                     title: GestureDetector(
-                      child: Text('lTr(context).pageKV'),
+                      child: Text(lTr(context).pageBackup),
                       onTap: () {
                         LogicNavigation.to
                             .changeDestination(const PageBackup());
                       },
                     ),
                     childrenPadding: const EdgeInsets.only(left: 20),
-                    children: [
-                      ListTile(
-                        onTap: () {
-                          LogicNavigation.to
-                              .changeDestination(const PageKVBackup());
-                        },
-                        leading: const Icon(Icons.backup_outlined),
-                        title: Text('lTr(context).PageKVBackup'),
-                      ),
-                      ListTile(
-                        onTap: () {
-                          LogicNavigation.to
-                              .changeDestination(const PageSnapshot());
-                        },
-                        leading: const Icon(Icons.backup_outlined),
-                        title: Text('lTr(context).PageSnapshot'),
-                      ),
-                    ]),
+                ),
                 ExpansionTile(
                     leading: const Icon(CupertinoIcons.person_crop_circle),
                     title: GestureDetector(

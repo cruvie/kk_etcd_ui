@@ -11,9 +11,10 @@ import 'package:kk_etcd_ui/global/request_api/const_request_api.dart';
 import 'package:kk_etcd_ui/global/request_api/request_http.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/static_etcd.dart';
 import 'package:kk_etcd_ui/page_routes/router_path.dart';
-import 'package:kk_go_kit/kk_base_proto_type/kk_base_proto_type.pb.dart';
-import 'package:kk_go_kit/kk_response/kk_response.pb.dart';
+import 'package:kk_go_kit/kk_pb_type/pb_response.pb.dart';
+import 'package:kk_go_kit/kk_pb_type/pb_type.pb.dart';
 import 'package:kk_ui/kk_const/kkc_request_api.dart';
+import 'package:kk_ui/kk_util/kk_log.dart';
 import 'package:kk_ui/kk_util/kku_sp.dart';
 import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
 import 'package:protobuf/protobuf.dart';
@@ -41,7 +42,7 @@ class LogicEtcd extends GetxController {
     KKUSp.setLocalStorage(ConstRequestApi.serverAddr, Api.serverAddr);
     await RequestHttp.httpPost("/User/Login",
             queryParameters: user.writeToBuffer())
-        .then((KKResponse res) async {
+        .then((PBResponse res) async {
       PBString tokenString = PBString();
       if (res.code == 200) {
         res.data.unpackInto(tokenString);
@@ -65,7 +66,7 @@ class LogicEtcd extends GetxController {
 
   Future<bool> getMyInfo() async {
     bool hasData = false;
-    await RequestHttp.httpPost("/User/MyInfo").then((KKResponse res) async {
+    await RequestHttp.httpPost("/User/MyInfo").then((PBResponse res) async {
       if (res.code == 200) {
         loginUserInfo.value.clear();
         res.data.unpackInto(loginUserInfo.value);
@@ -88,20 +89,20 @@ class LogicEtcd extends GetxController {
     loginUserInfo.value =
         PBUser.fromJson(KKUSp.getLocalStorage(StaticEtcd.myInfo));
     loginUserInfo.refresh();
-    // debugPrint('myInfo：${myPBUserInfo }');
+    // log.info('myInfo：${myPBUserInfo }');
   }
 
   Rx<PBListUser> pbListUser = PBListUser().obs;
 
   Future<bool> userList() async {
     bool finished = false;
-    await RequestHttp.httpPost("/User/UserList").then((KKResponse res) {
+    await RequestHttp.httpPost("/User/UserList").then((PBResponse res) {
       if (res.code == 200) {
         pbListUser.value.clear();
         res.data.unpackInto(pbListUser.value);
         finished = true;
       } else {
-        debugPrint('failed to get user list!');
+        log.info('failed to get user list!');
         finished = false;
       }
     });
@@ -115,7 +116,7 @@ class LogicEtcd extends GetxController {
     await RequestHttp.httpPost("/User/UserAdd",
             queryParameters:
                 PBUser(userName: name, password: password).writeToBuffer())
-        .then((KKResponse res) {
+        .then((PBResponse res) {
       if (res.code == 200) {
         KKSnackBar.ok(context, Text(res.msg));
         finished = true;
@@ -131,7 +132,7 @@ class LogicEtcd extends GetxController {
     bool finished = false;
     await RequestHttp.httpPost("/User/UserDelete",
             queryParameters: PBUser(userName: userName).writeToBuffer())
-        .then((KKResponse res) {
+        .then((PBResponse res) {
       if (res.code == 200) {
         pbListUser.value.listUser
             .removeWhere((element) => element.userName == userName);
@@ -149,7 +150,7 @@ class LogicEtcd extends GetxController {
     bool result = false;
     await RequestHttp.httpPost("/User/Logout",
             queryParameters: loginUserInfo.value.writeToBuffer())
-        .then((KKResponse res) async {
+        .then((PBResponse res) async {
       if (context.mounted) {
         context.go(RouterPath.pageLogin);
       }
@@ -164,7 +165,7 @@ class LogicEtcd extends GetxController {
     await RequestHttp.httpPost("/User/UserGrantRole",
             queryParameters:
                 PBUser(userName: userName, roles: roles).writeToBuffer())
-        .then((KKResponse res) {
+        .then((PBResponse res) {
       if (res.code == 200) {
         KKSnackBar.ok(context, Text(res.msg));
         userList();
@@ -183,13 +184,13 @@ class LogicEtcd extends GetxController {
 
   Future<bool> roleList() async {
     bool finished = false;
-    await RequestHttp.httpPost("/Role/RoleList").then((KKResponse res) {
+    await RequestHttp.httpPost("/Role/RoleList").then((PBResponse res) {
       if (res.code == 200) {
         pbListRole.value.clear();
         res.data.unpackInto(pbListRole.value);
         finished = true;
       } else {
-        debugPrint('failed to get role list!');
+        log.info('failed to get role list!');
         finished = false;
       }
     });
@@ -205,11 +206,11 @@ class LogicEtcd extends GetxController {
     }
     await RequestHttp.httpPost("/Role/RoleAdd",
             queryParameters: PBRole(name: name).writeToBuffer())
-        .then((KKResponse res) {
+        .then((PBResponse res) {
       if (res.code == 200) {
         finished = true;
       } else {
-        debugPrint('failed to add role!');
+        log.info('failed to add role!');
         finished = false;
       }
     });
@@ -225,14 +226,14 @@ class LogicEtcd extends GetxController {
     }
     await RequestHttp.httpPost("/Role/RoleGrantPermission",
             queryParameters: role.writeToBuffer())
-        .then((KKResponse res) {
+        .then((PBResponse res) {
       if (res.code == 200) {
         finished = true;
         KKSnackBar.ok(context, const Text("update succeed"));
         //update role list
         roleList();
       } else {
-        debugPrint(res.msg);
+        log.info(res.msg);
         KKSnackBar.error(context, Text(res.msg));
         finished = false;
       }
@@ -245,7 +246,7 @@ class LogicEtcd extends GetxController {
     bool finished = false;
     await RequestHttp.httpPost("/Role/RoleDelete",
             queryParameters: PBRole(name: userName).writeToBuffer())
-        .then((KKResponse res) {
+        .then((PBResponse res) {
       if (res.code == 200) {
         pbListRole.value.list
             .removeWhere((element) => element.name == userName);
@@ -273,7 +274,7 @@ class LogicEtcd extends GetxController {
     bool finished = false;
     await RequestHttp.httpPost("/KV/KVList",
             queryParameters: PBString(value: prefix).writeToBuffer())
-        .then((KKResponse res) {
+        .then((PBResponse res) {
       if (res.code == 200) {
         if (prefix == KeyPrefix.config) {
           pbConfigList.value.clear();
@@ -286,7 +287,7 @@ class LogicEtcd extends GetxController {
         }
         finished = true;
       } else {
-        debugPrint('failed to get config list!');
+        log.info('failed to get config list!');
         finished = false;
       }
     });
@@ -299,7 +300,7 @@ class LogicEtcd extends GetxController {
     bool finished = false;
     await RequestHttp.httpPost("/KV/KVGet",
             queryParameters: PBKV(key: key).writeToBuffer())
-        .then((KKResponse res) {
+        .then((PBResponse res) {
       if (res.code == 200) {
         currentKV.value.clear();
         res.data.unpackInto(currentKV.value);
@@ -317,12 +318,12 @@ class LogicEtcd extends GetxController {
     bool finished = false;
     await RequestHttp.httpPost("/KV/KVPut",
             queryParameters: PBKV(key: key, value: value).writeToBuffer())
-        .then((KKResponse res) {
+        .then((PBResponse res) {
       if (res.code == 200) {
         KKSnackBar.ok(context, const Text("update succeed"));
         finished = true;
       } else {
-        debugPrint(res.msg);
+        log.info(res.msg);
         KKSnackBar.error(context, Text(res.msg));
         finished = false;
       }
@@ -334,14 +335,14 @@ class LogicEtcd extends GetxController {
     bool finished = false;
     await RequestHttp.httpPost("/KV/KVDel",
             queryParameters: PBKV(key: key).writeToBuffer())
-        .then((KKResponse res) {
+        .then((PBResponse res) {
       if (res.code == 200) {
         pbConfigList.value.listKV.removeWhere((element) => element.key == key);
         pbKVList.value.listKV.removeWhere((element) => element.key == key);
         finished = true;
         KKSnackBar.ok(context, const Text("delete succeed"));
       } else {
-        debugPrint(res.msg);
+        log.info(res.msg);
         KKSnackBar.error(context, Text(res.msg));
         finished = false;
       }
@@ -362,11 +363,11 @@ class LogicEtcd extends GetxController {
     bool finished = false;
     await RequestHttp.httpPost("/Server/ServerList",
             queryParameters: PBString(value: prefix).writeToBuffer())
-        .then((KKResponse res) {
+        .then((PBResponse res) {
       if (res.code == 200) {
         pbListServer.value.clear();
         res.data.unpackInto(pbListServer.value);
-        // debugPrint(pbListServer.value.listServer.toString());
+        // log.info(pbListServer.value.listServer.toString());
         pbListServer.refresh();
         finished = true;
       } else {
@@ -375,5 +376,76 @@ class LogicEtcd extends GetxController {
       }
     });
     return finished;
+  }
+
+  ///======================page_backup===========================
+  //backup etcd
+  Future<PBFile> snapshot(BuildContext context) async {
+    PBFile pbFile = PBFile();
+    await RequestHttp.httpPost("/Backup/Snapshot").then((PBResponse res) {
+      if (res.code == 200) {
+        res.data.unpackInto(pbFile);
+      } else {
+        KKSnackBar.error(context, const Text('failed to snapshot'));
+      }
+    });
+    return pbFile;
+  }
+
+  Future<String> snapshotRestore(BuildContext context) async {
+    PBString pbString = PBString();
+    await RequestHttp.httpPost("/Backup/SnapshotRestore")
+        .then((PBResponse res) {
+      if (res.code == 200) {
+        res.data.unpackInto(pbString);
+      } else {
+        KKSnackBar.error(context, const Text('failed to get snapshotRestore'));
+      }
+    });
+    return pbString.value;
+  }
+
+  Future<String> snapshotInfo(BuildContext context, PBFile pbFile) async {
+    PBString pbString = PBString();
+    await RequestHttp.httpPost("/Backup/SnapshotInfo",
+            queryParameters: pbFile.writeToBuffer())
+        .then((PBResponse res) {
+      if (res.code == 200) {
+        res.data.unpackInto(pbString);
+      } else {
+        KKSnackBar.error(context, const Text('failed to snapshotInfo'));
+      }
+    });
+    return pbString.value;
+  }
+
+  Future<PBFile> allKVsBackup(BuildContext context) async {
+    PBFile pbFile = PBFile();
+    await RequestHttp.httpPost("/Backup/AllKVsBackup").then((PBResponse res) {
+      if (res.code == 200) {
+        res.data.unpackInto(pbFile);
+      } else {
+        KKSnackBar.error(context, const Text('failed to AllKVsBackup'));
+      }
+    });
+    return pbFile;
+  }
+
+  Future<bool> allKVsRestore(BuildContext context, PBFile pbFile) async {
+    bool succeed = false;
+    await RequestHttp.httpPost("/Backup/AllKVsRestore",
+            queryParameters: pbFile.writeToBuffer())
+        .then((PBResponse res) {
+      if (res.code == 200) {
+        KKSnackBar.ok(context, const Text("restore succeed"),
+            duration: const Duration(seconds: 10));
+        succeed = true;
+      } else {
+        KKSnackBar.error(context, const Text('failed to AllKVsRestore'),
+            duration: const Duration(seconds: 10));
+        succeed = false;
+      }
+    });
+    return succeed;
   }
 }
