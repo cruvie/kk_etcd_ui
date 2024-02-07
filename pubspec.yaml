@@ -43,6 +43,7 @@ dependencies:
   intl: any # all BSD-3-Clause
   go_router: any # all BSD-3-Clause
   get: any # all MIT
+  file_selector: any  # all
 
 
 dev_dependencies:
