@@ -22,7 +22,7 @@ services:
 #      - "2334:80"
 
   kk-etcd-ui:
-    image: kangxhcmk/kk_etcd_ui:1.0
+    image: cruvie/kk_etcd_ui:choose_version
     container_name: kk-etcd-ui
     ports:
       - "2334:80"

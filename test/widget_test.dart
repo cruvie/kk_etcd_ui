@@ -5,17 +5,14 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 
-import 'package:kk_etcd_ui/main.dart';
 import 'package:kk_etcd_ui/pages/page_backup/page_backup.dart';
 
 void main() {
-  print(PageBackup().toString());
-  print(PageBackup().toDiagnosticsNode());
-  print(PageBackup().toStringDeep());
-  print(PageBackup().toStringShort());
+  print(const PageBackup().toString());
+  print(const PageBackup().toDiagnosticsNode());
+  print(const PageBackup().toStringDeep());
+  print(const PageBackup().toStringShort());
   // testWidgets('Counter increments smoke test', (WidgetTester tester) async {
   //   // Build our app and trigger a frame.
   //   await tester.pumpWidget(const MyApp());

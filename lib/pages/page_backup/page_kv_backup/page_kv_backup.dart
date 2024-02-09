@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:file_selector/file_selector.dart';
@@ -6,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
 import 'package:kk_go_kit/kk_pb_type/pb_type.pb.dart';
-import 'package:kk_ui/kk_file/kk_file.dart';
-import 'package:kk_ui/kk_util/kk_log.dart';
+import 'package:kk_ui/kk_file/io.dart'
+    if (dart.library.html) 'package:kk_ui/kk_file/web.dart';
 import 'package:kk_ui/kk_widget/kk_card.dart';
 
 class PageKVBackup extends StatefulWidget {
@@ -41,9 +40,9 @@ class _PageKVBackupState extends State<PageKVBackup> {
               ElevatedButton(
                   onPressed: () async {
                     await pickFile();
-                    if (filePath != "") {
+                    if (file != null) {
                       //read file
-                      allKVsRestoreInfo = File(filePath).readAsStringSync();
+                      allKVsRestoreInfo = await file!.readAsString();
                       PBFile pbFile =
                           PBFile(bytes: allKVsRestoreInfo.codeUnits);
                       if (context.mounted) {
@@ -66,17 +65,13 @@ class _PageKVBackupState extends State<PageKVBackup> {
     );
   }
 
-  String filePath = "";
+  XFile? file;
 
   pickFile() async {
     const XTypeGroup typeGroup = XTypeGroup(
       extensions: <String>['json'],
     );
-    final XFile? file =
-        await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
-    log.info(file);
-    if (file != null) {
-      filePath = file.path;
-    }
+    file = await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
+    // log.info(file);
   }
 }

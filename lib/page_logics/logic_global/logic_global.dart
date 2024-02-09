@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:kk_ui/kk_util/kk_log.dart';
+import 'package:kk_ui/kk_util/kku_log.dart';
 import 'package:kk_ui/kk_util/kku_sp.dart';
 
 class LogicGlobal  extends GetxController {

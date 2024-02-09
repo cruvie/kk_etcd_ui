@@ -258,7 +258,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "877ec4c92475e9a53ef86578687584d04662cf4f"
+      resolved-ref: "18ab1224e88a18000c707169f916c2752f7c86c1"
       url: "https://github.com/cruvie/kk_etcd_go.git"
     source: git
     version: "0.0.0"
@@ -276,7 +276,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "62741a6cbcc88008bdac2e4d62332ccf4f95b1d2"
+      resolved-ref: cf72fb9eab36c24bfe95ecfcb49b4af97918fb10
       url: "https://gitee.com/cruvie/kk_ui.git"
     source: git
     version: "2023.12.06"

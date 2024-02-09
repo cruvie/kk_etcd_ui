@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 import 'package:kk_etcd_ui/global/utils/util_navigator.dart';
 import 'package:kk_go_kit/kk_pb_type/pb_response.pb.dart';
 import 'package:kk_ui/kk_const/kkc_request_api.dart';
-import 'package:kk_ui/kk_util/kk_log.dart';
+import 'package:kk_ui/kk_util/kku_log.dart';
 import 'package:kk_ui/kk_util/kku_sp.dart';
 import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
 
