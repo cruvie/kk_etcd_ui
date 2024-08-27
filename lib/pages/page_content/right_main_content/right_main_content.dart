@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:kk_etcd_ui/page_logics/logic_navigation/logic_navigation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RightMainContent extends StatefulWidget {
+
+import 'package:kk_etcd_ui/logic_global/state_global.dart';
+import 'package:kk_etcd_ui/page_routes/router_util.dart';
+
+class RightMainContent extends ConsumerStatefulWidget {
   const RightMainContent({super.key});
 
   @override
-  State<RightMainContent> createState() => _RightMainContentState();
+  ConsumerState<RightMainContent> createState() => _RightMainContentState();
 }
 
-class _RightMainContentState extends State<RightMainContent> {
+class _RightMainContentState extends ConsumerState<RightMainContent> {
   @override
   Widget build(BuildContext context) {
-    return Obx(() => PageView(
-        controller: LogicNavigation.to.pageController.value,
+    return PageView(
+        controller: ref.watch(globalProvider).pageController,
         physics: const NeverScrollableScrollPhysics(),
-        children: LogicNavigation.pages));
+        children: allPages);
   }
 }

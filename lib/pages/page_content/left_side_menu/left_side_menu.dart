@@ -1,32 +1,32 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kk_etcd_go/kk_etcd_models/api_user_kk_etcd.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
-import 'package:kk_etcd_ui/page_logics/logic_etcd/logic_etcd.dart';
-import 'package:kk_etcd_ui/page_logics/logic_navigation/logic_navigation.dart';
-import 'package:kk_etcd_ui/pages/page_backup/page_backup.dart';
-import 'package:kk_etcd_ui/pages/page_config/page_add_config/page_add_config.dart';
-import 'package:kk_etcd_ui/pages/page_config/page_config.dart';
-import 'package:kk_etcd_ui/pages/page_kv/page_add_kv/page_add_kv.dart';
-import 'package:kk_etcd_ui/pages/page_kv/page_kv.dart';
-import 'package:kk_etcd_ui/pages/page_role/page_add_role/page_add_role.dart';
-import 'package:kk_etcd_ui/pages/page_role/page_role.dart';
-import 'package:kk_etcd_ui/pages/page_server/page_server.dart';
-import 'package:kk_etcd_ui/pages/page_user/page_add_user/page_add_user.dart';
-import 'package:kk_etcd_ui/pages/page_user/page_user.dart';
+
+import 'package:kk_etcd_ui/logic_global/state_global.dart';
+import 'package:kk_etcd_ui/pages/page_backup/view/page_backup.dart';
+import 'package:kk_etcd_ui/pages/page_kv/view/page_add_kv/page_add_kv.dart';
+import 'package:kk_etcd_ui/pages/page_kv/view/page_kv.dart';
+import 'package:kk_etcd_ui/pages/page_role/view/page_add_role/page_add_role.dart';
+import 'package:kk_etcd_ui/pages/page_role/view/page_role.dart';
+import 'package:kk_etcd_ui/pages/page_server/view/page_server.dart';
+import 'package:kk_etcd_ui/pages/page_user/logic/state_user.dart';
+import 'package:kk_etcd_ui/pages/page_user/view/page_add_user/page_add_user.dart';
+import 'package:kk_etcd_ui/pages/page_user/view/page_user.dart';
 import 'package:kk_ui/kk_widget/kk_card.dart';
 import 'package:kk_ui/kk_widget/kk_theme_mode_switcher.dart';
 
 import 'cpts/about_info.dart';
 import 'cpts/show_language_popup_menu.dart';
 
-class LeftSideMenu extends StatefulWidget {
+class LeftSideMenu extends ConsumerStatefulWidget {
   const LeftSideMenu({super.key});
 
   @override
-  State<LeftSideMenu> createState() => _LeftSideMenuState();
+  ConsumerState<LeftSideMenu> createState() => _LeftSideMenuState();
 }
 
-class _LeftSideMenuState extends State<LeftSideMenu> {
+class _LeftSideMenuState extends ConsumerState<LeftSideMenu> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -50,7 +50,7 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          showLanguagePopupMenu(context),
+                          showLanguagePopupMenu(ref),
                           const KKThemeModeSwitcher(),
                         ],
                       ),
@@ -58,31 +58,13 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                   ),
                 ),
                 ExpansionTile(
-                    leading: const Icon(CupertinoIcons.doc_text),
-                    title: GestureDetector(
-                      child: Text(lTr(context).pageConfig),
-                      onTap: () {
-                        LogicNavigation.to
-                            .changeDestination(const PageConfig());
-                      },
-                    ),
-                    childrenPadding: const EdgeInsets.only(left: 20),
-                    children: [
-                      ListTile(
-                        onTap: () {
-                          LogicNavigation.to
-                              .changeDestination(const PageAddConfig());
-                        },
-                        leading: const Icon(Icons.edit_note_outlined),
-                        title: Text(lTr(context).pageAddConfig),
-                      ),
-                    ]),
-                ExpansionTile(
                   leading: const Icon(Icons.alt_route_outlined),
                   title: GestureDetector(
                     child: Text(lTr(context).pageServer),
                     onTap: () {
-                      LogicNavigation.to.changeDestination(const PageServer());
+                      ref
+                          .read(globalProvider.notifier)
+                          .changeDestination(const PageServer());
                     },
                   ),
                   childrenPadding: const EdgeInsets.only(left: 20),
@@ -92,14 +74,17 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                     title: GestureDetector(
                       child: Text(lTr(context).pageKV),
                       onTap: () {
-                        LogicNavigation.to.changeDestination(const PageKV());
+                        ref
+                            .read(globalProvider.notifier)
+                            .changeDestination(const PageKV());
                       },
                     ),
                     childrenPadding: const EdgeInsets.only(left: 20),
                     children: [
                       ListTile(
                         onTap: () {
-                          LogicNavigation.to
+                          ref
+                              .read(globalProvider.notifier)
                               .changeDestination(const PageAddKV());
                         },
                         leading: const Icon(Icons.edit_note_outlined),
@@ -107,29 +92,33 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                       ),
                     ]),
                 ExpansionTile(
-                    leading: const Icon(Icons.backup_outlined),
-                    title: GestureDetector(
-                      child: Text(lTr(context).pageBackup),
-                      onTap: () {
-                        LogicNavigation.to
-                            .changeDestination(const PageBackup());
-                      },
-                    ),
-                    childrenPadding: const EdgeInsets.only(left: 20),
+                  leading: const Icon(Icons.backup_outlined),
+                  title: GestureDetector(
+                    child: Text(lTr(context).pageBackup),
+                    onTap: () {
+                      ref
+                          .read(globalProvider.notifier)
+                          .changeDestination(const PageBackup());
+                    },
+                  ),
+                  childrenPadding: const EdgeInsets.only(left: 20),
                 ),
                 ExpansionTile(
-                    leading: const Icon(CupertinoIcons.person_crop_circle),
+                    leading: const Icon(Icons.supervised_user_circle_outlined),
                     title: GestureDetector(
                       child: Text(lTr(context).pageUser),
                       onTap: () {
-                        LogicNavigation.to.changeDestination(const PageUser());
+                        ref
+                            .read(globalProvider.notifier)
+                            .changeDestination(const PageUser());
                       },
                     ),
                     childrenPadding: const EdgeInsets.only(left: 20),
                     children: [
                       ListTile(
                         onTap: () {
-                          LogicNavigation.to
+                          ref
+                              .read(globalProvider.notifier)
                               .changeDestination(const PageAddUser());
                         },
                         leading: const Icon(Icons.edit_note_outlined),
@@ -141,14 +130,17 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                     title: GestureDetector(
                       child: Text(lTr(context).pageRole),
                       onTap: () {
-                        LogicNavigation.to.changeDestination(const PageRole());
+                        ref
+                            .read(globalProvider.notifier)
+                            .changeDestination(const PageRole());
                       },
                     ),
                     childrenPadding: const EdgeInsets.only(left: 20),
                     children: [
                       ListTile(
                         onTap: () {
-                          LogicNavigation.to
+                          ref
+                              .read(globalProvider.notifier)
                               .changeDestination(const PageAddRole());
                         },
                         leading: const Icon(Icons.edit_note_outlined),
@@ -168,8 +160,12 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text(LogicEtcd.to.loginUserInfo.value.userName),
-                        Text(LogicEtcd.to.loginUserInfo.value.roles.toString()),
+                        Text(ref.watch(globalProvider).currentUser.userName),
+                        Text(ref
+                            .watch(globalProvider)
+                            .currentUser
+                            .roles
+                            .toString()),
                       ],
                     )
                   ],
@@ -184,7 +180,7 @@ class _LeftSideMenuState extends State<LeftSideMenu> {
                 ),
                 IconButton(
                   onPressed: () {
-                    LogicEtcd.to.logout(context);
+                    ref.read(userProvider.notifier).logout(LogoutParam());
                   },
                   icon: const Icon(Icons.logout_outlined),
                 ),

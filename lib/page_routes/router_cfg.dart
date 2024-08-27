@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kk_etcd_ui/page_home.dart';
 import 'package:kk_etcd_ui/page_routes/router_path.dart';
-import 'package:kk_etcd_ui/pages/page_index/page_login.dart';
+import 'package:kk_etcd_ui/pages/page_index/view/page_login.dart';
 import 'package:kk_etcd_ui/pages/page_not_found/page_not_found.dart';
 
 class RouterCfg {
-  static final GlobalKey<NavigatorState> _rootNavigatorKey =
+  static final GlobalKey<NavigatorState> rootNavigatorKey =
       GlobalKey<NavigatorState>(debugLabel: 'rootKey');
 
   static final GoRouter routerConfig = GoRouter(
     initialLocation: RouterPath.pageLogin,
-    navigatorKey: _rootNavigatorKey,
+    navigatorKey: rootNavigatorKey,
     debugLogDiagnostics: true,
     errorBuilder: (context, state) => const PageNotFound(),
     routes: <RouteBase>[

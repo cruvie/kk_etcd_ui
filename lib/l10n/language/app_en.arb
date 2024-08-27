@@ -66,5 +66,6 @@
   "snapshotRestore": "Snapshot Restore",
   "snapshotInfo": "Snapshot Info",
   "allKVsBackup": "All KVs Backup",
-  "allKVsRestore": "All KVs Restore"
+  "allKVsRestore": "All KVs Restore",
+  "clearLocalData": "Clear local data"
 }

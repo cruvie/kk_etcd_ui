@@ -8,6 +8,8 @@ import 'package:intl/intl.dart' as intl;
 import 'app_localizations_en.dart';
 import 'app_localizations_zh.dart';
 
+// ignore_for_file: type=lint
+
 /// Callers can lookup localized strings with an instance of AppLocalizations
 /// returned by `AppLocalizations.of(context)`.
 ///
@@ -494,6 +496,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All KVs Restore'**
   String get allKVsRestore;
+
+  /// No description provided for @clearLocalData.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear local data'**
+  String get clearLocalData;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

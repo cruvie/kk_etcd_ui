@@ -1,8 +1,10 @@
 import 'app_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Chinese (`zh`).
 class AppLocalizationsZh extends AppLocalizations {
-  AppLocalizationsZh([super.locale = 'zh']);
+  AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
   String get ccGlobal => '';
@@ -204,4 +206,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get allKVsRestore => '全部KV恢复';
+
+  @override
+  String get clearLocalData => '清空本地数据';
 }

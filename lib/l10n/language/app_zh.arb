@@ -66,5 +66,6 @@
   "snapshotRestore": "快照恢复",
   "snapshotInfo": "快照信息",
   "allKVsBackup": "全部KV备份",
-  "allKVsRestore": "全部KV恢复"
+  "allKVsRestore": "全部KV恢复",
+  "clearLocalData": "清空本地数据"
 }

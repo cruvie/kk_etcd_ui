@@ -6,7 +6,7 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 
-import 'package:kk_etcd_ui/pages/page_backup/page_backup.dart';
+import 'package:kk_etcd_ui/pages/page_backup/view/page_backup.dart';
 
 void main() {
   print(const PageBackup().toString());

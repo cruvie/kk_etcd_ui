@@ -1,8 +1,10 @@
 import 'app_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for English (`en`).
 class AppLocalizationsEn extends AppLocalizations {
-  AppLocalizationsEn([super.locale = 'en']);
+  AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
   String get ccGlobal => '';
@@ -204,4 +206,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get allKVsRestore => 'All KVs Restore';
+
+  @override
+  String get clearLocalData => 'Clear local data';
 }

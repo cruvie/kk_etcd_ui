@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kk_etcd_ui/l10n/language_map.dart';
 import 'package:kk_ui/kk_util/kku_language.dart';
 
-showLanguagePopupMenu(BuildContext context) {
+showLanguagePopupMenu(WidgetRef ref) {
   late List<String> languageList =
       LanguageMap.languageMap.entries.map((entry) => entry.key).toList();
   List<PopupMenuEntry<String>> list = [];
@@ -15,7 +16,9 @@ showLanguagePopupMenu(BuildContext context) {
               LanguageMap.languageMap[languageList[i]]!.keys.first;
           String countryCode =
               LanguageMap.languageMap[languageList[i]]![languageCode]!;
-          KKULanguage.changeLang(languageCode, countryCode);
+          ref
+              .read(kKULanguageProvider.notifier)
+              .changeLang(languageCode, countryCode);
         },
       ),
     );
