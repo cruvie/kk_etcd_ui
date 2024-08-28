@@ -5,7 +5,6 @@ import 'package:kk_etcd_go/kk_etcd_models/api_role_kk_etcd.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_role_kk_etcd.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/pages/page_role/logic/state_role.dart';
-import 'package:kk_etcd_ui/utils/tools/util_permission.dart';
 
 import 'cpts/role_edit.dart';
 
@@ -34,11 +33,6 @@ class _PageRoleState extends ConsumerState<PageRole> {
     var readRole = ref.read(roleProvider.notifier);
     var watchRole = ref.watch(roleProvider);
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        heroTag: null,
-        onPressed: initData,
-        child: const Icon(Icons.refresh_outlined),
-      ),
       body: Column(
         children: [
           Expanded(
@@ -78,6 +72,16 @@ class _PageRoleState extends ConsumerState<PageRole> {
               ],
             ),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+            FloatingActionButton(
+              heroTag: null,
+              onPressed: initData,
+              child: const Icon(Icons.refresh_outlined),
+            ),
+          ],),
+          const Divider(),
           const Expanded(flex: 3, child: RoleEdit())
         ],
       ),

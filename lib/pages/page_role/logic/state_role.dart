@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:kk_etcd_go/kk_etcd_models/api_role_kk_etcd.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_role_kk_etcd.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_apis/api_role.dart';
+import 'package:kk_etcd_ui/logic_global/state_global.dart';
 import 'package:kk_etcd_ui/page_routes/router_util.dart';
 import 'package:kk_etcd_ui/utils/request/request.dart';
 import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
@@ -44,17 +45,18 @@ class Role extends _$Role {
   }
 
   Future<bool> roleGrantPermission(RoleGrantPermissionParam role) async {
-    bool finished = false;
+    bool success = false;
     await ApiRole.roleGrantPermission(role, HttpTool.postReq, okFunc: (res) {
       KKSnackBar.ok(getGlobalCtx(), const Text("update succeed"));
+      ref.read(globalProvider.notifier).refreshCurrentUser();
       //update role list
       roleList();
-      finished = true;
+      success = true;
     }, errorFunc: (res) {
       KKSnackBar.error(getGlobalCtx(), const Text('update failed'));
-      finished = false;
+      success = false;
     });
-    return finished;
+    return success;
   }
 
   //todo change RoleGrantPermissionParam
@@ -88,11 +90,6 @@ class Role extends _$Role {
 
   void setCurrentRole(PBRole role) {
     state.currentRole=role;
-    ref.notifyListeners();
-  }
-
-  void addCurrentRolePerm(Permission perm) {
-    state.currentRole.perms.add(perm);
     ref.notifyListeners();
   }
 }

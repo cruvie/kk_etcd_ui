@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:kk_etcd_go/kk_etcd_models/api_user_kk_etcd.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_user_kk_etcd.pb.dart';
 import 'package:kk_etcd_ui/page_routes/router_util.dart';
 import 'package:kk_etcd_ui/pages/page_user/logic/state_user.dart';
@@ -25,15 +24,6 @@ class Global extends _$Global {
 
   Future<void> refreshCurrentUser() async {
     await ref.read(userProvider.notifier).getMyInfo();
-    loadLocalData();
-  }
-
-  loadLocalData() {
-    String? userJson = KKUSp.get(StaticEtcd.myInfo);
-    if (userJson != null) {
-      state.currentUser = PBUser.fromJson(userJson);
-    }
-    ref.notifyListeners();
   }
 
   updateCurrentUser(PBUser info) async {

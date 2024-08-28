@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:kk_etcd_go/kk_etcd_apis/api_user.dart';
 import 'package:kk_etcd_go/kk_etcd_models/api_user_kk_etcd.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_user_kk_etcd.pb.dart';
-import 'package:kk_etcd_ui/logic_global/global_tool.dart';
 import 'package:kk_etcd_ui/logic_global/state_global.dart';
 import 'package:kk_etcd_ui/page_routes/router_util.dart';
 

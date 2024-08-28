@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kk_etcd_ui/logic_global/state_global.dart';
 
 import 'package:kk_etcd_ui/pages/page_content/right_main_content/right_main_content.dart';
 

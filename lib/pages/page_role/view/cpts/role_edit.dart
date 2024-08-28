@@ -9,6 +9,7 @@ import 'package:kk_etcd_ui/utils/tools/util_permission.dart';
 import 'package:kk_ui/kk_widget/kk_alert_dialog.dart';
 
 import 'package:kk_ui/kk_widget/kk_card.dart';
+import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
 
 class RoleEdit extends ConsumerStatefulWidget {
   const RoleEdit({super.key});
@@ -37,58 +38,77 @@ class _RoleEditState extends ConsumerState<RoleEdit> {
       ),
     ];
 
-    return ListView(
-      children: [
-        KKCard(
-          padding: const EdgeInsets.all(20),
-          child: Row(
+    return Scaffold(
+      body: Column(
+        children: [
+          KKCard(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              children: [
+                Text("${lTr(context).role}:"),
+                const SizedBox(width: 5),
+                Text(watchRole.currentRole.name),
+                IconButton(
+                    onPressed: () {
+                      if (watchRole.currentRole.name.isEmpty) {
+                        KKSnackBar.warn(
+                            context, const Text('select a role first!'));
+                        return;
+                      }
+                      addPermDialog();
+                    },
+                    icon: const Icon(Icons.add_circle_outline,
+                        color: Colors.blue))
+              ],
+            ),
+          ),
+          Expanded(
+              child: ListView(
             children: [
-              Text(lTr(context).role),
-              Text(watchRole.currentRole.name)
+              KKCard(
+                padding: const EdgeInsets.all(20),
+                child: DataTable(
+                  columns: <DataColumn>[
+                    DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          lTr(context).key,
+                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          lTr(context).rangeEnd,
+                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          lTr(context).permission,
+                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          lTr(context).action,
+                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ),
+                  ],
+                  rows: assembleData(),
+                ),
+              ),
             ],
-          ),
-        ),
-        KKCard(
-          padding: const EdgeInsets.all(20),
-          child: DataTable(
-            columns: <DataColumn>[
-              DataColumn(
-                label: Expanded(
-                  child: Text(
-                    lTr(context).key,
-                    style: const TextStyle(fontStyle: FontStyle.italic),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Expanded(
-                  child: Text(
-                    lTr(context).rangeEnd,
-                    style: const TextStyle(fontStyle: FontStyle.italic),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Expanded(
-                  child: Text(
-                    lTr(context).permission,
-                    style: const TextStyle(fontStyle: FontStyle.italic),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Expanded(
-                  child: Text(
-                    lTr(context).action,
-                    style: const TextStyle(fontStyle: FontStyle.italic),
-                  ),
-                ),
-              ),
-            ],
-            rows: assembleData(),
-          ),
-        ),
-      ],
+          ))
+        ],
+      ),
     );
   }
 
@@ -121,127 +141,130 @@ class _RoleEditState extends ConsumerState<RoleEdit> {
     return configDataRows;
   }
 
-  int permissionREAD = 0;
-  int permissionWRITE = 1;
-  int permissionREADWRITE = 2;
-  final _formKey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
-  final keyController = TextEditingController();
-  final rangeEndController = TextEditingController();
-
-  Permission inputPerm = Permission();
-
   addPermDialog() {
+    int permissionREAD = 0;
+    int permissionWRITE = 1;
+    int permissionREADWRITE = 2;
+    final formKey = GlobalKey<FormState>();
+
     var readRole = ref.read(roleProvider.notifier);
     var watchRole = ref.watch(roleProvider);
-    nameController.text = watchRole.currentRole.name;
     Permission inputPerm = Permission();
-
-    return kKShowDialog(
+    kKShowDialog(
       context,
-      KKAlertDialog(
-        content: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              KKCard(
-                padding: const EdgeInsets.all(20),
-                child: TextFormField(
-                  controller: nameController,
-                  keyboardType: TextInputType.multiline,
-                  decoration: InputDecoration(
-                    icon: Text(lTr(context).role),
+      StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+          // 你的Dialog内容，这里可以使用setState
+          return KKAlertDialog(
+            title: null,
+            content: Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  KKCard(
+                    padding: const EdgeInsets.all(20),
+                    child: TextFormField(
+                      initialValue: watchRole.currentRole.name,
+                      keyboardType: TextInputType.multiline,
+                      decoration: InputDecoration(
+                        icon: Text(lTr(context).role),
+                      ),
+                      readOnly: true,
+                      maxLines: 10,
+                      minLines: 1,
+                    ),
                   ),
-                  readOnly: true,
-                  maxLines: 10,
-                  minLines: 1,
-                ),
-              ),
-              KKCard(
-                padding: const EdgeInsets.all(20),
-                child: TextFormField(
-                  controller: keyController,
-                  keyboardType: TextInputType.multiline,
-                  decoration: InputDecoration(
-                    icon: Text(lTr(context).key),
-                  ),
-                  maxLines: 10,
-                  minLines: 1,
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'key could empty';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              KKCard(
-                padding: const EdgeInsets.all(20),
-                child: TextFormField(
-                  controller: rangeEndController,
-                  keyboardType: TextInputType.multiline,
-                  decoration: InputDecoration(
-                    icon: Text(lTr(context).rangeEnd),
-                  ),
-                  maxLines: 10,
-                  minLines: 1,
-                ),
-              ),
-              KKCard(
-                padding: const EdgeInsets.all(20),
-                child: Row(children: [
-                  Text(lTr(context).permission),
-                  Flexible(
-                      child: Column(children: [
-                    RadioListTile(
-                      title: Text(lTr(context).read),
-                      value: permissionREAD,
-                      groupValue: inputPerm.permissionType,
+                  KKCard(
+                    padding: const EdgeInsets.all(20),
+                    child: TextFormField(
+                      keyboardType: TextInputType.multiline,
+                      decoration: InputDecoration(
+                        icon: Text(lTr(context).key),
+                      ),
+                      maxLines: 10,
+                      minLines: 1,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'key could empty';
+                        }
+                        return null;
+                      },
                       onChanged: (value) {
-                        setState(() {
-                          inputPerm.permissionType = value!;
-                        });
+                        inputPerm.key = value;
                       },
                     ),
-                    RadioListTile(
-                      title: Text(lTr(context).write),
-                      value: permissionWRITE,
-                      groupValue: inputPerm.permissionType,
+                  ),
+                  KKCard(
+                    padding: const EdgeInsets.all(20),
+                    child: TextFormField(
+                      keyboardType: TextInputType.multiline,
+                      decoration: InputDecoration(
+                        icon: Text(lTr(context).rangeEnd),
+                      ),
+                      maxLines: 10,
+                      minLines: 1,
                       onChanged: (value) {
-                        setState(() {
-                          inputPerm.permissionType = value!;
-                        });
+                        inputPerm.rangeEnd = value;
                       },
                     ),
-                    RadioListTile(
-                      title: Text(lTr(context).readWrite),
-                      value: permissionREADWRITE,
-                      groupValue: inputPerm.permissionType,
-                      onChanged: (value) {
-                        setState(() {
-                          inputPerm.permissionType = value!;
-                        });
-                      },
-                    ),
-                  ])),
-                ]),
+                  ),
+                  KKCard(
+                    padding: const EdgeInsets.all(20),
+                    child: Row(children: [
+                      Text(lTr(context).permission),
+                      Flexible(
+                          child: Column(children: [
+                        RadioListTile(
+                          title: Text(lTr(context).read),
+                          value: permissionREAD,
+                          groupValue: inputPerm.permissionType,
+                          onChanged: (value) {
+                            setState(() {
+                              inputPerm.permissionType = value!;
+                            });
+                          },
+                        ),
+                        RadioListTile(
+                          title: Text(lTr(context).write),
+                          value: permissionWRITE,
+                          groupValue: inputPerm.permissionType,
+                          onChanged: (value) {
+                            setState(() {
+                              inputPerm.permissionType = value!;
+                            });
+                          },
+                        ),
+                        RadioListTile(
+                          title: Text(lTr(context).readWrite),
+                          value: permissionREADWRITE,
+                          groupValue: inputPerm.permissionType,
+                          onChanged: (value) {
+                            setState(() {
+                              inputPerm.permissionType = value!;
+                            });
+                          },
+                        ),
+                      ])),
+                    ]),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        confirmFunc: () async {
-          if (_formKey.currentState!.validate()) {
-            inputPerm.key = keyController.text;
-            inputPerm.rangeEnd = rangeEndController.text;
-            readRole.addCurrentRolePerm(inputPerm);
-            await readRole.roleGrantPermission(
-              RoleGrantPermissionParam(
-                name: watchRole.currentRole.name,
-                perm: inputPerm,
-              ),
-            );
-          }
-          return Future.value(true);
+            ),
+            confirmFunc: () async {
+              if (formKey.currentState!.validate()) {
+                bool ok = await readRole.roleGrantPermission(
+                  RoleGrantPermissionParam(
+                    name: watchRole.currentRole.name,
+                    perm: inputPerm,
+                  ),
+                );
+                if (ok) {
+                  return Future.value(true);
+                }
+              }
+              return Future.value(false);
+            },
+          );
         },
       ),
     );

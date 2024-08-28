@@ -8,7 +8,6 @@ import 'package:kk_etcd_ui/logic_global/global_tool.dart';
 import 'package:kk_etcd_ui/logic_global/state_global.dart';
 import 'package:kk_etcd_ui/page_routes/router_path.dart';
 import 'package:kk_etcd_ui/pages/page_user/logic/state_user.dart';
-import 'package:kk_ui/kk_util/kku_sp.dart';
 
 class PageLogin extends ConsumerStatefulWidget {
   const PageLogin({super.key});
@@ -27,9 +26,7 @@ class _PageLoginState extends ConsumerState<PageLogin> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(globalProvider.notifier).loadLocalData();
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
   }
 
   @override
@@ -146,7 +143,6 @@ class _PageLoginState extends ConsumerState<PageLogin> {
                 child: ElevatedButton(
                   onPressed: () async {
                     await GlobalTool.resetAllInfo();
-                    ref.read(globalProvider.notifier).loadLocalData();
                   },
                   child: Text(lTr(context).clearLocalData),
                 ),
