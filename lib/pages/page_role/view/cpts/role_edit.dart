@@ -116,7 +116,7 @@ class _RoleEditState extends ConsumerState<RoleEdit> {
     var readRole = ref.read(roleProvider.notifier);
     var watchRole = ref.watch(roleProvider);
     List<DataRow> configDataRows = [];
-    for (Permission element in watchRole.currentRole.perms) {
+    for (PBPermission element in watchRole.currentRole.perms) {
       configDataRows.add(
         DataRow(
           cells: <DataCell>[
@@ -125,9 +125,23 @@ class _RoleEditState extends ConsumerState<RoleEdit> {
             DataCell(Text(UtilPermission.getPermissionType(
                 context, element.permissionType))),
             DataCell(ElevatedButton(
-              onPressed: () {
-                //todo change RoleGrantPermissionParam
-                readRole.roleRevokePermission(RoleGrantPermissionParam());
+              onPressed: () async {
+                bool ok = await readRole
+                    .roleRevokePermission(RoleRevokePermissionParam(
+                  name: watchRole.currentRole.name,
+                  key: element.key,
+                  rangeEnd: element.rangeEnd,
+                ));
+                if (ok) {
+                  watchRole.currentRole.perms.removeWhere((e) {
+                    return e.key == element.key &&
+                        e.rangeEnd == element.rangeEnd;
+                  });
+                  readRole.setCurrentRole(PBRole(
+                    name: watchRole.currentRole.name,
+                    perms: watchRole.currentRole.perms,
+                  ));
+                }
               },
               child: Text(
                 lTr(context).delete,
@@ -149,7 +163,7 @@ class _RoleEditState extends ConsumerState<RoleEdit> {
 
     var readRole = ref.read(roleProvider.notifier);
     var watchRole = ref.watch(roleProvider);
-    Permission inputPerm = Permission();
+    PBPermission inputPerm = PBPermission();
     kKShowDialog(
       context,
       StatefulBuilder(
@@ -259,6 +273,11 @@ class _RoleEditState extends ConsumerState<RoleEdit> {
                   ),
                 );
                 if (ok) {
+                  watchRole.currentRole.perms.add(inputPerm);
+                  readRole.setCurrentRole(PBRole(
+                    name: watchRole.currentRole.name,
+                    perms: watchRole.currentRole.perms,
+                  ));
                   return Future.value(true);
                 }
               }

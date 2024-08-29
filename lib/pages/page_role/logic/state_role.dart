@@ -59,10 +59,9 @@ class Role extends _$Role {
     return success;
   }
 
-  //todo change RoleGrantPermissionParam
-  Future<bool> roleRevokePermission(RoleGrantPermissionParam role) async {
+  Future<bool> roleRevokePermission(RoleRevokePermissionParam param) async {
     bool finished = false;
-    await ApiRole.roleGrantPermission(role, HttpTool.postReq, okFunc: (res) {
+    await ApiRole.roleRevokePermission(param, HttpTool.postReq, okFunc: (res) {
       KKSnackBar.ok(getGlobalCtx(), const Text("update succeed"));
       //update role list
       roleList();
