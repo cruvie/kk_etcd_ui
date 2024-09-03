@@ -37,7 +37,6 @@
    "ccPageServer": "",
   "pageServer": "Server Manager",
   "address": "Address",
-  "type": "Type",
   "status": "Status",
   "ccPageKV": "",
   "pageKV": "KV Manager",

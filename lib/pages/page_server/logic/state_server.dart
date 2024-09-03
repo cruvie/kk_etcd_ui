@@ -10,7 +10,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'state_server.g.dart';
 
 class StateServer {
-  PBListServer pbListServer = PBListServer();
+  //todo separate http grpc server
+  PBListServer pbListServer = PBListServer()
 }
 
 @riverpod
@@ -30,6 +31,23 @@ class Server extends _$Server {
     }, errorFunc: (res) {
       KKSnackBar.error(
           getGlobalCtx(), const Text('failed to get server list!'));
+      finished = false;
+    });
+    return finished;
+  }
+
+  Future<bool> deregisterServer(DeregisterServerParam param) async {
+    bool finished = false;
+    await ApiServer.deregisterServer(param, HttpTool.postReq, okFunc: (res) {
+      state.pbListServer.listServer.removeWhere((e) {
+        return (e.serverType == param.server.serverType) &&
+            (e.serverName == param.server.serverName) &&
+            (e.serverAddr == param.server.serverAddr);
+      });
+      ref.notifyListeners();
+      KKSnackBar.ok(getGlobalCtx(), const Text("deregister success"));
+      finished = true;
+    }, errorFunc: (res) {
       finished = false;
     });
     return finished;

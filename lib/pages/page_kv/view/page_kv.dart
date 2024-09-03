@@ -32,52 +32,54 @@ class _PageKVState extends ConsumerState<PageKV> {
   Widget build(BuildContext context) {
     var readKV = ref.read(kVProvider.notifier);
     var watchKV = ref.watch(kVProvider);
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        heroTag: null,
-        onPressed: initData,
-        child: const Icon(Icons.refresh_outlined),
-      ),
-      body: Row(
-        children: [
-          Expanded(
-            child: ListView(
-              children: [
-                Scrollbar(
-                  controller: _scrollController,
-                  child: SingleChildScrollView(
+    return SelectionArea(
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          heroTag: null,
+          onPressed: initData,
+          child: const Icon(Icons.refresh_outlined),
+        ),
+        body: Row(
+          children: [
+            Expanded(
+              child: ListView(
+                children: [
+                  Scrollbar(
                     controller: _scrollController,
-                    scrollDirection: Axis.horizontal,
-                    child: DataTable(
-                      columns: <DataColumn>[
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              lTr(context).name,
-                              style:
-                                  const TextStyle(fontStyle: FontStyle.italic),
+                    child: SingleChildScrollView(
+                      controller: _scrollController,
+                      scrollDirection: Axis.horizontal,
+                      child: DataTable(
+                        columns: <DataColumn>[
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                lTr(context).name,
+                                style: const TextStyle(
+                                    fontStyle: FontStyle.italic),
+                              ),
                             ),
                           ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              lTr(context).action,
-                              style:
-                                  const TextStyle(fontStyle: FontStyle.italic),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                lTr(context).action,
+                                style: const TextStyle(
+                                    fontStyle: FontStyle.italic),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                      rows: assembleData(),
+                        ],
+                        rows: assembleData(),
+                      ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
-          ),
-          const Expanded(child: KVEdit())
-        ],
+            const Expanded(child: KVEdit())
+          ],
+        ),
       ),
     );
   }

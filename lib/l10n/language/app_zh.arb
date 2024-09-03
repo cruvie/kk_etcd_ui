@@ -37,7 +37,6 @@
   "ccPageServer": "",
   "pageServer": "服务管理",
   "address": "地址",
-  "type": "类型",
   "status": "状态",
   "ccPageKV": "",
   "pageKV": "KV管理",
