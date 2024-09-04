@@ -8,31 +8,30 @@ A Configuration center and Service registration and discovery platform based on 
 
 ![ui](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/images/ui2.png?raw=true)
 
-## How to use
+# How to use?🤔
 
-You need to run the [server](https://github.com/cruvie/kk_etcd_go) first, then you can use
-the [client](https://github.com/cruvie/kk_etcd_ui) to connect to the server.
+- run the [server](https://github.com/cruvie/kk_etcd_go)
+- use the [server](https://github.com/cruvie/kk_etcd_go) as go sdk in your project
+- [Optional] use the [client](https://github.com/cruvie/kk_etcd_ui) to manage etcd data.
 
-Yes, you need to use them together.
+# Warning ❗
 
-## Note
+Make sure the client and server use the same version, they will be updated together, incompatible versions
+may make some unexpected errors.
 
-We recommend that the client and server use the same version(they will be updated together, and incompatible versions
-may make
-some unexpected errors).
-
-# Client
+# Installation
+## Client
 
 [Homepage Client](https://github.com/cruvie/kk_etcd_ui)
 
 [Download](https://github.com/cruvie/kk_etcd_ui/releases)
 
-| Windows/MacOS/Linux       | Web                       | Docker |
-|---------------------------|---------------------------|--------| 
-| ✅                         | ✅                         | ✅      |
-| need to build by yourself | need to build by yourself | ✅      |
+| Windows/MacOS/Linux | Web               | Docker |
+|---------------------|-------------------|--------| 
+| ✅                   | ✅                 | ✅      |
+| build from source   | build from source | ✅      |
 
-## Docker
+### Docker
 
 change `version` to a specific version on [docker hub](https://hub.docker.com/r/cruvie/kk_etcd_ui/tags)
 
@@ -54,19 +53,21 @@ services:
     restart: unless-stopped
 
 ```
+```shell
+docker-compose up
+```
+then visit http://localhost:2334
 
-http://localhost:2334
-
-# Server
+## Server
 
 [Homepage Server](https://github.com/cruvie/kk_etcd_go)
 
-## Docker
+### Docker
 
 change `version` to a specific version on [docker hub](https://hub.docker.com/r/cruvie/kk_etcd_go/tags)
 
 ```shell
-docker run --name kk_etcd_go -p 2333:2333 -v ./config/config.yml:/kk_etcd_go/config/config.yml cruvie/kk_etcd_go:version
+docker run --name kk_etcd_go -p 2333:2333 -v ./config/config.yml:/kk_etcd_go/internal/config/config.yml cruvie/kk_etcd_go:version
 ```
 
 docker-compose
@@ -83,21 +84,20 @@ services:
     restart: unless-stopped
     volumes:
       - ./config/config.yml:/kk_etcd_go/internal/config/config.yml
-      - ./backup.yml:/kk_etcd_go/backup
-
+```
+```shell
+docker-compose up
 ```
 
 # SDK
-
-we only provide `go` sdk now
 
 ```shell
   go get github.com/cruvie/kk_etcd_go@latest
 ```
 
-## init and get config from etcd
+## Put/Get config into/from etcd in yaml/json format
 
-`my_config` in etcd (yaml format)
+assume you have a config file like this
 
 ```yaml
 ServerAddr: 127.0.0.1:8759
@@ -108,74 +108,88 @@ Postgres:
 Redis:
   Addr: 127.0.0.1:6379
   Password: xxxx
-
-MinIO:
-  AccessEndpoint: http://127.0.0.1:9000/
 ```
 
-get config in your project from etcd
+put/get it to/from etcd with key `my_config`
 
 ```go
-package main
+package doc_test
 
-import "github.com/cruvie/kk_etcd_go/kk_etcd"
+import (
+	"github.com/cruvie/kk_etcd_go/kk_etcd"
+	"gopkg.in/yaml.v3"
+	"log"
+	"log/slog"
+	"os"
+	"testing"
+)
 
-var GlobalConfig config
-
-type config struct {
-	ServerAddr string `yaml:"ServerAddr"`
-	Postgres struct {
-		Dsn string `yaml:"Dsn"`
-	} `yaml:"Postgres"`
+type myConfig struct {
+	ServerAddr string
+	Postgres   struct {
+		Dsn  string
+		Port int
+	}
 	Redis struct {
-		Addr     string `yaml:"Addr"`
-		Password string `yaml:"Password"`
-	} `yaml:"Redis"`
-	MinIO struct {
-		AccessEndpoint string `yaml:"AccessEndpoint"`
-	} `yaml:"MinIO"`
+		Addr     string
+		Password string
+	}
 }
 
-func main() {
-	// init client
-	err := kk_etcd.InitClient(&kk_etcd.InitClientConfig{
+func TestPutYaml(t *testing.T) {
+	//init client
+	closeFunc, err := kk_etcd.InitClient(&kk_etcd.InitClientConfig{
 		Endpoints: []string{"http://127.0.0.1:2379"},
-		UserName:  "admin",
-		Password:  "admin",
+		UserName:  "root",
+		Password:  "root",
 		DebugMode: true})
 	if err != nil {
 		panic(err)
 	}
-	// get config
-	err = kk_etcd.GetJson("my_config", &GlobalConfig)
+	defer func() {
+		err := closeFunc()
+		if err != nil {
+			log.Println(err)
+		}
+	}()
+	//load config
+	data, err := os.ReadFile("path/to/my_config.yml")
 	if err != nil {
 		panic(err)
 	}
-	GlobalConfig.ServerAddr = "127.0.0.1:8080"
-	// update config
-	err = kk_etcd.PutExistUpdateJson("my_config", &GlobalConfig)
+	var Config myConfig
+	err = yaml.Unmarshal(data, &Config)
+	if err != nil {
+		slog.Error("unable to unmarshal config.yaml", "err", err)
+		panic(err)
+	}
+	//push config to etcd in yaml format
+	err = kk_etcd.PutExistUpdateYaml("my_config", &Config)
+	if err != nil {
+		panic(err)
+	}
+	//get config from etcd
+	var newConfig myConfig
+	err = kk_etcd.GetYaml("my_config", &newConfig)
 	if err != nil {
 		panic(err)
 	}
 }
-
 ```
 
-## Register Http/gRPC Service
+## Register Http/gRPC Server to etcd
+[Register Http Server](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_test.go#L105)
 
-```
-refer to https://github.com/cruvie/kk_etcd_go/blob/master/kk_etcd/kk_etcd_test.go
-```
+[Register Grpc Server](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_test.go#L51)
 
-## GetServiceList
 
-```
-refer to https://github.com/cruvie/kk_etcd_go/blob/master/kk_etcd/kk_etcd_test.go
-```
+## Get a grpc client from etcd
+[GetGrpcClient](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_grpc.go#L14)
 
 # Contribute
 
-Feel free to send pull requests or create issues if you find any bugs or have any suggestions.
+Feel free to send pull requests or fire issues
+if you encounter any bugs or have suggestions.
 
 # Donate
 

@@ -9,9 +9,10 @@ import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/pages/page_server/logic/state_server.dart';
 
 class PageServerBase extends ConsumerStatefulWidget {
-  const PageServerBase(this.serverType, {super.key});
+  const PageServerBase(this.serverType, this.pbListServer, {super.key});
 
   final String serverType;
+  final PBListServer pbListServer;
 
   @override
   ConsumerState createState() => _PageServerBaseState();
@@ -121,10 +122,22 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
   }
 
   List<DataRow> assembleData() {
+    // switch (widget.serverType) {
+    //   case ServiceType.Http:
+    //     {
+    //       state.pbListServerHttp.clear();
+    //       state.pbListServerHttp.listServer.addAll(res.serverList.listServer);
+    //     }
+    //   case ServiceType.Grpc:
+    //     {
+    //       state.pbListServerGrpc.clear();
+    //       state.pbListServerGrpc.listServer.addAll(res.serverList.listServer);
+    //     }
+    // }
     var readServer = ref.read(serverProvider.notifier);
     var watchServer = ref.watch(serverProvider);
     List<DataRow> configDataRows = [];
-    for (PBServer element in watchServer.pbListServer.listServer) {
+    for (PBServer element in widget.pbListServer.listServer) {
       configDataRows.add(
         DataRow(
           cells: <DataCell>[

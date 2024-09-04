@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:kk_etcd_go/key_prefix.dart';
 import 'package:kk_etcd_go/kk_etcd_apis/api_server.dart';
 import 'package:kk_etcd_go/kk_etcd_models/api_server_kk_etcd.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_server_kk_etcd.pb.dart';
@@ -11,7 +12,8 @@ part 'state_server.g.dart';
 
 class StateServer {
   //todo separate http grpc server
-  PBListServer pbListServer = PBListServer()
+  PBListServer pbListServerHttp = PBListServer();
+  PBListServer pbListServerGrpc = PBListServer();
 }
 
 @riverpod
@@ -24,8 +26,19 @@ class Server extends _$Server {
   Future<bool> serverList(ServerListParam param) async {
     bool finished = false;
     await ApiServer.serverList(param, HttpTool.postReq, okFunc: (res) {
-      state.pbListServer.clear();
-      state.pbListServer.listServer.addAll(res.serverList.listServer);
+      switch (param.serverType) {
+        case ServiceType.Http:
+          {
+            state.pbListServerHttp.clear();
+            state.pbListServerHttp.listServer.addAll(res.serverList.listServer);
+          }
+        case ServiceType.Grpc:
+          {
+            state.pbListServerGrpc.clear();
+            state.pbListServerGrpc.listServer.addAll(res.serverList.listServer);
+          }
+      }
+
       ref.notifyListeners();
       finished = true;
     }, errorFunc: (res) {
@@ -39,11 +52,23 @@ class Server extends _$Server {
   Future<bool> deregisterServer(DeregisterServerParam param) async {
     bool finished = false;
     await ApiServer.deregisterServer(param, HttpTool.postReq, okFunc: (res) {
-      state.pbListServer.listServer.removeWhere((e) {
-        return (e.serverType == param.server.serverType) &&
-            (e.serverName == param.server.serverName) &&
-            (e.serverAddr == param.server.serverAddr);
-      });
+      switch (param.server.serverType) {
+        case ServiceType.Http:
+          {
+            state.pbListServerHttp.listServer.removeWhere((e) {
+              return (e.serverName == param.server.serverName) &&
+                  (e.serverAddr == param.server.serverAddr);
+            });
+          }
+        case ServiceType.Grpc:
+          {
+            state.pbListServerGrpc.listServer.removeWhere((e) {
+              return (e.serverName == param.server.serverName) &&
+                  (e.serverAddr == param.server.serverAddr);
+            });
+          }
+      }
+
       ref.notifyListeners();
       KKSnackBar.ok(getGlobalCtx(), const Text("deregister success"));
       finished = true;

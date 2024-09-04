@@ -21,7 +21,7 @@ class _PageServerState extends ConsumerState<PageServer>
   bool get wantKeepAlive => true;
 
   late final tabController =
-  TabController(vsync: this, length: getTabs().length);
+      TabController(vsync: this, length: getTabs().length);
 
   List<Tab> getTabs() {
     return [
@@ -29,11 +29,6 @@ class _PageServerState extends ConsumerState<PageServer>
       const Tab(text: 'GRPC'),
     ];
   }
-
-  List<Widget> pages = [
-    const PageServerBase(ServiceType.Http),
-    const PageServerBase(ServiceType.Grpc),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +44,12 @@ class _PageServerState extends ConsumerState<PageServer>
       ),
       body: TabBarView(
         controller: tabController,
-        children: pages,
+        children: [
+          PageServerBase(
+              ServiceType.Http, ref.watch(serverProvider).pbListServerHttp),
+          PageServerBase(
+              ServiceType.Grpc, ref.watch(serverProvider).pbListServerGrpc),
+        ],
       ),
     );
   }
