@@ -11,7 +11,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'state_server.g.dart';
 
 class StateServer {
-  //todo separate http grpc server
   PBListServer pbListServerHttp = PBListServer();
   PBListServer pbListServerGrpc = PBListServer();
 }
