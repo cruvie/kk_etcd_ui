@@ -10,17 +10,21 @@ A Configuration center and Service registration and discovery platform based on 
 
 # How to use?🤔
 
-- run the [server](https://github.com/cruvie/kk_etcd_go)
-- use the [server](https://github.com/cruvie/kk_etcd_go) as go sdk in your project
-- [Optional] use the [client](https://github.com/cruvie/kk_etcd_ui) to manage etcd data.
+download [example](https://github.com/cruvie/kk_etcd_go/tree/master/example)
+
+```shell
+cd example
+docker-compose up
+```
+
+you can change `version` to a specific version on [docker hub](https://hub.docker.com/r/cruvie/kk_etcd_ui/tags)
 
 # Warning ❗
 
 Make sure the client and server use the same version, they will be updated together, incompatible versions
 may make some unexpected errors.
 
-# Installation
-## Client
+# Client
 
 [Homepage Client](https://github.com/cruvie/kk_etcd_ui)
 
@@ -31,63 +35,12 @@ may make some unexpected errors.
 | ✅                   | ✅                 | ✅      |
 | build from source   | build from source | ✅      |
 
-### Docker
-
-change `version` to a specific version on [docker hub](https://hub.docker.com/r/cruvie/kk_etcd_ui/tags)
-
-```shell
-docker run --name kk_etcd_ui -p 2334:80 cruvie/kk_etcd_ui:version
-```
-
-docker-compose
-
-```yaml
-version: "3"
-
-services:
-  kk-etcd-ui:
-    image: cruvie/kk_etcd_ui:version
-    container_name: kk-etcd-ui
-    ports:
-      - "2334:80"
-    restart: unless-stopped
-
-```
-```shell
-docker-compose up
-```
 then visit http://localhost:2334
 
 ## Server
 
 [Homepage Server](https://github.com/cruvie/kk_etcd_go)
 
-### Docker
-
-change `version` to a specific version on [docker hub](https://hub.docker.com/r/cruvie/kk_etcd_go/tags)
-
-```shell
-docker run --name kk_etcd_go -p 2333:2333 -v ./config/config.yml:/kk_etcd_go/internal/config/config.yml cruvie/kk_etcd_go:version
-```
-
-docker-compose
-
-```yaml
-version: "3"
-
-services:
-  kk-etcd-go:
-    image: cruvie/kk_etcd_go:version
-    container_name: kk-etcd-go
-    ports:
-      - "2333:2333"
-    restart: unless-stopped
-    volumes:
-      - ./config/config.yml:/kk_etcd_go/internal/config/config.yml
-```
-```shell
-docker-compose up
-```
 
 # SDK
 
@@ -178,13 +131,13 @@ func TestPutYaml(t *testing.T) {
 ```
 
 ## Register Http/gRPC Server to etcd
-[Register Http Server](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_test.go#L105)
+refers to [Register Http Server](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_test.go#L105)
 
-[Register Grpc Server](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_test.go#L51)
+refers to [Register Grpc Server](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_test.go#L51)
 
 
 ## Get a grpc client from etcd
-[GetGrpcClient](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_grpc.go#L14)
+refers to [GetGrpcClient](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_grpc.go#L14)
 
 # Contribute
 
