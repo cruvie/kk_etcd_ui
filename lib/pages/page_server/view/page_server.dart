@@ -43,9 +43,9 @@ class _PageServerState extends ConsumerState<PageServer>
         controller: tabController,
         children: [
           PageServerBase(
-              ServiceType.Http, ref.watch(serverProvider).pbListServerHttp),
+              ServerType.Http, ref.watch(serverProvider).pbListServerHttp),
           PageServerBase(
-              ServiceType.Grpc, ref.watch(serverProvider).pbListServerGrpc),
+              ServerType.Grpc, ref.watch(serverProvider).pbListServerGrpc),
         ],
       ),
     );

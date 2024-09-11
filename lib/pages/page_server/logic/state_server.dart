@@ -26,12 +26,12 @@ class Server extends _$Server {
     bool finished = false;
     await ApiServer.serverList(param, HttpTool.postReq, okFunc: (res) {
       switch (param.serverType) {
-        case ServiceType.Http:
+        case ServerType.Http:
           {
             state.pbListServerHttp.clear();
             state.pbListServerHttp.listServer.addAll(res.serverList.listServer);
           }
-        case ServiceType.Grpc:
+        case ServerType.Grpc:
           {
             state.pbListServerGrpc.clear();
             state.pbListServerGrpc.listServer.addAll(res.serverList.listServer);
@@ -52,18 +52,18 @@ class Server extends _$Server {
     bool finished = false;
     await ApiServer.deregisterServer(param, HttpTool.postReq, okFunc: (res) {
       switch (param.server.serverType) {
-        case ServiceType.Http:
+        case ServerType.Http:
           {
             state.pbListServerHttp.listServer.removeWhere((e) {
-              return (e.serverName == param.server.serverName) &&
-                  (e.serverAddr == param.server.serverAddr);
+              return (e.endpointKey == param.server.endpointKey) &&
+                  (e.endpointAddr == param.server.endpointAddr);
             });
           }
-        case ServiceType.Grpc:
+        case ServerType.Grpc:
           {
             state.pbListServerGrpc.listServer.removeWhere((e) {
-              return (e.serverName == param.server.serverName) &&
-                  (e.serverAddr == param.server.serverAddr);
+              return (e.endpointKey == param.server.endpointKey) &&
+                  (e.endpointAddr == param.server.endpointAddr);
             });
           }
       }

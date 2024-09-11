@@ -121,12 +121,12 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
 
   List<DataRow> assembleData() {
     // switch (widget.serverType) {
-    //   case ServiceType.Http:
+    //   case ServerType.Http:
     //     {
     //       state.pbListServerHttp.clear();
     //       state.pbListServerHttp.listServer.addAll(res.serverList.listServer);
     //     }
-    //   case ServiceType.Grpc:
+    //   case ServerType.Grpc:
     //     {
     //       state.pbListServerGrpc.clear();
     //       state.pbListServerGrpc.listServer.addAll(res.serverList.listServer);
@@ -140,8 +140,8 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
         DataRow(
           cells: <DataCell>[
             //remove prefix
-            DataCell(Text(element.serverName)),
-            DataCell(Text(element.serverAddr)),
+            DataCell(Text(element.endpointKey)),
+            DataCell(Text(element.endpointAddr)),
             DataCell(
               getServerStatus(element.status),
             ),
