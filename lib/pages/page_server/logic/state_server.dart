@@ -24,23 +24,24 @@ class Server extends _$Server {
 
   Future<bool> serverList(ServerListParam param) async {
     bool finished = false;
-    await ApiServer.serverList(param, HttpTool.postReq, okFunc: (res) {
+    ServerListResponse resp = ServerListResponse();
+    await ApiServer.serverList(param, resp, HttpTool.postReq, okFunc: () {
       switch (param.serverType) {
         case ServerType.Http:
           {
             state.pbListServerHttp.clear();
-            state.pbListServerHttp.listServer.addAll(res.serverList.listServer);
+            state.pbListServerHttp.listServer.addAll(resp.serverList.listServer);
           }
         case ServerType.Grpc:
           {
             state.pbListServerGrpc.clear();
-            state.pbListServerGrpc.listServer.addAll(res.serverList.listServer);
+            state.pbListServerGrpc.listServer.addAll(resp.serverList.listServer);
           }
       }
 
       ref.notifyListeners();
       finished = true;
-    }, errorFunc: (res) {
+    }, errorFunc: () {
       KKSnackBar.error(
           getGlobalCtx(), const Text('failed to get server list!'));
       finished = false;
@@ -50,7 +51,8 @@ class Server extends _$Server {
 
   Future<bool> deregisterServer(DeregisterServerParam param) async {
     bool finished = false;
-    await ApiServer.deregisterServer(param, HttpTool.postReq, okFunc: (res) {
+    DeregisterServerResponse resp = DeregisterServerResponse();
+    await ApiServer.deregisterServer(param, resp, HttpTool.postReq, okFunc: () {
       switch (param.server.serverType) {
         case ServerType.Http:
           {
@@ -71,7 +73,7 @@ class Server extends _$Server {
       ref.notifyListeners();
       KKSnackBar.ok(getGlobalCtx(), const Text("deregister success"));
       finished = true;
-    }, errorFunc: (res) {
+    }, errorFunc: () {
       finished = false;
     });
     return finished;

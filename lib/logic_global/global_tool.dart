@@ -2,7 +2,7 @@ import 'package:kk_etcd_go/kk_etcd_models/pb_user_kk_etcd.pb.dart';
 import 'package:kk_etcd_ui/logic_global/state_global.dart';
 import 'package:kk_etcd_ui/main.dart';
 import 'package:kk_etcd_ui/utils/const/static_etcd.dart';
-import 'package:kk_ui/kk_const/kkc_request_api.dart';
+import 'package:kk_etcd_ui/utils/tools/local_storage.dart';
 import 'package:kk_ui/kk_util/kku_sp.dart';
 
 class GlobalTool {
@@ -27,7 +27,7 @@ class GlobalTool {
       globalProviderContainer.read(globalProvider.notifier).updateCurrentUser(user);
       return true;
     }
-    if (KKUSp.get(KKCRequestApi.authorizationToken) != null) {
+    if (LSAuthorizationToken.get() != null) {
       return true;
     }
     return false;

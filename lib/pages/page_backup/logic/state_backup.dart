@@ -21,9 +21,9 @@ class Backup extends _$Backup {
 
   Future<SnapshotResponse> snapshot(SnapshotParam param) async {
     SnapshotResponse resp = SnapshotResponse();
-    await ApiBackup.snapshot(param, HttpTool.postReq, okFunc: (res) async {
-      resp = res;
-    }, errorFunc: (res) {
+    await ApiBackup.snapshot(param, resp, HttpTool.postReq, okFunc: () async {
+
+    }, errorFunc: () {
       KKSnackBar.error(getGlobalCtx(), const Text('failed to snapshot'));
     });
     return resp;
@@ -31,10 +31,10 @@ class Backup extends _$Backup {
 
   Future<String> snapshotRestore(SnapshotRestoreParam param) async {
     SnapshotRestoreResponse resp = SnapshotRestoreResponse();
-    await ApiBackup.snapshotRestore(param, HttpTool.postReq,
-        okFunc: (res) async {
-      resp = res;
-    }, errorFunc: (res) {
+    await ApiBackup.snapshotRestore(param, resp, HttpTool.postReq,
+        okFunc: () async {
+
+    }, errorFunc: () {
       KKSnackBar.error(
           getGlobalCtx(), const Text('failed to get snapshotRestore'));
     });
@@ -43,27 +43,28 @@ class Backup extends _$Backup {
 
   Future<String> snapshotInfo(SnapshotInfoParam param) async {
     SnapshotInfoResponse resp = SnapshotInfoResponse();
-    await ApiBackup.snapshotInfo(param, HttpTool.postReq, okFunc: (res) async {
-      resp = res;
+    await ApiBackup.snapshotInfo(param, resp, HttpTool.postReq, okFunc: () async {
+
     });
     return resp.info;
   }
 
   Future<AllKVsBackupResponse> allKVsBackup(AllKVsBackupParam param) async {
     AllKVsBackupResponse resp = AllKVsBackupResponse();
-    await ApiBackup.allKVsBackup(param, HttpTool.postReq, okFunc: (res) async {
-      resp = res;
+    await ApiBackup.allKVsBackup(param, resp, HttpTool.postReq, okFunc: () async {
+
     });
     return resp;
   }
 
   Future<bool> allKVsRestore(AllKVsRestoreParam param) async {
     bool succeed = false;
-    await ApiBackup.allKVsRestore(param, HttpTool.postReq, okFunc: (res) async {
+    AllKVsRestoreResponse resp = AllKVsRestoreResponse();
+    await ApiBackup.allKVsRestore(param, resp, HttpTool.postReq, okFunc: () async {
       KKSnackBar.ok(getGlobalCtx(), const Text("restore succeed"),
           duration: const Duration(seconds: 10));
       succeed = true;
-    }, errorFunc: (res) {
+    }, errorFunc: () {
       KKSnackBar.error(getGlobalCtx(), const Text('failed to AllKVsRestore'),
           duration: const Duration(seconds: 10));
     });

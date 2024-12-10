@@ -1,25 +1,27 @@
 import 'dart:typed_data';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:kk_etcd_ui/logic_global/global_tool.dart';
 import 'package:kk_etcd_ui/logic_global/state_global.dart';
 import 'package:kk_etcd_ui/main.dart';
 import 'package:kk_etcd_ui/page_routes/router_util.dart';
+import 'package:kk_etcd_ui/utils/tools/local_storage.dart';
 import 'package:kk_etcd_ui/utils/tools/tool_navigator.dart';
 import 'package:kk_go_kit/kk_models/pb_response.pb.dart';
-import 'package:kk_ui/kk_const/kkc_request_api.dart';
+import 'package:kk_etcd_ui/utils/tools/local_storage.dart';
 import 'package:kk_ui/kk_util/kku_sp.dart';
 import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
+import 'package:protobuf/protobuf.dart';
 
 class HttpTool {
   static late Map<String, String> header;
   static PBResponse defaultApiResp =
-      PBResponse(code: 400, msg: 'default resp error');
+      PBResponse(code: Int64(400), msg: 'default resp error');
 
-  ///请求配置
   static requestConfig({String? currentPage, String? pageSize}) {
-    if (!KKUSp.containsKey(KKCRequestApi.authorizationToken)) {
+    if (!LSAuthorizationToken.exists()) {
       ToolNavigator.toPageLogin();
     }
 
@@ -34,8 +36,8 @@ class HttpTool {
           .read(globalProvider.notifier)
           .getCurrentUser()
           .password,
-      KKCRequestApi.authorizationToken:
-          KKUSp.get(KKCRequestApi.authorizationToken) ?? '',
+      LSAuthorizationToken.authorizationToken:
+          LSAuthorizationToken.get() ?? '',
     };
   }
 
@@ -62,7 +64,8 @@ class HttpTool {
   //   return response;
   // }
 
-  static Future<PBResponse> postReq(String path, Uint8List requestData) async {
+  static Future<PBResponse> postReq(
+      String path, GeneratedMessage requestData) async {
     requestConfig();
 
     //这里也可以带参数，不过是在url？后面

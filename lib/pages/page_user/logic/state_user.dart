@@ -7,7 +7,7 @@ import 'package:kk_etcd_ui/page_routes/router_util.dart';
 
 import 'package:kk_etcd_ui/utils/request/request.dart';
 import 'package:kk_etcd_ui/utils/tools/tool_navigator.dart';
-import 'package:kk_ui/kk_const/kkc_request_api.dart';
+import 'package:kk_etcd_ui/utils/tools/local_storage.dart';
 import 'package:kk_ui/kk_util/kku_sp.dart';
 import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -27,11 +27,12 @@ class User extends _$User {
 
   Future<bool> login(LoginParam param) async {
     bool result = false;
-    await ApiUser.login(param, HttpTool.postReq, okFunc: (res) async {
-      await KKUSp.set(KKCRequestApi.authorizationToken, res.token);
+    LoginResponse resp = LoginResponse();
+    await ApiUser.login(param, resp, HttpTool.postReq, okFunc: () async {
+      await LSAuthorizationToken.set(resp.token);
       await ref.read(globalProvider.notifier).refreshCurrentUser();
       result = true;
-    }, errorFunc: (res) {
+    }, errorFunc: () {
       result = false;
     });
     return result;
@@ -39,11 +40,12 @@ class User extends _$User {
 
   Future<bool> logout(LogoutParam param) async {
     bool result = false;
-    await ApiUser.logout(param, HttpTool.postReq, okFunc: (res) async {
-      await KKUSp.remove(KKCRequestApi.authorizationToken);
+    LogoutResponse resp = LogoutResponse();
+    await ApiUser.logout(param, resp, HttpTool.postReq, okFunc: () async {
+      await LSAuthorizationToken.remove();
       ToolNavigator.toPageLogin();
       result = true;
-    }, errorFunc: (res) {
+    }, errorFunc: () {
       result = false;
     });
     return result;
@@ -51,14 +53,16 @@ class User extends _$User {
 
   Future<bool> getMyInfo() async {
     bool hasData = false;
-    await ApiUser.myInfo(MyInfoParam(), HttpTool.postReq, okFunc: (res) async {
+    MyInfoResponse resp = MyInfoResponse();
+    await ApiUser.myInfo(MyInfoParam(), resp, HttpTool.postReq,
+        okFunc: () async {
       await ref.read(globalProvider.notifier).updateCurrentUser(PBUser(
-            userName: res.userName,
+            userName: resp.userName,
             password: ref.watch(globalProvider).currentUser.password,
-            roles: res.roles,
+            roles: resp.roles,
           ));
       hasData = true;
-    }, errorFunc: (res) {
+    }, errorFunc: () {
       hasData = false;
     });
     return hasData;
@@ -66,9 +70,10 @@ class User extends _$User {
 
   Future<bool> userList() async {
     bool finished = false;
-    await ApiUser.userList(UserListParam(), HttpTool.postReq, okFunc: (res) {
+    UserListResponse resp = UserListResponse();
+    await ApiUser.userList(UserListParam(), resp, HttpTool.postReq, okFunc: () {
       state.pbListUser.clear();
-      state.pbListUser.listUser.addAll(res.listUser.listUser);
+      state.pbListUser.listUser.addAll(resp.listUser.listUser);
       ref.notifyListeners();
       finished = true;
     });
@@ -77,10 +82,11 @@ class User extends _$User {
 
   Future<bool> userAdd(UserAddParam param) async {
     bool finished = false;
-    await ApiUser.userAdd(param, HttpTool.postReq, okFunc: (res) {
+    UserAddResponse resp = UserAddResponse();
+    await ApiUser.userAdd(param, resp, HttpTool.postReq, okFunc: () {
       KKSnackBar.ok(getGlobalCtx(), const Text('add success'));
       finished = true;
-    }, errorFunc: (res) {
+    }, errorFunc: () {
       KKSnackBar.error(getGlobalCtx(), const Text('add error'));
       finished = false;
     });
@@ -88,7 +94,8 @@ class User extends _$User {
   }
 
   Future<void> userDelete(UserDeleteParam param) async {
-    await ApiUser.userDelete(param, HttpTool.postReq, okFunc: (res) {
+    UserDeleteResponse resp = UserDeleteResponse();
+    await ApiUser.userDelete(param, resp, HttpTool.postReq, okFunc: () {
       KKSnackBar.ok(getGlobalCtx(), const Text('delete success'));
       state.pbListUser.listUser
           .removeWhere((element) => element.userName == param.userName);
@@ -98,12 +105,14 @@ class User extends _$User {
 
   Future<bool> userGrantRole(UserGrantRoleParam param) async {
     bool finished = false;
-    await ApiUser.userGrantRole(param, HttpTool.postReq, okFunc: (res) async {
+    UserGrantRoleResponse resp = UserGrantRoleResponse();
+    await ApiUser.userGrantRole(param, resp, HttpTool.postReq,
+        okFunc: () async {
       KKSnackBar.ok(getGlobalCtx(), const Text('grant success'));
       await userList();
       ref.notifyListeners();
       finished = true;
-    }, errorFunc: (res) {
+    }, errorFunc: () {
       KKSnackBar.error(getGlobalCtx(), const Text('grant error'));
       finished = false;
     });

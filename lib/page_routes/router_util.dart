@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kk_etcd_ui/page_routes/router_cfg.dart';
-import 'package:kk_go_kit/kk_util/kk_log.dart';
 
 import 'package:kk_etcd_ui/pages/page_backup/view/page_backup.dart';
 import 'package:kk_etcd_ui/pages/page_kv/view/page_add_kv/page_add_kv.dart';
@@ -26,7 +25,7 @@ List<Widget> allPages = [
 BuildContext getGlobalCtx() {
   BuildContext? ctx = RouterCfg.rootNavigatorKey.currentContext;
   if (ctx == null) {
-    log.info('RouterCfg.rootNavigatorKey.currentContext is null');
+    debugPrint('RouterCfg.rootNavigatorKey.currentContext is null');
   }
   return ctx!;
 }

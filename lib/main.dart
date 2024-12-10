@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:kk_etcd_ui/page_routes/router_cfg.dart';
-import 'package:kk_go_kit/kk_util/kk_log.dart';
+import 'package:kk_ui/kk_util/kk_log.dart';
 import 'package:kk_ui/kk_util/kku_language.dart';
 import 'package:kk_ui/kk_util/kku_sp.dart';
 import 'package:kk_ui/kk_util/kku_theme_mode.dart';

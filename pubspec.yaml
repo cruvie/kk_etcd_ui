@@ -7,7 +7,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.4.0
 
 environment:
-  sdk: '>=3.5.0'
+  sdk: '>=3.5.4'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -36,7 +36,7 @@ dependencies:
   kk_go_kit:
     git:
       url: https://gitee.com/cruvie/kk_go_kit.git
-
+  fixnum: any # all
   package_info_plus: any # all BSD-3-Clause
   url_launcher: any # all BSD-3-Clause
   date_format: any  # all BSD-3-Clause

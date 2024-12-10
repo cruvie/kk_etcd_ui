@@ -25,9 +25,10 @@ class Role extends _$Role {
 
   Future<bool> roleList() async {
     bool finished = false;
-    await ApiRole.roleList(RoleListParam(), HttpTool.postReq, okFunc: (res) {
+    RoleListResponse resp = RoleListResponse();
+    await ApiRole.roleList(RoleListParam(), resp, HttpTool.postReq, okFunc: () {
       state.pbListRole.list.clear();
-      state.pbListRole.list.addAll(res.listRole.list);
+      state.pbListRole.list.addAll(resp.listRole.list);
       ref.notifyListeners();
       finished = true;
     });
@@ -36,8 +37,9 @@ class Role extends _$Role {
 
   Future<bool> roleAdd(String name) async {
     bool finished = false;
-    await ApiRole.roleAdd(RoleAddParam(name: name), HttpTool.postReq,
-        okFunc: (res) {
+    RoleAddResponse resp = RoleAddResponse();
+    await ApiRole.roleAdd(RoleAddParam(name: name), resp, HttpTool.postReq,
+        okFunc: () {
       KKSnackBar.ok(getGlobalCtx(), const Text("add succeed"));
       finished = true;
     });
@@ -46,13 +48,14 @@ class Role extends _$Role {
 
   Future<bool> roleGrantPermission(RoleGrantPermissionParam role) async {
     bool success = false;
-    await ApiRole.roleGrantPermission(role, HttpTool.postReq, okFunc: (res) {
+    RoleGrantPermissionResponse resp = RoleGrantPermissionResponse();
+    await ApiRole.roleGrantPermission(role, resp, HttpTool.postReq, okFunc: () {
       KKSnackBar.ok(getGlobalCtx(), const Text("update succeed"));
       ref.read(globalProvider.notifier).refreshCurrentUser();
       //update role list
       roleList();
       success = true;
-    }, errorFunc: (res) {
+    }, errorFunc: () {
       KKSnackBar.error(getGlobalCtx(), const Text('update failed'));
       success = false;
     });
@@ -61,12 +64,13 @@ class Role extends _$Role {
 
   Future<bool> roleRevokePermission(RoleRevokePermissionParam param) async {
     bool finished = false;
-    await ApiRole.roleRevokePermission(param, HttpTool.postReq, okFunc: (res) {
+    RoleRevokePermissionResponse resp = RoleRevokePermissionResponse();
+    await ApiRole.roleRevokePermission(param, resp, HttpTool.postReq, okFunc: () {
       KKSnackBar.ok(getGlobalCtx(), const Text("update succeed"));
       //update role list
       roleList();
       finished = true;
-    }, errorFunc: (res) {
+    }, errorFunc: () {
       KKSnackBar.error(getGlobalCtx(), const Text('update failed'));
       finished = false;
     });
@@ -75,12 +79,13 @@ class Role extends _$Role {
 
   Future<bool> roleDelete(RoleDeleteParam role) async {
     bool finished = false;
-    await ApiRole.roleDelete(role, HttpTool.postReq, okFunc: (res) {
+    RoleDeleteResponse resp = RoleDeleteResponse();
+    await ApiRole.roleDelete(role, resp, HttpTool.postReq, okFunc: () {
       KKSnackBar.ok(getGlobalCtx(), const Text("delete succeed"));
       state.pbListRole.list.removeWhere((element) => element.name == role.name);
       ref.notifyListeners();
       finished = true;
-    }, errorFunc: (res) {
+    }, errorFunc: () {
       KKSnackBar.error(getGlobalCtx(), const Text('delete failed'));
       finished = false;
     });

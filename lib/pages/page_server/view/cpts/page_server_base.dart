@@ -124,12 +124,12 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
     //   case ServerType.Http:
     //     {
     //       state.pbListServerHttp.clear();
-    //       state.pbListServerHttp.listServer.addAll(res.serverList.listServer);
+    //       state.pbListServerHttp.listServer.addAll(resp.serverList.listServer);
     //     }
     //   case ServerType.Grpc:
     //     {
     //       state.pbListServerGrpc.clear();
-    //       state.pbListServerGrpc.listServer.addAll(res.serverList.listServer);
+    //       state.pbListServerGrpc.listServer.addAll(resp.serverList.listServer);
     //     }
     // }
     var readServer = ref.read(serverProvider.notifier);

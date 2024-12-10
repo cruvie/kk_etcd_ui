@@ -24,9 +24,10 @@ class KV extends _$KV {
 
   Future<bool> kVList(KVListParam param) async {
     bool result = false;
-    await ApiKV.kVList(param, HttpTool.postReq, okFunc: (res) {
+    KVListResponse resp = KVListResponse();
+    await ApiKV.kVList(param, resp, HttpTool.postReq, okFunc: () {
       state.pbKVList.clear();
-      state.pbKVList = res.kVList;
+      state.pbKVList = resp.kVList;
       ref.notifyListeners();
       result = true;
     });
@@ -36,11 +37,12 @@ class KV extends _$KV {
   Future<bool> kVGet(KVGetParam param) async {
     // KVGetResponse resp = KVGetResponse();
     bool result = false;
-    await ApiKV.kVGet(param, HttpTool.postReq, okFunc: (res) {
-      state.currentKV = res.kV;
+    KVGetResponse resp = KVGetResponse();
+    await ApiKV.kVGet(param, resp, HttpTool.postReq, okFunc: () {
+      state.currentKV = resp.kV;
       ref.notifyListeners();
       result = true;
-    }, errorFunc: (_) {
+    }, errorFunc: () {
       KKSnackBar.error(getGlobalCtx(), const Text('failed to get config !'));
       result = false;
     });
@@ -49,10 +51,11 @@ class KV extends _$KV {
 
   Future<bool> kVPut(KVPutParam param) async {
     bool finished = false;
-    await ApiKV.kVPut(param, HttpTool.postReq, okFunc: (res) {
+    KVPutResponse resp = KVPutResponse();
+    await ApiKV.kVPut(param, resp, HttpTool.postReq, okFunc: () {
       KKSnackBar.ok(getGlobalCtx(), const Text("update succeed"));
       finished = true;
-    }, errorFunc: (res) {
+    }, errorFunc: () {
       KKSnackBar.error(getGlobalCtx(), const Text('update failed'));
     });
     return finished;
@@ -60,12 +63,13 @@ class KV extends _$KV {
 
   Future<bool> kVDel(KVDelParam param) async {
     bool finished = false;
-    await ApiKV.kVDel(param, HttpTool.postReq, okFunc: (res) {
+    KVDelResponse resp = KVDelResponse();
+    await ApiKV.kVDel(param, resp, HttpTool.postReq, okFunc: () {
       KKSnackBar.ok(getGlobalCtx(), const Text("delete succeed"));
       state.pbKVList.listKV.removeWhere((element) => element.key == param.key);
       ref.notifyListeners();
       finished = true;
-    }, errorFunc: (res) {
+    }, errorFunc: () {
       KKSnackBar.error(getGlobalCtx(), const Text('delete failed'));
     });
     return finished;
