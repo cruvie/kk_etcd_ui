@@ -18,7 +18,7 @@ showLanguagePopupMenu(WidgetRef ref) {
               LanguageMap.languageMap[languageList[i]]![languageCode]!;
           ref
               .read(kKULanguageProvider.notifier)
-              .changeLang(languageCode, countryCode);
+              .changeLang(Locale(languageCode, countryCode));
         },
       ),
     );

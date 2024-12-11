@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_user_kk_etcd.pb.dart';
 import 'package:kk_etcd_ui/page_routes/router_util.dart';
 import 'package:kk_etcd_ui/pages/page_user/logic/state_user.dart';
-import 'package:kk_etcd_ui/utils/const/static_etcd.dart';
-import 'package:kk_ui/kk_util/kku_sp.dart';
+import 'package:kk_etcd_ui/utils/tools/local_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter/material.dart';
 
@@ -28,12 +27,17 @@ class Global extends _$Global {
 
   updateCurrentUser(PBUser info) async {
     state.currentUser = info;
-    await KKUSp.set(StaticEtcd.myInfo, state.currentUser.writeToJson());
+    await LSMyInfo.set(state.currentUser);
     ref.notifyListeners();
   }
 
   PBUser getCurrentUser() {
     return state.currentUser;
+  }
+
+  void resetCurrentUser() {
+    state.currentUser = PBUser();
+    ref.notifyListeners();
   }
 
   initPageController() {

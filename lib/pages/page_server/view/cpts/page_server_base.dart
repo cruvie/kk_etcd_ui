@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kk_etcd_go/kk_etcd_models/api_server_kk_etcd.pb.dart';
@@ -51,6 +50,7 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
                       controller: _scrollController,
                       scrollDirection: Axis.horizontal,
                       child: DataTable(
+                        dataRowMaxHeight: 70,
                         columns: <DataColumn>[
                           DataColumn(
                             label: Expanded(
@@ -146,23 +146,30 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
               getServerStatus(element.status),
             ),
             DataCell(Text('${element.lastCheck.toDateTime(toLocal: true)}')),
-            DataCell(Text(element.msg)),
+            DataCell(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.2,
+                child: Text(element.msg),
+              ),
+            ),
             DataCell(
               Row(
                 children: [
-                  ElevatedButton(
-                    onPressed: () async {
-                      await readServer.deregisterServer(
-                        DeregisterServerParam(
-                          server: element,
-                        ),
-                      );
-                    },
-                    child: Text(
-                      lTr(context).delete,
-                      style: const TextStyle(color: Colors.red),
+                  Flexible(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await readServer.deregisterServer(
+                          DeregisterServerParam(
+                            server: element,
+                          ),
+                        );
+                      },
+                      child: Text(
+                        lTr(context).delete,
+                        style: const TextStyle(color: Colors.red),
+                      ),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),

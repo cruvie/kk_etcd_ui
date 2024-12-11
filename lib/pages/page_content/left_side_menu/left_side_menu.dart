@@ -13,6 +13,8 @@ import 'package:kk_etcd_ui/pages/page_server/view/page_server.dart';
 import 'package:kk_etcd_ui/pages/page_user/logic/state_user.dart';
 import 'package:kk_etcd_ui/pages/page_user/view/page_add_user/page_add_user.dart';
 import 'package:kk_etcd_ui/pages/page_user/view/page_user.dart';
+import 'package:kk_etcd_ui/utils/tools/local_storage.dart';
+import 'package:kk_etcd_ui/utils/tools/tool_navigator.dart';
 import 'package:kk_ui/kk_widget/kk_card.dart';
 import 'package:kk_ui/kk_widget/kk_theme_mode_switcher.dart';
 
@@ -179,8 +181,13 @@ class _LeftSideMenuState extends ConsumerState<LeftSideMenu> {
                   icon: const Icon(Icons.info_outline),
                 ),
                 IconButton(
-                  onPressed: () {
+                  onPressed: () async {
                     ref.read(userProvider.notifier).logout(LogoutParam());
+                    // no matter success or not, we should remove token and return to login page
+                    await LSAuthorizationToken.remove();
+                    await LSMyInfo.remove();
+                    ref.read(globalProvider.notifier).resetCurrentUser();
+                    ToolNavigator.toPageLogin();
                   },
                   icon: const Icon(Icons.logout_outlined),
                 ),

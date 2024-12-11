@@ -4,10 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:kk_etcd_go/kk_etcd_models/api_user_kk_etcd.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_user_kk_etcd.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
-import 'package:kk_etcd_ui/logic_global/global_tool.dart';
 import 'package:kk_etcd_ui/logic_global/state_global.dart';
 import 'package:kk_etcd_ui/page_routes/router_path.dart';
 import 'package:kk_etcd_ui/pages/page_user/logic/state_user.dart';
+import 'package:kk_etcd_ui/utils/tools/local_storage.dart';
 
 class PageLogin extends ConsumerStatefulWidget {
   const PageLogin({super.key});
@@ -21,7 +21,7 @@ class _PageLoginState extends ConsumerState<PageLogin> {
   final _formKey = GlobalKey<FormState>();
   String userName = '';
   String password = '';
-  String serverAddr = GlobalTool.getServerAddr();
+  String serverAddr = LSServerAddr.get();
 
   @override
   void initState() {
@@ -119,7 +119,7 @@ class _PageLoginState extends ConsumerState<PageLogin> {
                 child: ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      await GlobalTool.updateServerAddr(serverAddr);
+                      await LSServerAddr.set(serverAddr);
                       await ref
                           .read(globalProvider.notifier)
                           .updateCurrentUser(PBUser(
@@ -142,7 +142,7 @@ class _PageLoginState extends ConsumerState<PageLogin> {
                 margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                 child: ElevatedButton(
                   onPressed: () async {
-                    await GlobalTool.resetAllInfo();
+                    await LSManager.resetAllInfo();
                   },
                   child: Text(lTr(context).clearLocalData),
                 ),

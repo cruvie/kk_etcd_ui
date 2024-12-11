@@ -1,6 +1,17 @@
-import 'package:kk_ui/kk_const/kkc_locale.dart';
-import 'package:kk_ui/kk_const/kkc_theme.dart';
+import 'package:kk_etcd_go/kk_etcd_models/pb_user_kk_etcd.pb.dart';
 import 'package:kk_ui/kk_util/kku_sp.dart';
+
+/// clear local storage
+
+class LSManager {
+  static Future<void> init() async {
+    await KKUSp.initPreferences();
+  }
+
+  static Future<void> resetAllInfo() async {
+    await KKUSp.clear();
+  }
+}
 
 class LSAuthorizationToken {
   static const authorizationToken = "AuthorizationToken";
@@ -22,43 +33,55 @@ class LSAuthorizationToken {
   }
 }
 
-class LSLocale {
-  static Map? get() {
-    return KKUSp.get(KKCLocale.locale);
+class LSServerAddr {
+  static const serverAddr = "ServerAddr";
+
+  static Future<bool> set(String s) {
+    return KKUSp.set(serverAddr, s);
+  }
+
+  static String get() {
+    return KKUSp.get(serverAddr) ?? "";
+  }
+
+  static bool exists() {
+    return KKUSp.containsKey(serverAddr);
+  }
+
+  static Future<bool> remove() {
+    return KKUSp.remove(serverAddr);
   }
 }
 
 class LSTheme {
+  static const theme = "theme";
+
   static Future<bool> setTheme(String themeName) {
-    return KKUSp.set(KKCTheme.theme, themeName);
+    return KKUSp.set(theme, themeName);
   }
 
   static String? getTheme() {
-    return KKUSp.get(KKCTheme.theme);
-  }
-
-  static String? getThemeMode() {
-    return KKUSp.get(KKCTheme.themeMode);
+    return KKUSp.get(theme);
   }
 }
-//
-// class LSMyInfo {
-//   static const myInfo = "MyInfo";
-//
-//   static Future<bool> set(PBVoUserInfo info) {
-//     return KKUSp.set(myInfo, info.writeToJson());
-//   }
-//
-//   static PBVoUserInfo? get() {
-//     String? userJson = KKUSp.get(myInfo);
-//     if (userJson == null) {
-//       return null;
-//     }
-//     PBVoUserInfo user = PBVoUserInfo.fromJson(userJson);
-//     return user;
-//   }
-//
-//   static remove() {
-//     KKUSp.remove(myInfo);
-//   }
-// }
+
+class LSMyInfo {
+  static const myInfo = "MyInfo";
+
+  static Future<bool> set(PBUser info) {
+    return KKUSp.set(myInfo, info.writeToJson());
+  }
+
+  static PBUser? get() {
+    String? userJson = KKUSp.get(myInfo);
+    if (userJson == null) {
+      return null;
+    }
+    PBUser user = PBUser.fromJson(userJson);
+    return user;
+  }
+
+  static remove() {
+    KKUSp.remove(myInfo);
+  }
+}

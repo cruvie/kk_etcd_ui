@@ -6,9 +6,7 @@ import 'package:kk_etcd_ui/logic_global/state_global.dart';
 import 'package:kk_etcd_ui/page_routes/router_util.dart';
 
 import 'package:kk_etcd_ui/utils/request/request.dart';
-import 'package:kk_etcd_ui/utils/tools/tool_navigator.dart';
 import 'package:kk_etcd_ui/utils/tools/local_storage.dart';
-import 'package:kk_ui/kk_util/kku_sp.dart';
 import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -42,8 +40,6 @@ class User extends _$User {
     bool result = false;
     LogoutResponse resp = LogoutResponse();
     await ApiUser.logout(param, resp, HttpTool.postReq, okFunc: () async {
-      await LSAuthorizationToken.remove();
-      ToolNavigator.toPageLogin();
       result = true;
     }, errorFunc: () {
       result = false;

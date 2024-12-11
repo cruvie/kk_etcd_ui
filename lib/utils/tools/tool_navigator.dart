@@ -9,7 +9,7 @@ class ToolNavigator {
     if (getCurrentRoute() == RouterPath.pageLogin) {
       return;
     }
-    getGlobalCtx().go(RouterPath.pageLogin);
+    getGlobalCtx().replace(RouterPath.pageLogin);
   }
 
   static push(BuildContext context, Widget page) {
