@@ -4,9 +4,17 @@ A modern and easy to use Client/UI for `Etcd`
 
 A Configuration center and Service registration and discovery platform based on `Etcd`
 
+## server
+
 ![ui](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/images/ui.png?raw=true)
 
+## key value
+
 ![ui](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/images/ui2.png?raw=true)
+
+## AI
+
+![ai](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/images/ai.png?raw=true)
 
 # How to use?🤔
 
@@ -17,11 +25,13 @@ cd example
 docker-compose up
 ```
 
-you can change `version` to a specific version on [docker hub](https://hub.docker.com/r/cruvie/kk_etcd_ui/tags)
+you can change `version` to a specific version
+on [docker hub](https://hub.docker.com/r/cruvie/kk_etcd_ui/tags)
 
 # Warning ❗
 
-Make sure the client and server use the same version, they will be updated together, incompatible versions
+Make sure the client and server use the same version, they will be updated together, incompatible
+versions
 may make some unexpected errors.
 
 # Client
@@ -40,7 +50,6 @@ then visit http://localhost:2334
 ## Server
 
 [Homepage Server](https://github.com/cruvie/kk_etcd_go)
-
 
 # SDK
 
@@ -131,13 +140,17 @@ func TestPutYaml(t *testing.T) {
 ```
 
 ## Register Http/gRPC Server to etcd
-refers to [Register Http Server](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_test.go#L105)
 
-refers to [Register Grpc Server](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_test.go#L51)
+refers
+to [Register Http Server](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_test.go#L105)
 
+refers
+to [Register Grpc Server](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_test.go#L51)
 
 ## Get a grpc client from etcd
-refers to [GetGrpcClient](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_grpc.go#L14)
+
+refers
+to [GetGrpcClient](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_grpc.go#L14)
 
 # Contribute
 

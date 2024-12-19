@@ -11,6 +11,8 @@ import 'package:kk_etcd_ui/pages/page_server/view/page_server.dart';
 import 'package:kk_etcd_ui/pages/page_user/view/page_add_user/page_add_user.dart';
 import 'package:kk_etcd_ui/pages/page_user/view/page_user.dart';
 
+import '../pages/page_ai/view/page_ai.dart';
+
 List<Widget> allPages = [
   const PageServer(),
   const PageKV(),
@@ -20,6 +22,7 @@ List<Widget> allPages = [
   const PageRole(),
   const PageAddRole(),
   const PageBackup(),
+  const PageAI(),
 ];
 
 BuildContext getGlobalCtx() {

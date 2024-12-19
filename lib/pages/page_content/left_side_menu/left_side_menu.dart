@@ -4,6 +4,7 @@ import 'package:kk_etcd_go/kk_etcd_models/api_user_kk_etcd.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 
 import 'package:kk_etcd_ui/logic_global/state_global.dart';
+import 'package:kk_etcd_ui/pages/page_ai/view/page_ai.dart';
 import 'package:kk_etcd_ui/pages/page_backup/view/page_backup.dart';
 import 'package:kk_etcd_ui/pages/page_kv/view/page_add_kv/page_add_kv.dart';
 import 'package:kk_etcd_ui/pages/page_kv/view/page_kv.dart';
@@ -149,6 +150,18 @@ class _LeftSideMenuState extends ConsumerState<LeftSideMenu> {
                         title: Text(lTr(context).pageAddRole),
                       ),
                     ]),
+                ExpansionTile(
+                    leading: const Icon(Icons.chat_outlined),
+                    title: GestureDetector(
+                      child: Text("AI"),
+                      onTap: () {
+                        ref
+                            .read(globalProvider.notifier)
+                            .changeDestination(const PageAI());
+                      },
+                    ),
+                    childrenPadding: const EdgeInsets.only(left: 20),
+                    children: []),
               ],
             ),
           ),

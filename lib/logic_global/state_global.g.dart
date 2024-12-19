@@ -6,7 +6,7 @@ part of 'state_global.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$globalHash() => r'2faa773e8643d3ed874f70c4f73d42aa1d4e1fe8';
+String _$globalHash() => r'16dc86817bd354f27bd86254a310ab0b31842197';
 
 /// See also [Global].
 @ProviderFor(Global)
@@ -21,4 +21,4 @@ final globalProvider = NotifierProvider<Global, StateGlobal>.internal(
 
 typedef _$Global = Notifier<StateGlobal>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -47,6 +47,7 @@ dependencies:
   go_router: any # all BSD-3-Clause
   # todo replace two scorllctl
   two_dimensional_scrollables: any # all flutter.dev
+  flutter_markdown: any # all
   file_selector: any  # all
   flutter_riverpod: any
   riverpod_annotation: any
