@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:kk_etcd_go/key_prefix.dart';
-import 'package:kk_etcd_go/kk_etcd_apis/api_server.dart';
-import 'package:kk_etcd_go/kk_etcd_models/api_server_kk_etcd.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/server/deregisterServer/api.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/server/deregisterServer/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/server/serverList/api.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/server/serverList/api.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_server_kk_etcd.pb.dart';
 import 'package:kk_etcd_ui/page_routes/router_util.dart';
 import 'package:kk_etcd_ui/utils/request/request.dart';
@@ -22,10 +24,10 @@ class Server extends _$Server {
     return StateServer();
   }
 
-  Future<bool> serverList(ServerListParam param) async {
+  Future<bool> serverList(ServerList_Input param) async {
     bool finished = false;
-    ServerListResponse resp = ServerListResponse();
-    await ApiServer.serverList(param, resp, HttpTool.postReq, okFunc: () {
+    ServerList_Output resp = ServerList_Output();
+    await apiServerList(param, resp, HttpTool.postReq, okFunc: () {
       switch (param.serverType) {
         case ServerType.Http:
           {
@@ -49,10 +51,10 @@ class Server extends _$Server {
     return finished;
   }
 
-  Future<bool> deregisterServer(DeregisterServerParam param) async {
+  Future<bool> deregisterServer(DeregisterServer_Input param) async {
     bool finished = false;
-    DeregisterServerResponse resp = DeregisterServerResponse();
-    await ApiServer.deregisterServer(param, resp, HttpTool.postReq, okFunc: () {
+    DeregisterServer_Output resp = DeregisterServer_Output();
+    await apiDeregisterServer(param, resp, HttpTool.postReq, okFunc: () {
       switch (param.server.serverType) {
         case ServerType.Http:
           {

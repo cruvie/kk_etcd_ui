@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kk_etcd_go/kk_etcd_models/api_server_kk_etcd.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/server/deregisterServer/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/server/serverList/api.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_server_kk_etcd.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/pages/page_server/logic/state_server.dart';
@@ -25,7 +26,7 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
   Future<void> initData() async {
     await ref
         .read(serverProvider.notifier)
-        .serverList(ServerListParam(serverType: widget.serverType));
+        .serverList(ServerList_Input(serverType: widget.serverType));
   }
 
   final ScrollController _scrollController = ScrollController();
@@ -159,7 +160,7 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
                     child: ElevatedButton(
                       onPressed: () async {
                         await readServer.deregisterServer(
-                          DeregisterServerParam(
+                          DeregisterServer_Input(
                             server: element,
                           ),
                         );

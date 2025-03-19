@@ -3,7 +3,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kk_etcd_ui/pages/page_ai/logic/state_ai.dart';
 import 'package:kk_ui/kk_widget/kk_card.dart';
-import 'package:kk_ui/kk_widget/kk_indicator.dart';
+import 'package:kk_ui/kk_widget/kk_indicator/kk_indicator.dart';
 
 class PageAI extends ConsumerStatefulWidget {
   const PageAI({super.key});

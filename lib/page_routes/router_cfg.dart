@@ -10,7 +10,7 @@ class RouterCfg {
       GlobalKey<NavigatorState>(debugLabel: 'rootKey');
 
   static final GoRouter routerConfig = GoRouter(
-    initialLocation: RouterPath.getPageInit(),
+    initialLocation: RouterPath.pageInit,
     navigatorKey: rootNavigatorKey,
     debugLogDiagnostics: true,
     errorBuilder: (context, state) => const PageNotFound(),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kk_etcd_go/kk_etcd_models/api_user_kk_etcd.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/user/userAdd/api.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/pages/page_user/logic/state_user.dart';
 
@@ -63,7 +63,7 @@ class _PageAddUserState extends ConsumerState<PageAddUser> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     bool success = await readUser.userAdd(
-                      UserAddParam(
+                      UserAdd_Input(
                         userName: _nameController.text,
                         password: _passwordController.text,
                       ),

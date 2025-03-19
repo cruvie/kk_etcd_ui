@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kk_etcd_go/kk_etcd_models/api_kv_kk_etcd.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/kv/kVPut/api.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/pages/page_kv/logic/state_kv.dart';
 
@@ -66,7 +66,7 @@ class _PageAddKVState extends ConsumerState<PageAddKV> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     bool success = await readKV.kVPut(
-                      KVPutParam(
+                      KVPut_Input(
                         key: _nameController.text,
                         value: _valueController.text,
                       ),

@@ -3,7 +3,9 @@ import 'dart:typed_data';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kk_etcd_go/kk_etcd_models/api_backup_kk_etcd.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/backup/snapshot/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/backup/snapshotInfo/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/backup/snapshotRestore/api.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/pages/page_backup/logic/state_backup.dart';
 
@@ -31,7 +33,7 @@ class _PageSnapshotState extends ConsumerState<PageSnapshot> {
           const Padding(padding: EdgeInsets.only(top: 20)),
           ElevatedButton(
             onPressed: () async {
-              SnapshotResponse resp = await readBackup.snapshot(SnapshotParam());
+              Snapshot_Output resp = await readBackup.snapshot(Snapshot_Input());
               // debugPrint('${KKUPlatform.platformType()}');
               if (context.mounted) {
                 KKDownload.savaFile(
@@ -45,7 +47,7 @@ class _PageSnapshotState extends ConsumerState<PageSnapshot> {
               ElevatedButton(
                   onPressed: () async {
                     snapshotRestoreCmd =
-                        await readBackup.snapshotRestore(SnapshotRestoreParam());
+                        await readBackup.snapshotRestore(SnapshotRestore_Input());
                     setState(() {});
                   },
                   child: Text(lTr(context).snapshotRestore)),
@@ -68,7 +70,7 @@ class _PageSnapshotState extends ConsumerState<PageSnapshot> {
                       Uint8List bytes = await file!.readAsBytes();
                       if (context.mounted) {
                         snapshotInfo =
-                            await readBackup.snapshotInfo(SnapshotInfoParam(
+                            await readBackup.snapshotInfo(SnapshotInfo_Input(
                               file:bytes.toList()
                             ));
                       }

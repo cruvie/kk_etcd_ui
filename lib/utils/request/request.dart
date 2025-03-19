@@ -16,14 +16,15 @@ class HttpTool {
   static PBResponse defaultApiResp =
       PBResponse(code: Int64(400), msg: 'default resp');
 
-  static requestConfig({String? currentPage, String? pageSize}) {
-    if (!LSAuthorizationToken.exists()) {
+  static requestConfig({String? currentPage, String? pageSize}) async {
+    if (!await LSAuthorizationToken.exists()) {
       ToolNavigator.toPageLogin();
     }
 
     ///请求头配置
     header = {
-      'Content-Type': 'application/protobuf',
+      'Accept': 'application/x-protobuf',
+      'Content-Type': 'application/x-protobuf',
       "UserName": globalProviderContainer
           .read(globalProvider.notifier)
           .getCurrentUser()
@@ -32,21 +33,21 @@ class HttpTool {
           .read(globalProvider.notifier)
           .getCurrentUser()
           .password,
-      LSAuthorizationToken.authorizationToken: LSAuthorizationToken.get() ?? '',
+      LSAuthorizationToken.authorizationToken: await LSAuthorizationToken.get() ?? '',
     };
   }
 
   //for download file
-  // static Future<Response> httpGet(String url,
+  // static Future<_Output> httpGet(String url,
   //     {String path = '',
-  //     Map<String, dynamic>? queryParameters,
+  //     Map<String, dynamic>? query_Inputeters,
   //     String? currentPage,
   //     String? pageSize}) async {
   //   await requestConfig(currentPage: currentPage, pageSize: pageSize);
-  //   // log.info(queryParameters.toString());
+  //   // log.info(query_Inputeters.toString());
   //   //编码
   //   Map<String, dynamic> params = {
-  //     'data': base64Encode(utf8.encode(jsonEncode(queryParameters)))
+  //     'data': base64Encode(utf8.encode(jsonEncode(query_Inputeters)))
   //   };
   //   Uri uri = Uri.http(url, path, params);
   //   // log.info(url.toString());
@@ -64,7 +65,7 @@ class HttpTool {
     requestConfig();
 
     //这里也可以带参数，不过是在url？后面
-    Uri uri = Uri.http(LSServerAddr.get(), path);
+    Uri uri = Uri.http(await LSServerAddr.get(), path);
     // log.info(url.toString());
     Response response = Response('', 400);
     try {

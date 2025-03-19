@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kk_etcd_go/kk_etcd_models/api_user_kk_etcd.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/user/logout/api.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 
 import 'package:kk_etcd_ui/logic_global/state_global.dart';
@@ -195,7 +195,7 @@ class _LeftSideMenuState extends ConsumerState<LeftSideMenu> {
                 ),
                 IconButton(
                   onPressed: () async {
-                    ref.read(userProvider.notifier).logout(LogoutParam());
+                    ref.read(userProvider.notifier).logout(Logout_Input());
                     // no matter success or not, we should remove token and return to login page
                     await LSAuthorizationToken.remove();
                     await LSMyInfo.remove();

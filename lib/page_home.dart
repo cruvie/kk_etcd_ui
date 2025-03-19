@@ -18,15 +18,15 @@ class _PageHomeState extends ConsumerState<PageHome> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       ///设置语言
       ref
           .read(kKULanguageProvider.notifier)
-          .changeLang(StateKKULanguage.getLocale());
+          .changeLang(await StateKKULanguage.getLocale());
       ///设置主题模式
       ref
           .read(kKUThemeModeProvider.notifier)
-          .changeThemeMode(StateKKUThemeMode.getThemeMode());
+          .changeThemeMode(await StateKKUThemeMode.getThemeMode());
     });
   }
 

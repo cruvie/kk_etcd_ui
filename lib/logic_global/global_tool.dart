@@ -4,8 +4,8 @@ import 'package:kk_etcd_ui/main.dart';
 import 'package:kk_etcd_ui/utils/tools/local_storage.dart';
 
 class GlobalTool {
-  static bool loadLoginUser() {
-    PBUser? user = LSMyInfo.get();
+  static Future<bool> loadLoginUser() async {
+    PBUser? user = await LSMyInfo.get();
     if (user != null) {
       globalProviderContainer
           .read(globalProvider.notifier)

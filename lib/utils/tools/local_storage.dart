@@ -4,10 +4,6 @@ import 'package:kk_ui/kk_util/kku_sp.dart';
 /// clear local storage
 
 class LSManager {
-  static Future<void> init() async {
-    await KKUSp.initPreferences();
-  }
-
   static Future<void> resetAllInfo() async {
     await KKUSp.clear();
   }
@@ -16,19 +12,19 @@ class LSManager {
 class LSAuthorizationToken {
   static const authorizationToken = "AuthorizationToken";
 
-  static Future<bool> set(String token) {
-    return KKUSp.set(authorizationToken, token);
+  static Future<void> set(String token) async {
+    return await KKUSp.set(authorizationToken, token);
   }
 
-  static String? get() {
-    return KKUSp.get(authorizationToken);
+  static Future<String?> get() async {
+    return await KKUSp.getString(authorizationToken);
   }
 
-  static bool exists() {
-    return KKUSp.containsKey(authorizationToken);
+  static Future<bool> exists() async {
+    return await KKUSp.containsKey(authorizationToken);
   }
 
-  static Future<bool> remove() {
+  static Future<void> remove() {
     return KKUSp.remove(authorizationToken);
   }
 }
@@ -36,19 +32,19 @@ class LSAuthorizationToken {
 class LSServerAddr {
   static const serverAddr = "ServerAddr";
 
-  static Future<bool> set(String s) {
+  static Future<void> set(String s) {
     return KKUSp.set(serverAddr, s);
   }
 
-  static String get() {
-    return KKUSp.get(serverAddr) ?? "";
+  static Future<String> get() async {
+    return await KKUSp.getString(serverAddr) ?? "";
   }
 
-  static bool exists() {
+  static Future<bool> exists() {
     return KKUSp.containsKey(serverAddr);
   }
 
-  static Future<bool> remove() {
+  static Future<void> remove() {
     return KKUSp.remove(serverAddr);
   }
 }
@@ -56,24 +52,24 @@ class LSServerAddr {
 class LSTheme {
   static const theme = "theme";
 
-  static Future<bool> setTheme(String themeName) {
+  static Future<void> setTheme(String themeName) {
     return KKUSp.set(theme, themeName);
   }
 
-  static String? getTheme() {
-    return KKUSp.get(theme);
+  static Future<String?> getTheme() async {
+    return await KKUSp.getString(theme);
   }
 }
 
 class LSMyInfo {
   static const myInfo = "MyInfo";
 
-  static Future<bool> set(PBUser info) {
+  static Future<void> set(PBUser info) {
     return KKUSp.set(myInfo, info.writeToJson());
   }
 
-  static PBUser? get() {
-    String? userJson = KKUSp.get(myInfo);
+  static Future<PBUser?> get() async {
+    String? userJson = await KKUSp.getString(myInfo);
     if (userJson == null) {
       return null;
     }

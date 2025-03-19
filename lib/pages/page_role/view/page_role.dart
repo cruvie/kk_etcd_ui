@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kk_etcd_go/kk_etcd_models/api_role_kk_etcd.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/role/roleDelete/api.pb.dart';
 
 import 'package:kk_etcd_go/kk_etcd_models/pb_role_kk_etcd.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
@@ -108,7 +108,7 @@ class _PageRoleState extends ConsumerState<PageRole> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      readRole.roleDelete(RoleDeleteParam(
+                      readRole.roleDelete(RoleDelete_Input(
                         name: element.name,
                       ));
                     },

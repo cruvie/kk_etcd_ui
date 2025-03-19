@@ -1,6 +1,12 @@
 import 'package:flutter/cupertino.dart';
-import 'package:kk_etcd_go/kk_etcd_apis/api_kv.dart';
-import 'package:kk_etcd_go/kk_etcd_models/api_kv_kk_etcd.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/kv/kVDel/api.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/kv/kVDel/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/kv/kVGet/api.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/kv/kVGet/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/kv/kVList/api.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/kv/kVList/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/kv/kVPut/api.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/kv/kVPut/api.pbserver.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_kv_kk_etcd.pb.dart';
 import 'package:kk_etcd_ui/page_routes/router_util.dart';
 import 'package:kk_etcd_ui/utils/request/request.dart';
@@ -22,10 +28,10 @@ class KV extends _$KV {
     return StateKV();
   }
 
-  Future<bool> kVList(KVListParam param) async {
+  Future<bool> kVList(KVList_Input param) async {
     bool result = false;
-    KVListResponse resp = KVListResponse();
-    await ApiKV.kVList(param, resp, HttpTool.postReq, okFunc: () {
+    KVList_Output resp = KVList_Output();
+    await apiKVList(param, resp, HttpTool.postReq, okFunc: () {
       state.pbKVList.clear();
       state.pbKVList = resp.kVList;
       ref.notifyListeners();
@@ -34,11 +40,11 @@ class KV extends _$KV {
     return result;
   }
 
-  Future<bool> kVGet(KVGetParam param) async {
-    // KVGetResponse resp = KVGetResponse();
+  Future<bool> kVGet(KVGet_Input param) async {
+    // KVGet_Output resp = KVGet_Output();
     bool result = false;
-    KVGetResponse resp = KVGetResponse();
-    await ApiKV.kVGet(param, resp, HttpTool.postReq, okFunc: () {
+    KVGet_Output resp = KVGet_Output();
+    await apiKVGet(param, resp, HttpTool.postReq, okFunc: () {
       state.currentKV = resp.kV;
       ref.notifyListeners();
       result = true;
@@ -49,10 +55,10 @@ class KV extends _$KV {
     return result;
   }
 
-  Future<bool> kVPut(KVPutParam param) async {
+  Future<bool> kVPut(KVPut_Input param) async {
     bool finished = false;
-    KVPutResponse resp = KVPutResponse();
-    await ApiKV.kVPut(param, resp, HttpTool.postReq, okFunc: () {
+    KVPut_Output resp = KVPut_Output();
+    await apiKVPut(param, resp, HttpTool.postReq, okFunc: () {
       KKSnackBar.ok(getGlobalCtx(), const Text("update succeed"));
       finished = true;
     }, errorFunc: () {
@@ -61,10 +67,10 @@ class KV extends _$KV {
     return finished;
   }
 
-  Future<bool> kVDel(KVDelParam param) async {
+  Future<bool> kVDel(KVDel_Input param) async {
     bool finished = false;
-    KVDelResponse resp = KVDelResponse();
-    await ApiKV.kVDel(param, resp, HttpTool.postReq, okFunc: () {
+    KVDel_Output resp = KVDel_Output();
+    await apiKVDel(param, resp, HttpTool.postReq, okFunc: () {
       KKSnackBar.ok(getGlobalCtx(), const Text("delete succeed"));
       state.pbKVList.listKV.removeWhere((element) => element.key == param.key);
       ref.notifyListeners();

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kk_etcd_go/kk_etcd_models/api_user_kk_etcd.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/user/login/api.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_user_kk_etcd.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/logic_global/state_global.dart';
@@ -21,12 +21,13 @@ class _PageLoginState extends ConsumerState<PageLogin> {
   final _formKey = GlobalKey<FormState>();
   String userName = '';
   String password = '';
-  String serverAddr = LSServerAddr.get();
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {});
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(globalProvider.notifier).init();
+    });
   }
 
   @override
@@ -34,10 +35,7 @@ class _PageLoginState extends ConsumerState<PageLogin> {
     var readUser = ref.read(userProvider.notifier);
     var watchGlobal = ref.watch(globalProvider);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(lTr(context).login),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text(lTr(context).login), centerTitle: true),
       body: SafeArea(
         child: Form(
           key: _formKey,
@@ -46,16 +44,14 @@ class _PageLoginState extends ConsumerState<PageLogin> {
               Container(
                 margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                 child: TextFormField(
-                  initialValue: serverAddr,
+                  initialValue: ref.watch(globalProvider).serverAddr,
                   decoration: InputDecoration(
                     labelText: lTr(context).serverAddress,
                     hintText: "127.0.0.1:2333",
-                    icon: const Icon(
-                      Icons.link_outlined,
-                    ),
+                    icon: const Icon(Icons.link_outlined),
                   ),
                   onChanged: (value) {
-                    serverAddr = value;
+                    ref.read(globalProvider.notifier).setServerAddr(value);
                   },
                 ),
               ),
@@ -66,9 +62,7 @@ class _PageLoginState extends ConsumerState<PageLogin> {
                   decoration: InputDecoration(
                     labelText: lTr(context).username,
                     hintText: lTr(context).enterUsername,
-                    icon: const Icon(
-                      Icons.account_circle_outlined,
-                    ),
+                    icon: const Icon(Icons.account_circle_outlined),
                   ),
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
@@ -88,13 +82,11 @@ class _PageLoginState extends ConsumerState<PageLogin> {
                   decoration: InputDecoration(
                     labelText: lTr(context).password,
                     hintText: lTr(context).enterPassword,
-                    icon: const Icon(
-                      Icons.password_outlined,
-                    ),
+                    icon: const Icon(Icons.password_outlined),
                     suffixIcon: IconButton(
-                      icon: Icon(showPassword
-                          ? Icons.visibility_off
-                          : Icons.visibility),
+                      icon: Icon(
+                        showPassword ? Icons.visibility_off : Icons.visibility,
+                      ),
                       onPressed: () {
                         setState(() {
                           showPassword = !showPassword;
@@ -119,17 +111,17 @@ class _PageLoginState extends ConsumerState<PageLogin> {
                 child: ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      await LSServerAddr.set(serverAddr);
+                      await LSServerAddr.set(
+                        ref.watch(globalProvider).serverAddr,
+                      );
                       await ref
                           .read(globalProvider.notifier)
-                          .updateCurrentUser(PBUser(
-                            userName: userName,
-                            password: password,
-                          ));
-                      bool success = await readUser.login(LoginParam(
-                        userName: userName,
-                        password: password,
-                      ));
+                          .updateCurrentUser(
+                            PBUser(userName: userName, password: password),
+                          );
+                      bool success = await readUser.login(
+                        Login_Input(userName: userName, password: password),
+                      );
                       if (context.mounted && success) {
                         context.go(RouterPath.pageHome);
                       }

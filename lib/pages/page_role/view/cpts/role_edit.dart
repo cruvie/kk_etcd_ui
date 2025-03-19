@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kk_etcd_go/kk_etcd_models/api_role_kk_etcd.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/role/roleGrantPermission/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/role/roleRevokePermission/api.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_role_kk_etcd.pb.dart';
 
 import 'package:kk_etcd_ui/l10n/l10n.dart';
@@ -127,7 +128,7 @@ class _RoleEditState extends ConsumerState<RoleEdit> {
             DataCell(ElevatedButton(
               onPressed: () async {
                 bool ok = await readRole
-                    .roleRevokePermission(RoleRevokePermissionParam(
+                    .roleRevokePermission(RoleRevokePermission_Input(
                   name: watchRole.currentRole.name,
                   key: element.key,
                   rangeEnd: element.rangeEnd,
@@ -267,7 +268,7 @@ class _RoleEditState extends ConsumerState<RoleEdit> {
             confirmFunc: () async {
               if (formKey.currentState!.validate()) {
                 bool ok = await readRole.roleGrantPermission(
-                  RoleGrantPermissionParam(
+                  RoleGrantPermission_Input(
                     name: watchRole.currentRole.name,
                     perm: inputPerm,
                   ),

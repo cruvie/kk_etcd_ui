@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:kk_etcd_ui/page_routes/router_cfg.dart';
+import 'package:kk_etcd_ui/page_routes/router_path.dart';
 import 'package:kk_etcd_ui/utils/tools/local_storage.dart';
 import 'package:kk_ui/kk_util/kk_log.dart';
 import 'package:kk_ui/kk_util/kku_language.dart';
@@ -17,7 +18,7 @@ main() async {
 
   KKLog.initLog();
 
-  await LSManager.init();
+  await RouterPath.init();
 
   runApp(UncontrolledProviderScope(
       container: globalProviderContainer, child: const MyApp()));

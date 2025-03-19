@@ -1,10 +1,22 @@
 import 'package:flutter/cupertino.dart';
-import 'package:kk_etcd_go/kk_etcd_apis/api_user.dart';
-import 'package:kk_etcd_go/kk_etcd_models/api_user_kk_etcd.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/user/login/api.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/user/login/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/user/logout/api.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/user/logout/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/user/myInfo/api.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/user/myInfo/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/user/userAdd/api.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/user/userAdd/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/user/userDelete/api.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/user/userDelete/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/user/userGrantRole/api.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/user/userGrantRole/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/user/userList/api.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/user/userList/api.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_user_kk_etcd.pb.dart';
 import 'package:kk_etcd_ui/logic_global/state_global.dart';
+import 'package:kk_etcd_ui/page_routes/router_path.dart';
 import 'package:kk_etcd_ui/page_routes/router_util.dart';
-
 import 'package:kk_etcd_ui/utils/request/request.dart';
 import 'package:kk_etcd_ui/utils/tools/local_storage.dart';
 import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
@@ -23,12 +35,13 @@ class User extends _$User {
     return StateUser();
   }
 
-  Future<bool> login(LoginParam param) async {
+  Future<bool> login(Login_Input param) async {
     bool result = false;
-    LoginResponse resp = LoginResponse();
-    await ApiUser.login(param, resp, HttpTool.postReq, okFunc: () async {
+    Login_Output resp = Login_Output();
+    await apiLogin(param, resp, HttpTool.postReq, okFunc: () async {
       await LSAuthorizationToken.set(resp.token);
       await ref.read(globalProvider.notifier).refreshCurrentUser();
+      await RouterPath.init();
       result = true;
     }, errorFunc: () {
       result = false;
@@ -36,10 +49,10 @@ class User extends _$User {
     return result;
   }
 
-  Future<bool> logout(LogoutParam param) async {
+  Future<bool> logout(Logout_Input param) async {
     bool result = false;
-    LogoutResponse resp = LogoutResponse();
-    await ApiUser.logout(param, resp, HttpTool.postReq, okFunc: () async {
+    Logout_Output resp = Logout_Output();
+    await apiLogout(param, resp, HttpTool.postReq, okFunc: () async {
       result = true;
     }, errorFunc: () {
       result = false;
@@ -49,8 +62,8 @@ class User extends _$User {
 
   Future<bool> getMyInfo() async {
     bool hasData = false;
-    MyInfoResponse resp = MyInfoResponse();
-    await ApiUser.myInfo(MyInfoParam(), resp, HttpTool.postReq,
+    MyInfo_Output resp = MyInfo_Output();
+    await apiMyInfo(MyInfo_Input(), resp, HttpTool.postReq,
         okFunc: () async {
       await ref.read(globalProvider.notifier).updateCurrentUser(PBUser(
             userName: resp.userName,
@@ -66,8 +79,8 @@ class User extends _$User {
 
   Future<bool> userList() async {
     bool finished = false;
-    UserListResponse resp = UserListResponse();
-    await ApiUser.userList(UserListParam(), resp, HttpTool.postReq, okFunc: () {
+    UserList_Output resp = UserList_Output();
+    await apiUserList(UserList_Input(), resp, HttpTool.postReq, okFunc: () {
       state.pbListUser.clear();
       state.pbListUser.listUser.addAll(resp.listUser.listUser);
       ref.notifyListeners();
@@ -76,10 +89,10 @@ class User extends _$User {
     return finished;
   }
 
-  Future<bool> userAdd(UserAddParam param) async {
+  Future<bool> userAdd(UserAdd_Input param) async {
     bool finished = false;
-    UserAddResponse resp = UserAddResponse();
-    await ApiUser.userAdd(param, resp, HttpTool.postReq, okFunc: () {
+    UserAdd_Output resp = UserAdd_Output();
+    await apiUserAdd(param, resp, HttpTool.postReq, okFunc: () {
       KKSnackBar.ok(getGlobalCtx(), const Text('add success'));
       finished = true;
     }, errorFunc: () {
@@ -89,9 +102,9 @@ class User extends _$User {
     return finished;
   }
 
-  Future<void> userDelete(UserDeleteParam param) async {
-    UserDeleteResponse resp = UserDeleteResponse();
-    await ApiUser.userDelete(param, resp, HttpTool.postReq, okFunc: () {
+  Future<void> userDelete(UserDelete_Input param) async {
+    UserDelete_Output resp = UserDelete_Output();
+    await apiUserDelete(param, resp, HttpTool.postReq, okFunc: () {
       KKSnackBar.ok(getGlobalCtx(), const Text('delete success'));
       state.pbListUser.listUser
           .removeWhere((element) => element.userName == param.userName);
@@ -99,10 +112,10 @@ class User extends _$User {
     });
   }
 
-  Future<bool> userGrantRole(UserGrantRoleParam param) async {
+  Future<bool> userGrantRole(UserGrantRole_Input param) async {
     bool finished = false;
-    UserGrantRoleResponse resp = UserGrantRoleResponse();
-    await ApiUser.userGrantRole(param, resp, HttpTool.postReq,
+    UserGrantRole_Output resp = UserGrantRole_Output();
+    await apiUserGrantRole(param, resp, HttpTool.postReq,
         okFunc: () async {
       KKSnackBar.ok(getGlobalCtx(), const Text('grant success'));
       await userList();

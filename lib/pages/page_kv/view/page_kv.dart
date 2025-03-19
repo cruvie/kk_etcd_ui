@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kk_etcd_go/kk_etcd_models/api_kv_kk_etcd.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/kv/kVDel/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/kv/kVGet/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/kv/kVList/api.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_kv_kk_etcd.pb.dart';
 
 import 'package:kk_etcd_ui/l10n/l10n.dart';
@@ -23,7 +25,7 @@ class _PageKVState extends ConsumerState<PageKV> {
   }
 
   Future<void> initData() async {
-    await ref.read(kVProvider.notifier).kVList(KVListParam());
+    await ref.read(kVProvider.notifier).kVList(KVList_Input());
   }
 
   final ScrollController _scrollController = ScrollController();
@@ -101,7 +103,7 @@ class _PageKVState extends ConsumerState<PageKV> {
                   ElevatedButton(
                     onPressed: () {
                       readKV.kVGet(
-                        KVGetParam(
+                        KVGet_Input(
                           key: element.key,
                         ),
                       );
@@ -110,7 +112,7 @@ class _PageKVState extends ConsumerState<PageKV> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      readKV.kVDel(KVDelParam(
+                      readKV.kVDel(KVDel_Input(
                         key: element.key,
                       ));
                     },
