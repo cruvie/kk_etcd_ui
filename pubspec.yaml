@@ -29,9 +29,9 @@ dependencies:
     git:
       url: https://github.com/cruvie/kk_etcd_go.git
 
-#  kk_etcd_go:
-#    git:
-#      url: https://gitee.com/cruvie/kk_etcd_go_gitee.git
+  #  kk_etcd_go:
+  #    git:
+  #      url: https://gitee.com/cruvie/kk_etcd_go_gitee.git
 
   kk_go_kit:
     git:

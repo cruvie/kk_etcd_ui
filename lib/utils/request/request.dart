@@ -1,4 +1,3 @@
-
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -12,28 +11,27 @@ import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
 import 'package:protobuf/protobuf.dart';
 
 class HttpTool {
-  static late Map<String, String> header;
-  static PBResponse defaultApiResp =
-      PBResponse(code: Int64(400), msg: 'default resp');
+  static PBResponse defaultApiResp = PBResponse(
+    code: Int64(400),
+    msg: 'default resp',
+  );
 
-  static requestConfig({String? currentPage, String? pageSize}) async {
-    if (!await LSAuthorizationToken.exists()) {
-      ToolNavigator.toPageLogin();
-    }
-
-    ///请求头配置
-    header = {
+  static Future<Map<String, String>> getHeader() async {
+    return {
       'Accept': 'application/x-protobuf',
       'Content-Type': 'application/x-protobuf',
-      "UserName": globalProviderContainer
-          .read(globalProvider.notifier)
-          .getCurrentUser()
-          .userName,
-      "Password": globalProviderContainer
-          .read(globalProvider.notifier)
-          .getCurrentUser()
-          .password,
-      LSAuthorizationToken.authorizationToken: await LSAuthorizationToken.get() ?? '',
+      "UserName":
+          globalProviderContainer
+              .read(globalProvider.notifier)
+              .getCurrentUser()
+              .userName,
+      "Password":
+          globalProviderContainer
+              .read(globalProvider.notifier)
+              .getCurrentUser()
+              .password,
+      LSAuthorizationToken.authorizationToken:
+          await LSAuthorizationToken.get() ?? '',
     };
   }
 
@@ -61,15 +59,25 @@ class HttpTool {
   // }
 
   static Future<PBResponse> postReq(
-      String path, GeneratedMessage requestData) async {
-    requestConfig();
+    String path,
+    GeneratedMessage requestData,
+  ) async {
+    if (!await LSAuthorizationToken.exists()) {
+      ToolNavigator.toPageLogin();
+    }
+
+    Map<String, String> header = await getHeader();
 
     //这里也可以带参数，不过是在url？后面
     Uri uri = Uri.http(await LSServerAddr.get(), path);
     // log.info(url.toString());
     Response response = Response('', 400);
     try {
-      response = await post(uri, headers: header, body: requestData.writeToBuffer());
+      response = await post(
+        uri,
+        headers: header,
+        body: requestData.writeToBuffer(),
+      );
     } catch (e) {
       KKSnackBar.error(
         getGlobalCtx(),
@@ -86,7 +94,9 @@ class HttpTool {
 
   ///响应拦截
   static Future<PBResponse> responseInterceptor(
-      String targetUrl, Response response) async {
+    String targetUrl,
+    Response response,
+  ) async {
     // log.info("响应拦截:${response.statusCode}");
     // log.info("响应拦截:${PBResponse.fromBuffer(response.bodyBytes)}");
     PBResponse apiResp = defaultApiResp.deepCopy();

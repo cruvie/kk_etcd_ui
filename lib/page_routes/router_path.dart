@@ -11,6 +11,7 @@ class RouterPath {
 
     ///未登陆无需初始化 todo 在路由中控制
     if (ok) {
+      print('ok=$ok');
       pageInit = pageHome;
     } else {
       pageInit = pageLogin;
