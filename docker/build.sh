@@ -11,10 +11,10 @@ cd ..
 
 # 多平台构建-发布
 #  docker login 可以先登陆docker desktop
- docker buildx build --platform linux/amd64,linux/arm64 -t cruvie/kk_etcd_ui:1.4.1 -f docker/Dockerfile . --push
+docker buildx build --platform linux/amd64,linux/arm64 -t cruvie/kk_etcd_ui:1.4.2 -f docker/Dockerfile . --push
 
 
 # 测试
-# docker pull cruvie/kk_etcd_ui:1.4.1
-# docker run --name kk_etcd_ui -p 2334:80 cruvie/kk_etcd_ui:1.4.1
+# docker pull cruvie/kk_etcd_ui:1.4.2
+# docker run --name kk_etcd_ui -p 2334:80 cruvie/kk_etcd_ui:1.4.2
 

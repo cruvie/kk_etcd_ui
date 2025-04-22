@@ -7,7 +7,7 @@ flutter clean
 #echo 'build web canvaskit'
 #flutter build web --web-renderer canvaskit
 
-echo 'build web html'
+echo 'build web'
 flutter build web
 #flutter build web --web-renderer html
 
