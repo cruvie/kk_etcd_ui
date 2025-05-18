@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/user/userDelete/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/user/api_def/UserDelete.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_user_kk_etcd.pb.dart';
 
 import 'package:kk_etcd_ui/l10n/l10n.dart';

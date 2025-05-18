@@ -3,9 +3,9 @@ import 'dart:typed_data';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/backup/snapshot/api.pb.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/backup/snapshotInfo/api.pb.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/backup/snapshotRestore/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/backup/api_def/Snapshot.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/backup/api_def/SnapshotInfo.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/backup/api_def/SnapshotRestore.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/pages/page_backup/logic/state_backup.dart';
 

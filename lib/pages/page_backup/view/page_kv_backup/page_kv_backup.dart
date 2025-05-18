@@ -3,8 +3,8 @@ import 'dart:typed_data';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/backup/allKVsBackup/api.pb.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/backup/allKVsRestore/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/backup/api_def/AllKVsBackup.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/backup/api_def/AllKVsRestore.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/pages/page_backup/logic/state_backup.dart';
 import 'package:kk_ui/kk_file/io.dart'

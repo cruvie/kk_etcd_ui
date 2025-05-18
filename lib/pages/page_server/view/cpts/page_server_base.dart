@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/server/deregisterServer/api.pb.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/server/serverList/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/server/api_def/DeregisterServer.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/server/api_def/ServerList.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_server_kk_etcd.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_models/pb_server_registration.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/pages/page_server/logic/state_server.dart';
 
 class PageServerBase extends ConsumerStatefulWidget {
   const PageServerBase(this.serverType, this.pbListServer, {super.key});
 
-  final String serverType;
+  final PBServerType serverType;
   final PBListServer pbListServer;
 
   @override
@@ -58,7 +59,8 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
                               child: Text(
                                 lTr(context).name,
                                 style: const TextStyle(
-                                    fontStyle: FontStyle.italic),
+                                  fontStyle: FontStyle.italic,
+                                ),
                               ),
                             ),
                           ),
@@ -67,7 +69,8 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
                               child: Text(
                                 lTr(context).address,
                                 style: const TextStyle(
-                                    fontStyle: FontStyle.italic),
+                                  fontStyle: FontStyle.italic,
+                                ),
                               ),
                             ),
                           ),
@@ -76,23 +79,8 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
                               child: Text(
                                 lTr(context).status,
                                 style: const TextStyle(
-                                    fontStyle: FontStyle.italic),
-                              ),
-                            ),
-                          ),
-                          const DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                "last check time",
-                                style: TextStyle(fontStyle: FontStyle.italic),
-                              ),
-                            ),
-                          ),
-                          const DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                "check msg",
-                                style: TextStyle(fontStyle: FontStyle.italic),
+                                  fontStyle: FontStyle.italic,
+                                ),
                               ),
                             ),
                           ),
@@ -101,7 +89,8 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
                               child: Text(
                                 lTr(context).action,
                                 style: const TextStyle(
-                                    fontStyle: FontStyle.italic),
+                                  fontStyle: FontStyle.italic,
+                                ),
                               ),
                             ),
                           ),
@@ -109,7 +98,7 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
                         rows: assembleData(),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -141,18 +130,9 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
         DataRow(
           cells: <DataCell>[
             //remove prefix
-            DataCell(Text(element.endpointKey)),
-            DataCell(Text(element.endpointAddr)),
-            DataCell(
-              getServerStatus(element.status),
-            ),
-            DataCell(Text('${element.lastCheck.toDateTime(toLocal: true)}')),
-            DataCell(
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.2,
-                child: Text(element.msg),
-              ),
-            ),
+            DataCell(Text(element.serverRegistration.serverName)),
+            DataCell(Text(element.serverRegistration.serverAddr)),
+            DataCell(getServerStatus(element.status)),
             DataCell(
               Row(
                 children: [
@@ -160,9 +140,7 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
                     child: ElevatedButton(
                       onPressed: () async {
                         await readServer.deregisterServer(
-                          DeregisterServer_Input(
-                            server: element,
-                          ),
+                          DeregisterServer_Input(server: element),
                         );
                       },
                       child: Text(
@@ -170,7 +148,7 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
                         style: const TextStyle(color: Colors.red),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -183,13 +161,6 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
 
   Widget getServerStatus(PBServer_ServerStatus status) {
     switch (status) {
-      case PBServer_ServerStatus.Init:
-        {
-          return const Chip(
-            label: Text("Init"),
-            backgroundColor: Colors.blue,
-          );
-        }
       case PBServer_ServerStatus.Running:
         {
           return const Chip(
@@ -198,19 +169,13 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
           );
         }
       case PBServer_ServerStatus.Stop:
-        return const Chip(
-          label: Text("Stop"),
-          backgroundColor: Colors.red,
-        );
+        return const Chip(label: Text("Stop"), backgroundColor: Colors.red);
       case PBServer_ServerStatus.UnKnown:
         return const Chip(
           label: Text("UnKnown"),
           backgroundColor: Colors.orange,
         );
     }
-    return const Chip(
-      label: Text("UnKnown"),
-      backgroundColor: Colors.orange,
-    );
+    return const Chip(label: Text("UnKnown"), backgroundColor: Colors.orange);
   }
 }

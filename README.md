@@ -6,7 +6,7 @@ A modern and easy to use Client/UI for `Etcd`
 
 A Configuration center and Service registration and discovery platform based on `Etcd`
 
-## Features
+## Feature
 
 - [x] Configuration center
 
@@ -38,7 +38,7 @@ download [example](https://github.com/cruvie/kk_etcd_go/tree/master/example)
 
 ```shell
 cd example
-docker-compose up
+docker-compose up -d
 ```
 
 you can change `version` to a specific version
@@ -74,98 +74,19 @@ then visit http://localhost:2334
 
 ## Put/Get config into/from etcd in yaml/json format
 
-assume you have a config file like this
+refers
+to [Put/Get](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/kv_test.go)
 
-```yaml
-ServerAddr: 127.0.0.1:8759
-
-Postgres:
-  Dsn: host=127.0.0.1 user=xxxx password=xxxx dbname=xxxx port=5432 sslmode=disable TimeZone=UTC
-
-Redis:
-  Addr: 127.0.0.1:6379
-  Password: xxxx
-```
-
-put/get it to/from etcd with key `my_config`
-
-```go
-package doc_test
-
-import (
-	"github.com/cruvie/kk_etcd_go/kk_etcd"
-	"log"
-	"log/slog"
-	"os"
-	"testing"
-)
-
-type myConfig struct {
-	ServerAddr string
-	Postgres   struct {
-		Dsn  string
-		Port int
-	}
-	Redis struct {
-		Addr     string
-		Password string
-	}
-}
-
-func TestPutYaml(t *testing.T) {
-	//init client
-	closeFunc, err := kk_etcd.InitClient(&kk_etcd.InitClientConfig{
-		Endpoints: []string{"http://127.0.0.1:2379"},
-		UserName:  "root",
-		Password:  "root",
-		DebugMode: true})
-	if err != nil {
-		panic(err)
-	}
-	defer func() {
-		err := closeFunc()
-		if err != nil {
-			log.Println(err)
-		}
-	}()
-	//load config
-	data, err := os.ReadFile("path/to/my_config.yml")
-	if err != nil {
-		panic(err)
-	}
-	var Config myConfig
-	err = yaml.Unmarshal(data, &Config)
-	if err != nil {
-		slog.Error("unable to unmarshal config.yaml", "err", err)
-		panic(err)
-	}
-	//push config to etcd in yaml format
-	kv := kk_etcd.NewMgrKV()
-	err = kv.PutExistUpdateYaml("my_config", &Config)
-	if err != nil {
-		panic(err)
-	}
-	//get config from etcd
-	var newConfig myConfig
-	err = kv.GetYaml("my_config", &newConfig)
-	if err != nil {
-		panic(err)
-	}
-}
-```
 
 ## Register Http/gRPC Server to etcd
 
 refers
-to [Register Http Server](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_test.go#L105)
-
-refers
-to [Register Grpc Server](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_test.go#L51)
+to [Register Http Server](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_test.go)
 
 ## Get a grpc client from etcd
 
 refers
-to [GetGrpcClient](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_grpc.go#L14)
+to [GetGrpcClient](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_grpc.go)
 
 # Contribute
 

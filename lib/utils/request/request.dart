@@ -21,17 +21,17 @@ class HttpTool {
       'Accept': 'application/x-protobuf',
       'Content-Type': 'application/x-protobuf',
       "UserName":
-          globalProviderContainer
-              .read(globalProvider.notifier)
-              .getCurrentUser()
-              .userName,
+      globalProviderContainer
+          .read(globalProvider.notifier)
+          .getCurrentUser()
+          .userName,
       "Password":
-          globalProviderContainer
-              .read(globalProvider.notifier)
-              .getCurrentUser()
-              .password,
+      globalProviderContainer
+          .read(globalProvider.notifier)
+          .getCurrentUser()
+          .password,
       LSAuthorizationToken.authorizationToken:
-          await LSAuthorizationToken.get() ?? '',
+      await LSAuthorizationToken.get() ?? '',
     };
   }
 
@@ -58,10 +58,8 @@ class HttpTool {
   //   return response;
   // }
 
-  static Future<PBResponse> postReq(
-    String path,
-    GeneratedMessage requestData,
-  ) async {
+  static Future<PBResponse> postReq(String path,
+      GeneratedMessage requestData,) async {
     if (!await LSAuthorizationToken.exists()) {
       ToolNavigator.toPageLogin();
     }
@@ -93,10 +91,8 @@ class HttpTool {
   }
 
   ///响应拦截
-  static Future<PBResponse> responseInterceptor(
-    String targetUrl,
-    Response response,
-  ) async {
+  static Future<PBResponse> responseInterceptor(String targetUrl,
+      Response response,) async {
     // log.info("响应拦截:${response.statusCode}");
     // log.info("响应拦截:${PBResponse.fromBuffer(response.bodyBytes)}");
     PBResponse apiResp = defaultApiResp.deepCopy();

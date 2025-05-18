@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/user/logout/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/user/api_def/Logout.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 
 import 'package:kk_etcd_ui/logic_global/state_global.dart';

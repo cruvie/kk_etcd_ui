@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:kk_etcd_go/key_prefix.dart';
+import 'package:kk_etcd_go/kk_etcd_models/pb_server_registration.pbenum.dart';
 import 'package:kk_etcd_ui/pages/page_server/logic/state_server.dart';
 import 'package:kk_etcd_ui/pages/page_server/view/cpts/page_server_base.dart';
 
@@ -17,14 +17,13 @@ class _PageServerState extends ConsumerState<PageServer>
   @override
   bool get wantKeepAlive => true;
 
-  late final tabController =
-      TabController(vsync: this, length: getTabs().length);
+  late final tabController = TabController(
+    vsync: this,
+    length: getTabs().length,
+  );
 
   List<Tab> getTabs() {
-    return [
-      const Tab(text: 'HTTP'),
-      const Tab(text: 'GRPC'),
-    ];
+    return [const Tab(text: 'HTTP'), const Tab(text: 'GRPC')];
   }
 
   @override
@@ -43,9 +42,13 @@ class _PageServerState extends ConsumerState<PageServer>
         controller: tabController,
         children: [
           PageServerBase(
-              ServerType.Http, ref.watch(serverProvider).pbListServerHttp),
+            PBServerType.Http,
+            ref.watch(serverProvider).pbListServerHttp,
+          ),
           PageServerBase(
-              ServerType.Grpc, ref.watch(serverProvider).pbListServerGrpc),
+            PBServerType.Grpc,
+            ref.watch(serverProvider).pbListServerGrpc,
+          ),
         ],
       ),
     );

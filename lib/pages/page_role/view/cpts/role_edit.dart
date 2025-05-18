@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/role/roleGrantPermission/api.pb.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/role/roleRevokePermission/api.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/role/api_def/RoleGrantPermission.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/role/api_def/RoleRevokePermission.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_role_kk_etcd.pb.dart';
 
 import 'package:kk_etcd_ui/l10n/l10n.dart';

@@ -65,8 +65,8 @@ class Global extends _$Global {
   changeDestination(Widget page) {
     // log.info('changeDestination: ${page.toString()}');
     int index = allPages.indexWhere(
-      (element) =>
-          element.runtimeType.toString() == page.runtimeType.toString(),
+          (element) =>
+      element.runtimeType.toString() == page.runtimeType.toString(),
     );
     state.pageController.jumpToPage(index);
   }
