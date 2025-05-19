@@ -546,7 +546,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "0516e571f0bab6579e6eac067ccbc95da9fb5119"
+      resolved-ref: bb2afc8ad14c9d2d629f65f08e16e151e875db22
       url: "https://github.com/cruvie/kk_etcd_go.git"
     source: git
     version: "0.0.0"

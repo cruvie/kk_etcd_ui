@@ -29,23 +29,23 @@ class LSAuthorizationToken {
   }
 }
 
-class LSServerAddr {
-  static const serverAddr = "ServerAddr";
+class LSServiceAddr {
+  static const serviceAddr = "ServiceAddr";
 
   static Future<void> set(String s) {
-    return KKUSp.set(serverAddr, s);
+    return KKUSp.set(serviceAddr, s);
   }
 
   static Future<String> get() async {
-    return await KKUSp.getString(serverAddr) ?? "";
+    return await KKUSp.getString(serviceAddr) ?? "";
   }
 
   static Future<bool> exists() {
-    return KKUSp.containsKey(serverAddr);
+    return KKUSp.containsKey(serviceAddr);
   }
 
   static Future<void> remove() {
-    return KKUSp.remove(serverAddr);
+    return KKUSp.remove(serviceAddr);
   }
 }
 

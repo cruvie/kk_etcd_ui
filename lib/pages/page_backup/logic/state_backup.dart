@@ -5,7 +5,7 @@ import 'package:kk_etcd_go/kk_etcd_api_hub/backup/api_def/AllKVsRestore.pb.dart'
 import 'package:kk_etcd_go/kk_etcd_api_hub/backup/api_def/Snapshot.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_api_hub/backup/api_def/SnapshotInfo.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_api_hub/backup/api_def/SnapshotRestore.pb.dart';
-import 'package:kk_etcd_go/kk_etcd_models/pb_server_kk_etcd.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_models/pb_service_kk_etcd.pb.dart';
 import 'package:kk_etcd_ui/page_routes/router_util.dart';
 import 'package:kk_etcd_ui/utils/request/request.dart';
 import 'package:kk_go_kit/kk_http/base_request.dart';
@@ -15,7 +15,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'state_backup.g.dart';
 
 class StateBackup {
-  PBListServer pbListServer = PBListServer();
+  PBListService pbListService = PBListService();
 }
 
 @riverpod

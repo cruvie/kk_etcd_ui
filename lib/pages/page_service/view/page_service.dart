@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:kk_etcd_go/kk_etcd_models/pb_server_registration.pbenum.dart';
-import 'package:kk_etcd_ui/pages/page_server/logic/state_server.dart';
-import 'package:kk_etcd_ui/pages/page_server/view/cpts/page_server_base.dart';
+import 'package:kk_etcd_go/kk_etcd_models/pb_service_registration.pbenum.dart';
+import 'package:kk_etcd_ui/pages/page_service/logic/state_service.dart';
 
-class PageServer extends ConsumerStatefulWidget {
-  const PageServer({super.key});
+import 'cpts/page_service_base.dart';
+
+class PageService extends ConsumerStatefulWidget {
+  const PageService({super.key});
 
   @override
-  ConsumerState<PageServer> createState() => _PageServerState();
+  ConsumerState<PageService> createState() => _PageServiceState();
 }
 
-class _PageServerState extends ConsumerState<PageServer>
+class _PageServiceState extends ConsumerState<PageService>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
@@ -41,13 +42,13 @@ class _PageServerState extends ConsumerState<PageServer>
       body: TabBarView(
         controller: tabController,
         children: [
-          PageServerBase(
-            PBServerType.Http,
-            ref.watch(serverProvider).pbListServerHttp,
+          PageServiceBase(
+            PBServiceType.Http,
+            ref.watch(serviceProvider).pbListServiceHttp,
           ),
-          PageServerBase(
-            PBServerType.Grpc,
-            ref.watch(serverProvider).pbListServerGrpc,
+          PageServiceBase(
+            PBServiceType.Grpc,
+            ref.watch(serviceProvider).pbListServiceGrpc,
           ),
         ],
       ),

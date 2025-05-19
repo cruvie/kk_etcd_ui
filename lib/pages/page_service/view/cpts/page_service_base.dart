@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/server/api_def/DeregisterServer.pb.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/server/api_def/ServerList.pb.dart';
-import 'package:kk_etcd_go/kk_etcd_models/pb_server_kk_etcd.pb.dart';
-import 'package:kk_etcd_go/kk_etcd_models/pb_server_registration.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/service/api_def/DeregisterService.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_api_hub/service/api_def/ServiceList.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_models/pb_service_kk_etcd.pb.dart';
+import 'package:kk_etcd_go/kk_etcd_models/pb_service_registration.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
-import 'package:kk_etcd_ui/pages/page_server/logic/state_server.dart';
+import 'package:kk_etcd_ui/pages/page_service/logic/state_service.dart';
 
-class PageServerBase extends ConsumerStatefulWidget {
-  const PageServerBase(this.serverType, this.pbListServer, {super.key});
+class PageServiceBase extends ConsumerStatefulWidget {
+  const PageServiceBase(this.serviceType, this.pbListService, {super.key});
 
-  final PBServerType serverType;
-  final PBListServer pbListServer;
+  final PBServiceType serviceType;
+  final PBListService pbListService;
 
   @override
-  ConsumerState createState() => _PageServerBaseState();
+  ConsumerState createState() => _PageServiceBaseState();
 }
 
-class _PageServerBaseState extends ConsumerState<PageServerBase> {
+class _PageServiceBaseState extends ConsumerState<PageServiceBase> {
   @override
   void initState() {
     super.initState();
@@ -26,8 +26,8 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
 
   Future<void> initData() async {
     await ref
-        .read(serverProvider.notifier)
-        .serverList(ServerList_Input(serverType: widget.serverType));
+        .read(serviceProvider.notifier)
+        .serviceList(ServiceList_Input(serviceType: widget.serviceType));
   }
 
   final ScrollController _scrollController = ScrollController();
@@ -110,37 +110,37 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
   }
 
   List<DataRow> assembleData() {
-    // switch (widget.serverType) {
-    //   case ServerType.Http:
+    // switch (widget.serviceType) {
+    //   case ServiceType.Http:
     //     {
-    //       state.pbListServerHttp.clear();
-    //       state.pbListServerHttp.listServer.addAll(resp.serverList.listServer);
+    //       state.pbListServiceHttp.clear();
+    //       state.pbListServiceHttp.listService.addAll(resp.serviceList.listService);
     //     }
-    //   case ServerType.Grpc:
+    //   case ServiceType.Grpc:
     //     {
-    //       state.pbListServerGrpc.clear();
-    //       state.pbListServerGrpc.listServer.addAll(resp.serverList.listServer);
+    //       state.pbListServiceGrpc.clear();
+    //       state.pbListServiceGrpc.listService.addAll(resp.serviceList.listService);
     //     }
     // }
-    var readServer = ref.read(serverProvider.notifier);
-    var watchServer = ref.watch(serverProvider);
+    var readService = ref.read(serviceProvider.notifier);
+    var watchService = ref.watch(serviceProvider);
     List<DataRow> configDataRows = [];
-    for (PBServer element in widget.pbListServer.listServer) {
+    for (PBService element in widget.pbListService.listService) {
       configDataRows.add(
         DataRow(
           cells: <DataCell>[
             //remove prefix
-            DataCell(Text(element.serverRegistration.serverName)),
-            DataCell(Text(element.serverRegistration.serverAddr)),
-            DataCell(getServerStatus(element.status)),
+            DataCell(Text(element.serviceRegistration.serviceName)),
+            DataCell(Text(element.serviceRegistration.serviceAddr)),
+            DataCell(getServiceStatus(element.status)),
             DataCell(
               Row(
                 children: [
                   Flexible(
                     child: ElevatedButton(
                       onPressed: () async {
-                        await readServer.deregisterServer(
-                          DeregisterServer_Input(server: element),
+                        await readService.deregisterService(
+                          DeregisterService_Input(service: element),
                         );
                       },
                       child: Text(
@@ -159,18 +159,18 @@ class _PageServerBaseState extends ConsumerState<PageServerBase> {
     return configDataRows;
   }
 
-  Widget getServerStatus(PBServer_ServerStatus status) {
+  Widget getServiceStatus(PBService_ServiceStatus status) {
     switch (status) {
-      case PBServer_ServerStatus.Running:
+      case PBService_ServiceStatus.Running:
         {
           return const Chip(
             label: Text("Running"),
             backgroundColor: Colors.green,
           );
         }
-      case PBServer_ServerStatus.Stop:
+      case PBService_ServiceStatus.Stop:
         return const Chip(label: Text("Stop"), backgroundColor: Colors.red);
-      case PBServer_ServerStatus.UnKnown:
+      case PBService_ServiceStatus.UnKnown:
         return const Chip(
           label: Text("UnKnown"),
           backgroundColor: Colors.orange,

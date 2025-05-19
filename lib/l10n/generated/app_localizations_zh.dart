@@ -100,7 +100,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get about => '关于';
 
   @override
-  String get serverAddress => '服务器地址';
+  String get serviceAddress => '服务器地址';
 
   @override
   String get ccPageConfig => '';
@@ -112,10 +112,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get pageAddConfig => '添加配置';
 
   @override
-  String get ccPageServer => '';
+  String get ccPageService => '';
 
   @override
-  String get pageServer => '服务管理';
+  String get pageService => '服务管理';
 
   @override
   String get address => '地址';

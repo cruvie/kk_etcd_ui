@@ -11,7 +11,7 @@ part 'state_global.g.dart';
 class StateGlobal {
   PBUser currentUser = PBUser();
 
-  String serverAddr = '';
+  String serviceAddr = '';
 
   PageController pageController = PageController();
 }
@@ -28,12 +28,12 @@ class Global extends _$Global {
   }
 
   Future<void> init() async {
-    state.serverAddr = await LSServerAddr.get();
+    state.serviceAddr = await LSServiceAddr.get();
     ref.notifyListeners();
   }
 
-  Future<void> setServerAddr(String addr) async {
-    state.serverAddr = addr;
+  Future<void> setServiceAddr(String addr) async {
+    state.serviceAddr = addr;
     ref.notifyListeners();
   }
 

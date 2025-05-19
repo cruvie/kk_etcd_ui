@@ -100,7 +100,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get about => 'About';
 
   @override
-  String get serverAddress => 'Server Address';
+  String get serviceAddress => 'Service Address';
 
   @override
   String get ccPageConfig => '';
@@ -112,10 +112,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pageAddConfig => 'Add config';
 
   @override
-  String get ccPageServer => '';
+  String get ccPageService => '';
 
   @override
-  String get pageServer => 'Server Manager';
+  String get pageService => 'Service Manager';
 
   @override
   String get address => 'Address';

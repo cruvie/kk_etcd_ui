@@ -6,7 +6,7 @@ part of 'state_kv.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$kVHash() => r'423bd4f44ec8644e9a93a8375adb943aa032e063';
+String _$kVHash() => r'a10da47d11a871a1623f8d6c4624f7cc323388e9';
 
 /// See also [KV].
 @ProviderFor(KV)

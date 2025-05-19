@@ -1,25 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'state_backup.dart';
+part of 'state_service.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$backupHash() => r'f9b0f7ecb3e85833b0e97a72843f34180ed19299';
+String _$serviceHash() => r'a92af93b811a9b94f62d94e0e751b37803df5165';
 
-/// See also [Backup].
-@ProviderFor(Backup)
-final backupProvider =
-    AutoDisposeNotifierProvider<Backup, StateBackup>.internal(
-      Backup.new,
-      name: r'backupProvider',
+/// See also [Service].
+@ProviderFor(Service)
+final serviceProvider =
+    AutoDisposeNotifierProvider<Service, StateService>.internal(
+      Service.new,
+      name: r'serviceProvider',
       debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product') ? null : _$backupHash,
+          const bool.fromEnvironment('dart.vm.product') ? null : _$serviceHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
-typedef _$Backup = AutoDisposeNotifier<StateBackup>;
+typedef _$Service = AutoDisposeNotifier<StateService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

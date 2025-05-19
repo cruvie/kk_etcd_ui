@@ -44,14 +44,14 @@ class _PageLoginState extends ConsumerState<PageLogin> {
               Container(
                 margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                 child: TextFormField(
-                  initialValue: ref.watch(globalProvider).serverAddr,
+                  initialValue: ref.watch(globalProvider).serviceAddr,
                   decoration: InputDecoration(
-                    labelText: lTr(context).serverAddress,
+                    labelText: lTr(context).serviceAddress,
                     hintText: "127.0.0.1:2333",
                     icon: const Icon(Icons.link_outlined),
                   ),
                   onChanged: (value) {
-                    ref.read(globalProvider.notifier).setServerAddr(value);
+                    ref.read(globalProvider.notifier).setServiceAddr(value);
                   },
                 ),
               ),
@@ -111,8 +111,8 @@ class _PageLoginState extends ConsumerState<PageLogin> {
                 child: ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      await LSServerAddr.set(
-                        ref.watch(globalProvider).serverAddr,
+                      await LSServiceAddr.set(
+                        ref.watch(globalProvider).serviceAddr,
                       );
                       await ref
                           .read(globalProvider.notifier)

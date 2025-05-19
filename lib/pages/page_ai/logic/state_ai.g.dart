@@ -6,7 +6,7 @@ part of 'state_ai.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$aIHash() => r'd6938341e4070c589949de9df8ff80975e60f184';
+String _$aIHash() => r'05301f0b3e4bac54175d7306b66bba41f55e644a';
 
 /// See also [AI].
 @ProviderFor(AI)

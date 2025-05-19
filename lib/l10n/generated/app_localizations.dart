@@ -281,11 +281,11 @@ abstract class AppLocalizations {
   /// **'About'**
   String get about;
 
-  /// No description provided for @serverAddress.
+  /// No description provided for @serviceAddress.
   ///
   /// In en, this message translates to:
-  /// **'Server Address'**
-  String get serverAddress;
+  /// **'Service Address'**
+  String get serviceAddress;
 
   /// No description provided for @ccPageConfig.
   ///
@@ -305,17 +305,17 @@ abstract class AppLocalizations {
   /// **'Add config'**
   String get pageAddConfig;
 
-  /// No description provided for @ccPageServer.
+  /// No description provided for @ccPageService.
   ///
   /// In en, this message translates to:
   /// **''**
-  String get ccPageServer;
+  String get ccPageService;
 
-  /// No description provided for @pageServer.
+  /// No description provided for @pageService.
   ///
   /// In en, this message translates to:
-  /// **'Server Manager'**
-  String get pageServer;
+  /// **'Service Manager'**
+  String get pageService;
 
   /// No description provided for @address.
   ///

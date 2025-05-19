@@ -67,7 +67,7 @@ class HttpTool {
     Map<String, String> header = await getHeader();
 
     //这里也可以带参数，不过是在url？后面
-    Uri uri = Uri.http(await LSServerAddr.get(), path);
+    Uri uri = Uri.http(await LSServiceAddr.get(), path);
     // log.info(url.toString());
     Response response = Response('', 400);
     try {
