@@ -77,7 +77,6 @@ then visit http://localhost:2334
 refers
 to [Put/Get](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/kv_test.go)
 
-
 ## Register Http/gRPC Server to etcd
 
 refers
@@ -87,6 +86,64 @@ to [Register Http Server](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0c
 
 refers
 to [GetGrpcClient](https://github.com/cruvie/kk_etcd_go/blob/566e340dee0ca3b38bff574fe223887035fe67d6/kk_etcd/server_grpc.go)
+
+# Server Hub Design
+
+## Register a service
+
+```mermaid
+sequenceDiagram
+    actor Client
+    Client ->> SerServer: RegisterService(registration)
+    SerServer -->> SerServer: CheckConfig
+    SerServer ->> Etcd: Put service info to etcd(kc.Put)
+    Etcd -->> ServerHub: Trigger watch event(EventTypePut)
+    ServerHub ->> DeadHub: putToDeadHub(registration)
+    ServerHub ->> Checker: startNewCheck(registration)
+```
+
+## Deregister a service
+
+```mermaid
+sequenceDiagram
+    actor Client
+    Client ->> SerServer: DeregisterServer(registration)
+    SerServer ->> Etcd: Delete Service(kc.Delete)
+    Etcd -->> ServerHub: Trigger watch event(EventTypeDelete)
+    ServerHub ->> DeadHub: delFromDeadHub(registration)
+    ServerHub ->> AliveHub: delFromAliveHub(registration)
+    ServerHub ->> Checker: stopCheck(registration.Key())
+```
+
+## Health check
+
+```mermaid
+sequenceDiagram
+    ServerHub ->> Checker: startNewCheck(registration)
+    loop HealthCheck every service has a health checker with thier own config
+        Checker ->> Checker: checkGrpc/checkHttp
+        alt if status is healthy and previous status is unhealthy
+            Checker ->> ServerHub: update
+            ServerHub ->> AliveHub: putToAliveHub(registration)
+            ServerHub ->> DeadHub: delFromDeadHub(registration)
+            ServerHub ->> Etcd: Put aliveHub to etcd(putHubToEtcd)
+        end
+    end
+```
+
+## Get a grpc connection
+
+```mermaid
+sequenceDiagram
+    Client ->> SerServer: GetConns(connType, serverName)
+    SerServer ->> Etcd: GetAliveHub(getHubFromEtcd)
+    SerServer -->> SerServer: Filter connection type(getOneAliveServer)
+    loop HealthCheck
+        SerServer -->> SerServer: Get one random server (getOneAliveServer)
+        SerServer -->> SerServer: Check connection status(checkGrpc)
+    end
+    SerServer -->> Client: Return grpc client
+```
 
 # Contribute
 
