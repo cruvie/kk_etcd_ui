@@ -7,7 +7,7 @@ import 'package:kk_etcd_ui/pages/page_not_found/page_not_found.dart';
 
 class RouterCfg {
   static final GlobalKey<NavigatorState> rootNavigatorKey =
-      GlobalKey<NavigatorState>(debugLabel: 'rootKey');
+  GlobalKey<NavigatorState>(debugLabel: 'rootKey');
 
   static final GoRouter routerConfig = GoRouter(
     initialLocation: RouterPath.pageInit,
@@ -15,10 +15,11 @@ class RouterCfg {
     debugLogDiagnostics: true,
     errorBuilder: (context, state) => const PageNotFound(),
     routes: <RouteBase>[
+
       ///page_index
       GoRoute(
         path: RouterPath.pageLogin,
-        builder: (context, state) =>  const PageLogin(),
+        builder: (context, state) => const PageLogin(),
       ),
 
       ///page_home

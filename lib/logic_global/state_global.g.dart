@@ -14,7 +14,7 @@ final globalProvider = NotifierProvider<Global, StateGlobal>.internal(
   Global.new,
   name: r'globalProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$globalHash,
+  const bool.fromEnvironment('dart.vm.product') ? null : _$globalHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

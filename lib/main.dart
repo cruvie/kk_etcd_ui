@@ -51,8 +51,12 @@ class _MyAppState extends ConsumerState<MyApp> {
       localizationsDelegates: L10n.localizationsDelegates(),
       supportedLocales: L10n.supportedLocales(),
       debugShowCheckedModeBanner: false,
-      themeMode: ref.watch(kKUThemeModeProvider).currentThemeMode,
-      locale: ref.watch(kKULanguageProvider).currentLocale,
+      themeMode: ref
+          .watch(kKUThemeModeProvider)
+          .currentThemeMode,
+      locale: ref
+          .watch(kKULanguageProvider)
+          .currentLocale,
     );
   }
 }

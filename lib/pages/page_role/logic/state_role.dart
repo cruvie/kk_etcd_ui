@@ -118,7 +118,7 @@ class Role extends _$Role {
       okFunc: () {
         KKSnackBar.ok(getGlobalCtx(), const Text("delete succeed"));
         state.pbListRole.list.removeWhere(
-          (element) => element.name == role.name,
+              (element) => element.name == role.name,
         );
         ref.notifyListeners();
         finished = true;

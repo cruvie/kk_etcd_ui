@@ -14,7 +14,7 @@ final roleProvider = AutoDisposeNotifierProvider<Role, StateRole>.internal(
   Role.new,
   name: r'roleProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$roleHash,
+  const bool.fromEnvironment('dart.vm.product') ? null : _$roleHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

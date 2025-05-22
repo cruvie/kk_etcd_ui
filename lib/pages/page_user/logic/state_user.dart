@@ -81,12 +81,15 @@ class User extends _$User {
         await ref
             .read(globalProvider.notifier)
             .updateCurrentUser(
-              PBUser(
-                userName: resp.userName,
-                password: ref.watch(globalProvider).currentUser.password,
-                roles: resp.roles,
-              ),
-            );
+          PBUser(
+            userName: resp.userName,
+            password: ref
+                .watch(globalProvider)
+                .currentUser
+                .password,
+            roles: resp.roles,
+          ),
+        );
         hasData = true;
       },
       errorFunc: () {
@@ -144,7 +147,7 @@ class User extends _$User {
       okFunc: () {
         KKSnackBar.ok(getGlobalCtx(), const Text('delete success'));
         state.pbListUser.listUser.removeWhere(
-          (element) => element.userName == param.userName,
+              (element) => element.userName == param.userName,
         );
         ref.notifyListeners();
       },

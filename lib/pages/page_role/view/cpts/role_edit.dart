@@ -65,49 +65,53 @@ class _RoleEditState extends ConsumerState<RoleEdit> {
           ),
           Expanded(
               child: ListView(
-            children: [
-              KKCard(
-                padding: const EdgeInsets.all(20),
-                child: DataTable(
-                  columns: <DataColumn>[
-                    DataColumn(
-                      label: Expanded(
-                        child: Text(
-                          lTr(context).key,
-                          style: const TextStyle(fontStyle: FontStyle.italic),
+                children: [
+                  KKCard(
+                    padding: const EdgeInsets.all(20),
+                    child: DataTable(
+                      columns: <DataColumn>[
+                        DataColumn(
+                          label: Expanded(
+                            child: Text(
+                              lTr(context).key,
+                              style: const TextStyle(
+                                  fontStyle: FontStyle.italic),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Expanded(
-                        child: Text(
-                          lTr(context).rangeEnd,
-                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        DataColumn(
+                          label: Expanded(
+                            child: Text(
+                              lTr(context).rangeEnd,
+                              style: const TextStyle(
+                                  fontStyle: FontStyle.italic),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Expanded(
-                        child: Text(
-                          lTr(context).permission,
-                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        DataColumn(
+                          label: Expanded(
+                            child: Text(
+                              lTr(context).permission,
+                              style: const TextStyle(
+                                  fontStyle: FontStyle.italic),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Expanded(
-                        child: Text(
-                          lTr(context).action,
-                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        DataColumn(
+                          label: Expanded(
+                            child: Text(
+                              lTr(context).action,
+                              style: const TextStyle(
+                                  fontStyle: FontStyle.italic),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
+                      rows: assembleData(),
                     ),
-                  ],
-                  rows: assembleData(),
-                ),
-              ),
-            ],
-          ))
+                  ),
+                ],
+              ))
         ],
       ),
     );
@@ -229,37 +233,37 @@ class _RoleEditState extends ConsumerState<RoleEdit> {
                       Text(lTr(context).permission),
                       Flexible(
                           child: Column(children: [
-                        RadioListTile(
-                          title: Text(lTr(context).read),
-                          value: permissionREAD,
-                          groupValue: inputPerm.permissionType,
-                          onChanged: (value) {
-                            setState(() {
-                              inputPerm.permissionType = value!;
-                            });
-                          },
-                        ),
-                        RadioListTile(
-                          title: Text(lTr(context).write),
-                          value: permissionWRITE,
-                          groupValue: inputPerm.permissionType,
-                          onChanged: (value) {
-                            setState(() {
-                              inputPerm.permissionType = value!;
-                            });
-                          },
-                        ),
-                        RadioListTile(
-                          title: Text(lTr(context).readWrite),
-                          value: permissionREADWRITE,
-                          groupValue: inputPerm.permissionType,
-                          onChanged: (value) {
-                            setState(() {
-                              inputPerm.permissionType = value!;
-                            });
-                          },
-                        ),
-                      ])),
+                            RadioListTile(
+                              title: Text(lTr(context).read),
+                              value: permissionREAD,
+                              groupValue: inputPerm.permissionType,
+                              onChanged: (value) {
+                                setState(() {
+                                  inputPerm.permissionType = value!;
+                                });
+                              },
+                            ),
+                            RadioListTile(
+                              title: Text(lTr(context).write),
+                              value: permissionWRITE,
+                              groupValue: inputPerm.permissionType,
+                              onChanged: (value) {
+                                setState(() {
+                                  inputPerm.permissionType = value!;
+                                });
+                              },
+                            ),
+                            RadioListTile(
+                              title: Text(lTr(context).readWrite),
+                              value: permissionREADWRITE,
+                              groupValue: inputPerm.permissionType,
+                              onChanged: (value) {
+                                setState(() {
+                                  inputPerm.permissionType = value!;
+                                });
+                              },
+                            ),
+                          ])),
                     ]),
                   ),
                 ],

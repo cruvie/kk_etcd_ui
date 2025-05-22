@@ -44,7 +44,9 @@ class _PageLoginState extends ConsumerState<PageLogin> {
               Container(
                 margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                 child: TextFormField(
-                  initialValue: ref.watch(globalProvider).serviceAddr,
+                  initialValue: ref
+                      .watch(globalProvider)
+                      .serviceAddr,
                   decoration: InputDecoration(
                     labelText: lTr(context).serviceAddress,
                     hintText: "127.0.0.1:2333",
@@ -112,13 +114,15 @@ class _PageLoginState extends ConsumerState<PageLogin> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       await LSServiceAddr.set(
-                        ref.watch(globalProvider).serviceAddr,
+                        ref
+                            .watch(globalProvider)
+                            .serviceAddr,
                       );
                       await ref
                           .read(globalProvider.notifier)
                           .updateCurrentUser(
-                            PBUser(userName: userName, password: password),
-                          );
+                        PBUser(userName: userName, password: password),
+                      );
                       bool success = await readUser.login(
                         Login_Input(userName: userName, password: password),
                       );

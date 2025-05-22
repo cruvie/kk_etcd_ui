@@ -16,7 +16,9 @@ class _RightMainContentState extends ConsumerState<RightMainContent> {
   @override
   Widget build(BuildContext context) {
     return PageView(
-        controller: ref.watch(globalProvider).pageController,
+        controller: ref
+            .watch(globalProvider)
+            .pageController,
         physics: const NeverScrollableScrollPhysics(),
         children: allPages);
   }

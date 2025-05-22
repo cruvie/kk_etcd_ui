@@ -71,7 +71,8 @@ class Backup extends _$Backup {
 
   Future<AllKVsBackup_Output> allKVsBackup(AllKVsBackup_Input param) async {
     AllKVsBackup_Output resp = AllKVsBackup_Output();
-    await kkBaseRequest(ApiBackup.allKVsBackup,param, resp, HttpTool.postReq, okFunc: () async {});
+    await kkBaseRequest(ApiBackup.allKVsBackup, param, resp, HttpTool.postReq,
+        okFunc: () async {});
     return resp;
   }
 

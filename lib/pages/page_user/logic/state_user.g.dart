@@ -14,7 +14,7 @@ final userProvider = AutoDisposeNotifierProvider<User, StateUser>.internal(
   User.new,
   name: r'userProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$userHash,
+  const bool.fromEnvironment('dart.vm.product') ? null : _$userHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

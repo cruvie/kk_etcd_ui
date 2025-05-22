@@ -44,7 +44,7 @@ class _PageAddRoleState extends ConsumerState<PageAddRole> {
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
                     bool success =
-                        await readRole.roleAdd(nameController.text);
+                    await readRole.roleAdd(nameController.text);
                     if (context.mounted) {
                       if (success) {
                         KKSnackBar.ok(context, const Text("add succeed"));

@@ -96,7 +96,7 @@ class KV extends _$KV {
       okFunc: () {
         KKSnackBar.ok(getGlobalCtx(), const Text("delete succeed"));
         state.pbKVList.listKV.removeWhere(
-          (element) => element.key == param.key,
+              (element) => element.key == param.key,
         );
         ref.notifyListeners();
         finished = true;

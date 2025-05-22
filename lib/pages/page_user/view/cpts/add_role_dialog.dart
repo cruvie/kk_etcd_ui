@@ -30,7 +30,11 @@ class _AddRoleDialogState extends ConsumerState<AddRoleDialog> {
     return AlertDialog(
       content: Wrap(
         alignment: WrapAlignment.start, // 设置左对齐
-        children: ref.watch(roleProvider).pbListRole.list.map((PBRole value) {
+        children: ref
+            .watch(roleProvider)
+            .pbListRole
+            .list
+            .map((PBRole value) {
           return Row(
             mainAxisSize: MainAxisSize.min, // 设置行宽度为尽可能小
             children: [
@@ -62,11 +66,11 @@ class _AddRoleDialogState extends ConsumerState<AddRoleDialog> {
             onPressed: () {
               if (widget.userName.isEmpty) return;
               ref.read(userProvider.notifier).userGrantRole(
-                    UserGrantRole_Input(
-                      userName: widget.userName,
-                      roles: widget.roles,
-                    ),
-                  );
+                UserGrantRole_Input(
+                  userName: widget.userName,
+                  roles: widget.roles,
+                ),
+              );
               context.pop();
             },
             child: Text(lTr(context).buttonOK)),

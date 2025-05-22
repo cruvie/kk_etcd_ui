@@ -44,11 +44,15 @@ class _PageServiceState extends ConsumerState<PageService>
         children: [
           PageServiceBase(
             PBServiceType.Http,
-            ref.watch(serviceProvider).pbListServiceHttp,
+            ref
+                .watch(serviceProvider)
+                .pbListServiceHttp,
           ),
           PageServiceBase(
             PBServiceType.Grpc,
-            ref.watch(serviceProvider).pbListServiceGrpc,
+            ref
+                .watch(serviceProvider)
+                .pbListServiceGrpc,
           ),
         ],
       ),

@@ -175,7 +175,10 @@ class _LeftSideMenuState extends ConsumerState<LeftSideMenu> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text(ref.watch(globalProvider).currentUser.userName),
+                        Text(ref
+                            .watch(globalProvider)
+                            .currentUser
+                            .userName),
                         Text(ref
                             .watch(globalProvider)
                             .currentUser

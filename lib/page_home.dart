@@ -23,6 +23,7 @@ class _PageHomeState extends ConsumerState<PageHome> {
       ref
           .read(kKULanguageProvider.notifier)
           .changeLang(await StateKKULanguage.getLocale());
+
       ///设置主题模式
       ref
           .read(kKUThemeModeProvider.notifier)

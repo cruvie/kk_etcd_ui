@@ -17,7 +17,7 @@ class _PageBackupState extends ConsumerState<PageBackup>
   bool get wantKeepAlive => true;
 
   late final tabController =
-      TabController(vsync: this, length: getTabs().length);
+  TabController(vsync: this, length: getTabs().length);
 
   List<Tab> getTabs() {
     return [

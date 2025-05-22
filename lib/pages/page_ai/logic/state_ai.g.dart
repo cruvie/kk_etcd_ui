@@ -14,7 +14,7 @@ final aIProvider = AutoDisposeNotifierProvider<AI, StateAI>.internal(
   AI.new,
   name: r'aIProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$aIHash,
+  const bool.fromEnvironment('dart.vm.product') ? null : _$aIHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

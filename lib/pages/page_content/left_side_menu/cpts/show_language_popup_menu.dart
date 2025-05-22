@@ -5,7 +5,7 @@ import 'package:kk_ui/kk_util/kku_language.dart';
 
 showLanguagePopupMenu(WidgetRef ref) {
   late List<String> languageList =
-      LanguageMap.languageMap.entries.map((entry) => entry.key).toList();
+  LanguageMap.languageMap.entries.map((entry) => entry.key).toList();
   List<PopupMenuEntry<String>> list = [];
   for (int i = 0; i < languageList.length; i++) {
     list.add(
@@ -15,7 +15,7 @@ showLanguagePopupMenu(WidgetRef ref) {
           String languageCode =
               LanguageMap.languageMap[languageList[i]]!.keys.first;
           String countryCode =
-              LanguageMap.languageMap[languageList[i]]![languageCode]!;
+          LanguageMap.languageMap[languageList[i]]![languageCode]!;
           ref
               .read(kKULanguageProvider.notifier)
               .changeLang(Locale(languageCode, countryCode));

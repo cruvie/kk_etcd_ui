@@ -24,7 +24,10 @@ aboutInfo(BuildContext context) {
     builder: (BuildContext context) {
       return Container(
         padding: const EdgeInsets.only(bottom: 10),
-        height: MediaQuery.of(context).size.height * 0.6,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height * 0.6,
         child: ListView(
           children: [
             Center(
@@ -55,7 +58,8 @@ aboutInfo(BuildContext context) {
                 padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
-                    Text(lTr(context).donate, style: const TextStyle(fontSize: 20)),
+                    Text(lTr(context).donate,
+                        style: const TextStyle(fontSize: 20)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [

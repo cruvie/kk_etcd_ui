@@ -51,7 +51,7 @@ class _PageRoleState extends ConsumerState<PageRole> {
                             child: Text(
                               lTr(context).role,
                               style:
-                                  const TextStyle(fontStyle: FontStyle.italic),
+                              const TextStyle(fontStyle: FontStyle.italic),
                             ),
                           ),
                         ),
@@ -60,7 +60,7 @@ class _PageRoleState extends ConsumerState<PageRole> {
                             child: Text(
                               lTr(context).action,
                               style:
-                                  const TextStyle(fontStyle: FontStyle.italic),
+                              const TextStyle(fontStyle: FontStyle.italic),
                             ),
                           ),
                         ),
@@ -75,12 +75,12 @@ class _PageRoleState extends ConsumerState<PageRole> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-            FloatingActionButton(
-              heroTag: null,
-              onPressed: initData,
-              child: const Icon(Icons.refresh_outlined),
-            ),
-          ],),
+              FloatingActionButton(
+                heroTag: null,
+                onPressed: initData,
+                child: const Icon(Icons.refresh_outlined),
+              ),
+            ],),
           const Divider(),
           const Expanded(flex: 3, child: RoleEdit())
         ],

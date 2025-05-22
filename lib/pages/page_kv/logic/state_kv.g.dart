@@ -14,7 +14,7 @@ final kVProvider = AutoDisposeNotifierProvider<KV, StateKV>.internal(
   KV.new,
   name: r'kVProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$kVHash,
+  const bool.fromEnvironment('dart.vm.product') ? null : _$kVHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

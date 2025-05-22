@@ -10,7 +10,7 @@ import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/pages/page_backup/logic/state_backup.dart';
 
 import 'package:kk_ui/kk_file/io.dart'
-    if (dart.library.html) 'package:kk_ui/kk_file/web.dart';
+if (dart.library.html) 'package:kk_ui/kk_file/web.dart';
 import 'package:kk_ui/kk_widget/kk_card.dart';
 
 class PageSnapshot extends ConsumerStatefulWidget {
@@ -33,7 +33,8 @@ class _PageSnapshotState extends ConsumerState<PageSnapshot> {
           const Padding(padding: EdgeInsets.only(top: 20)),
           ElevatedButton(
             onPressed: () async {
-              Snapshot_Output resp = await readBackup.snapshot(Snapshot_Input());
+              Snapshot_Output resp = await readBackup.snapshot(
+                  Snapshot_Input());
               // debugPrint('${KKUPlatform.platformType()}');
               if (context.mounted) {
                 KKDownload.savaFile(
@@ -47,7 +48,7 @@ class _PageSnapshotState extends ConsumerState<PageSnapshot> {
               ElevatedButton(
                   onPressed: () async {
                     snapshotRestoreCmd =
-                        await readBackup.snapshotRestore(SnapshotRestore_Input());
+                    await readBackup.snapshotRestore(SnapshotRestore_Input());
                     setState(() {});
                   },
                   child: Text(lTr(context).snapshotRestore)),
@@ -70,9 +71,9 @@ class _PageSnapshotState extends ConsumerState<PageSnapshot> {
                       Uint8List bytes = await file!.readAsBytes();
                       if (context.mounted) {
                         snapshotInfo =
-                            await readBackup.snapshotInfo(SnapshotInfo_Input(
-                              file:bytes.toList()
-                            ));
+                        await readBackup.snapshotInfo(SnapshotInfo_Input(
+                            file: bytes.toList()
+                        ));
                       }
                       setState(() {});
                     }

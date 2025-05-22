@@ -49,7 +49,7 @@ class Service extends _$Service {
               );
             }
           case PBServiceType.Unknown:
-            // TODO: Handle this case.
+          // TODO: Handle this case.
             break;
         }
 
@@ -81,7 +81,7 @@ class Service extends _$Service {
             {
               state.pbListServiceHttp.listService.removeWhere((e) {
                 return (e.serviceRegistration.serviceName ==
-                        param.service.serviceRegistration.serviceName) &&
+                    param.service.serviceRegistration.serviceName) &&
                     (e.serviceRegistration.serviceAddr ==
                         param.service.serviceRegistration.serviceAddr);
               });
@@ -90,13 +90,13 @@ class Service extends _$Service {
             {
               state.pbListServiceGrpc.listService.removeWhere((e) {
                 return (e.serviceRegistration.serviceName ==
-                        param.service.serviceRegistration.serviceName) &&
+                    param.service.serviceRegistration.serviceName) &&
                     (e.serviceRegistration.serviceAddr ==
                         param.service.serviceRegistration.serviceAddr);
               });
             }
           case PBServiceType.Unknown:
-            // TODO: Handle this case.
+          // TODO: Handle this case.
             break;
         }
 

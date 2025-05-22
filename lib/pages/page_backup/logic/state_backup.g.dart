@@ -11,14 +11,14 @@ String _$backupHash() => r'f9b0f7ecb3e85833b0e97a72843f34180ed19299';
 /// See also [Backup].
 @ProviderFor(Backup)
 final backupProvider =
-    AutoDisposeNotifierProvider<Backup, StateBackup>.internal(
-      Backup.new,
-      name: r'backupProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product') ? null : _$backupHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+AutoDisposeNotifierProvider<Backup, StateBackup>.internal(
+  Backup.new,
+  name: r'backupProvider',
+  debugGetCreateSourceHash:
+  const bool.fromEnvironment('dart.vm.product') ? null : _$backupHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 typedef _$Backup = AutoDisposeNotifier<StateBackup>;
 // ignore_for_file: type=lint

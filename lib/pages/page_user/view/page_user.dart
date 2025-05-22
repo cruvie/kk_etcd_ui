@@ -57,7 +57,7 @@ class _PageUserState extends ConsumerState<PageUser> {
                             child: Text(
                               lTr(context).name,
                               style:
-                                  const TextStyle(fontStyle: FontStyle.italic),
+                              const TextStyle(fontStyle: FontStyle.italic),
                             ),
                           ),
                         ),
@@ -66,7 +66,7 @@ class _PageUserState extends ConsumerState<PageUser> {
                             child: Text(
                               lTr(context).role,
                               style:
-                                  const TextStyle(fontStyle: FontStyle.italic),
+                              const TextStyle(fontStyle: FontStyle.italic),
                             ),
                           ),
                         ),
@@ -75,7 +75,7 @@ class _PageUserState extends ConsumerState<PageUser> {
                             child: Text(
                               lTr(context).action,
                               style:
-                                  const TextStyle(fontStyle: FontStyle.italic),
+                              const TextStyle(fontStyle: FontStyle.italic),
                             ),
                           ),
                         ),
@@ -94,7 +94,10 @@ class _PageUserState extends ConsumerState<PageUser> {
 
   List<DataRow> assembleData() {
     List<DataRow> userDataRows = [];
-    for (PBUser element in ref.watch(userProvider).pbListUser.listUser) {
+    for (PBUser element in ref
+        .watch(userProvider)
+        .pbListUser
+        .listUser) {
       userDataRows.add(
         DataRow(
           cells: <DataCell>[
@@ -125,10 +128,10 @@ class _PageUserState extends ConsumerState<PageUser> {
                 ElevatedButton(
                   onPressed: () {
                     ref.read(userProvider.notifier).userDelete(
-                          UserDelete_Input(
-                            userName: element.userName,
-                          ),
-                        );
+                      UserDelete_Input(
+                        userName: element.userName,
+                      ),
+                    );
                   },
                   child: Text(
                     lTr(context).delete,
