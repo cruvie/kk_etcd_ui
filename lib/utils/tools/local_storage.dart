@@ -17,7 +17,7 @@ class LSAuthorizationToken {
   }
 
   static Future<String?> get() async {
-    return await KKUSp.getString(authorizationToken);
+    return await KKUSp.get(authorizationToken);
   }
 
   static Future<bool> exists() async {
@@ -30,22 +30,46 @@ class LSAuthorizationToken {
 }
 
 class LSServiceAddr {
-  static const serviceAddr = "ServiceAddr";
+  LSServiceAddr._();
 
-  static Future<void> set(String s) {
-    return KKUSp.set(serviceAddr, s);
+  static const _keyHost = "ServiceHost";
+  static const _keyPort = "ServicePort";
+
+  static String? _cacheHost;
+  static int? _cachePort;
+
+  static String? getHost() {
+    return _cacheHost;
   }
 
-  static Future<String> get() async {
-    return await KKUSp.getString(serviceAddr) ?? "";
+  static int? getPort() {
+    return _cachePort;
   }
 
-  static Future<bool> exists() {
-    return KKUSp.containsKey(serviceAddr);
+  static Future<void> set(String host, int port) {
+    _cacheHost = host;
+    _cachePort = port;
+    KKUSp.set(_keyHost, host);
+    KKUSp.set(_keyPort, port);
+    return Future.value();
+  }
+
+  static Future<void> init() async {
+    _cacheHost = await KKUSp.get(_keyHost);
+    _cachePort = await KKUSp.get<int>(_keyPort);
+  }
+
+  static Future<bool> exists() async {
+    return await KKUSp.containsKey(_keyHost) &&
+        await KKUSp.containsKey(_keyPort);
   }
 
   static Future<void> remove() {
-    return KKUSp.remove(serviceAddr);
+    _cacheHost = null;
+    _cachePort = null;
+    KKUSp.remove(_keyHost);
+    KKUSp.remove(_keyPort);
+    return Future.value();
   }
 }
 
@@ -57,7 +81,7 @@ class LSTheme {
   }
 
   static Future<String?> getTheme() async {
-    return await KKUSp.getString(theme);
+    return await KKUSp.get(theme);
   }
 }
 
@@ -69,7 +93,7 @@ class LSMyInfo {
   }
 
   static Future<PBUser?> get() async {
-    String? userJson = await KKUSp.getString(myInfo);
+    String? userJson = await KKUSp.get(myInfo);
     if (userJson == null) {
       return null;
     }

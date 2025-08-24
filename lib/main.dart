@@ -12,7 +12,7 @@ import 'l10n/l10n.dart';
 
 final globalProviderContainer = ProviderContainer();
 
-main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   KKLog.initLog();

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/api_role.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/role/api_def/RoleAdd.pb.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/role/api_def/RoleDelete.pb.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/role/api_def/RoleGrantPermission.pb.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/role/api_def/RoleList.pb.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/role/api_def/RoleRevokePermission.pb.dart';
+import 'package:kk_etcd_go/internal/service_hub/api_role.dart';
+import 'package:kk_etcd_go/internal/service_hub/role/api_def/RoleAdd.pb.dart';
+import 'package:kk_etcd_go/internal/service_hub/role/api_def/RoleDelete.pb.dart';
+import 'package:kk_etcd_go/internal/service_hub/role/api_def/RoleGrantPermission.pb.dart';
+import 'package:kk_etcd_go/internal/service_hub/role/api_def/RoleList.pb.dart';
+import 'package:kk_etcd_go/internal/service_hub/role/api_def/RoleRevokePermission.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_role_kk_etcd.pb.dart';
 import 'package:kk_etcd_ui/logic_global/state_global.dart';
 import 'package:kk_etcd_ui/page_routes/router_util.dart';

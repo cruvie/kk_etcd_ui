@@ -1,13 +1,15 @@
 import 'package:flutter/cupertino.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/api_kv.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/kv/api_def/KVDel.pb.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/kv/api_def/KVGet.pb.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/kv/api_def/KVList.pb.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/kv/api_def/KVPut.pb.dart';
+import 'package:kk_etcd_go/internal/service_hub/kv/api_def/KVList.pb.dart';
+import 'package:kk_etcd_go/internal/service_hub/kv/api_def/KVDel.pb.dart';
+import 'package:kk_etcd_go/internal/service_hub/kv/api_def/KVGet.pb.dart';
+import 'package:kk_etcd_go/internal/service_hub/kv/api_def/KVList.pb.dart';
+import 'package:kk_etcd_go/internal/service_hub/kv/api_def/KVPut.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_kv_kk_etcd.pb.dart';
 import 'package:kk_etcd_ui/page_routes/router_util.dart';
+import 'package:kk_etcd_ui/utils/grpc/client.dart';
 import 'package:kk_etcd_ui/utils/request/request.dart';
 import 'package:kk_go_kit/kk_http/base_request.dart';
+import 'package:kk_ui/kk_util/kk_log.dart';
 import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -26,21 +28,34 @@ class KV extends _$KV {
     return StateKV();
   }
 
+  // Future<bool> kVList(KVList_Input param) async {
+  //   bool result = false;
+  //   KVList_Output out = KVList_Output();
+  //   await kkBaseRequest(
+  //     ApiKv.kVList,
+  //     param,
+  //     resp,
+  //     HttpTool.postReq,
+  //     okFunc: () {
+  //       state.pbKVList.clear();
+  //       state.pbKVList = resp.kVList;
+  //       ref.notifyListeners();
+  //       result = true;
+  //     },
+  //   );
+  //   return result;
+  // }
   Future<bool> kVList(KVList_Input param) async {
     bool result = false;
-    KVList_Output resp = KVList_Output();
-    await kkBaseRequest(
-      ApiKv.kVList,
-      param,
-      resp,
-      HttpTool.postReq,
-      okFunc: () {
-        state.pbKVList.clear();
-        state.pbKVList = resp.kVList;
-        ref.notifyListeners();
-        result = true;
-      },
-    );
+    try {
+      KVList_Output out = await kvClientStub.kVList(param);
+      state.pbKVList.clear();
+      state.pbKVList = out.kVList;
+      ref.notifyListeners();
+      result = true;
+    } catch (e) {
+      log.info("kVList $e");
+    }
     return result;
   }
 
@@ -96,7 +111,7 @@ class KV extends _$KV {
       okFunc: () {
         KKSnackBar.ok(getGlobalCtx(), const Text("delete succeed"));
         state.pbKVList.listKV.removeWhere(
-              (element) => element.key == param.key,
+          (element) => element.key == param.key,
         );
         ref.notifyListeners();
         finished = true;

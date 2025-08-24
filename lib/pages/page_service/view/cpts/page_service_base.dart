@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/service/api_def/DeregisterService.pb.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/service/api_def/ServiceList.pb.dart';
+import 'package:kk_etcd_go/internal/service_hub/service/api_def/DeregisterService.pb.dart';
+import 'package:kk_etcd_go/internal/service_hub/service/api_def/ServiceList.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_service_kk_etcd.pb.dart';
 import 'package:kk_etcd_go/kk_etcd_models/pb_service_registration.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';

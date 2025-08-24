@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kk_etcd_go/kk_etcd_api_hub/kv/api_def/KVPut.pb.dart';
+import 'package:kk_etcd_go/internal/service_hub/kv/api_def/KVPut.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 import 'package:kk_etcd_ui/pages/page_kv/logic/state_kv.dart';
 
