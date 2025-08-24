@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:grpc/grpc.dart';
-import 'package:kk_etcd_ui/logic_global/global_tool.dart';
+import 'package:kk_etcd_ui/main.dart';
+import 'package:kk_etcd_ui/logic_global/state_global.dart';
 import 'package:kk_etcd_ui/page_routes/router_util.dart';
 import 'package:kk_etcd_ui/utils/tools/tool_navigator.dart';
 import 'package:kk_ui/kk_util/kk_id.dart';
 import 'package:kk_ui/kk_util/kk_log.dart';
-import 'package:kk_ui/kk_widget/kk_id.dart';
 import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
 
 // 复杂用法 https://github.com/grpc/grpc-dart/pull/489#issuecomment-1117204933
@@ -93,14 +93,20 @@ class GrpcInterceptor extends ClientInterceptor {
 
   /// 添加token到CallOptions
   CallOptions _addTokenToOptions(CallOptions options) {
-    // 尝试获取存储的token（注意：这是异步操作，但在实际应用中我们可能需要采用其他策略）
-    // String? token = LSAuthorizationToken.get();
-    //
-    // if (token != null) {
-    //   options = options.mergedWith(
-    //     CallOptions(metadata: {LSAuthorizationToken.key: token}),
-    //   );
-    // }
+    options = options.mergedWith(
+      CallOptions(
+        metadata: {
+          "UserName": globalProviderContainer
+              .read(globalProvider.notifier)
+              .getCurrentUser()
+              .userName,
+          "Password": globalProviderContainer
+              .read(globalProvider.notifier)
+              .getCurrentUser()
+              .password,
+        },
+      ),
+    );
 
     options = options.mergedWith(
       CallOptions(metadata: {"TraceId": KKUuid().genUUID7()}),

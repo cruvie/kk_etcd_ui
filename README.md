@@ -25,10 +25,6 @@ A Configuration center and Service registration and discovery platform based on 
 
 ![ui](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/images/ui2.png?raw=true)
 
-## AI
-
-![ai](https://github.com/cruvie/kk_etcd_ui/blob/master/lib/assets/images/ai.png?raw=true)
-
 # How to use?🤔
 
 download [example](https://github.com/cruvie/kk_etcd_go/tree/master/example)

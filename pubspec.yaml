@@ -4,7 +4,7 @@ description: Etcd UI
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.4.3
+version: 1.4.4
 
 environment:
   sdk: '>=3.9.0'
@@ -36,14 +36,12 @@ dependencies:
   kk_go_kit:
     git:
       url: https://gitee.com/cruvie/kk_go_kit.git
-  fixnum: any # all
+
   package_info_plus: any # all BSD-3-Clause
   url_launcher: any # all BSD-3-Clause
   date_format: any  # all BSD-3-Clause
-  shared_preferences: any  # all BSD-3-Clause
-  protobuf: any # all BSD-3-Clause
-  http: any # all BSD-3-Clause
   intl: any # all BSD-3-Clause
+  grpc: any
   go_router: any # all BSD-3-Clause
   # todo replace two scorllctl
   two_dimensional_scrollables: any # all flutter.dev

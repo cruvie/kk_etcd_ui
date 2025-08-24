@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:kk_etcd_go/internal/service_hub/api_user.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kk_etcd_go/internal/service_hub/user/api_def/Login.pb.dart';
 import 'package:kk_etcd_go/internal/service_hub/user/api_def/Logout.pb.dart';
 import 'package:kk_etcd_go/internal/service_hub/user/api_def/MyInfo.pb.dart';
@@ -11,9 +11,10 @@ import 'package:kk_etcd_go/kk_etcd_models/pb_user_kk_etcd.pb.dart';
 import 'package:kk_etcd_ui/logic_global/state_global.dart';
 import 'package:kk_etcd_ui/page_routes/router_path.dart';
 import 'package:kk_etcd_ui/page_routes/router_util.dart';
-import 'package:kk_etcd_ui/utils/request/request.dart';
+import 'package:kk_etcd_ui/utils/grpc/client.dart';
 import 'package:kk_etcd_ui/utils/tools/local_storage.dart';
-import 'package:kk_go_kit/kk_http/base_request.dart';
+
+import 'package:kk_ui/kk_util/kk_log.dart';
 import 'package:kk_ui/kk_widget/kk_snack_bar.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -30,149 +31,109 @@ class User extends _$User {
     return StateUser();
   }
 
-  Future<bool> login(Login_Input param) async {
+  Future<bool> login(Login_Input param, WidgetRef ref) async {
     bool result = false;
-    Login_Output resp = Login_Output();
-    await kkBaseRequest(
-      ApiUser.login,
-      param,
-      resp,
-      HttpTool.postReq,
-      okFunc: () async {
-        await LSAuthorizationToken.set(resp.token);
-        await ref.read(globalProvider.notifier).refreshCurrentUser();
-        await RouterPath.init();
-        result = true;
-      },
-      errorFunc: () {
-        result = false;
-      },
-    );
+    try {
+      Login_Output resp = await userClientStub.login(param);
+      await LSAuthorizationToken.set(resp.token);
+      await ref.read(globalProvider.notifier).refreshCurrentUser();
+      await RouterPath.init();
+      result = true;
+    } catch (e) {
+      log.info("login $e");
+      result = false;
+    }
     return result;
   }
 
   Future<bool> logout(Logout_Input param) async {
     bool result = false;
-    Logout_Output resp = Logout_Output();
-    await kkBaseRequest(
-      ApiUser.logout,
-      param,
-      resp,
-      HttpTool.postReq,
-      okFunc: () async {
-        result = true;
-      },
-      errorFunc: () {
-        result = false;
-      },
-    );
+    try {
+      await userClientStub.logout(param);
+      result = true;
+    } catch (e) {
+      log.info("logout $e");
+      result = false;
+    }
     return result;
   }
 
   Future<bool> getMyInfo() async {
     bool hasData = false;
-    MyInfo_Output resp = MyInfo_Output();
-    await kkBaseRequest(
-      ApiUser.myInfo,
-      MyInfo_Input(),
-      resp,
-      HttpTool.postReq,
-      okFunc: () async {
-        await ref
-            .read(globalProvider.notifier)
-            .updateCurrentUser(
-          PBUser(
-            userName: resp.userName,
-            password: ref
-                .watch(globalProvider)
-                .currentUser
-                .password,
-            roles: resp.roles,
-          ),
-        );
-        hasData = true;
-      },
-      errorFunc: () {
-        hasData = false;
-      },
-    );
+    try {
+      MyInfo_Output resp = await userClientStub.myInfo(MyInfo_Input());
+      await ref
+          .read(globalProvider.notifier)
+          .updateCurrentUser(
+            PBUser(
+              userName: resp.userName,
+              password: ref.watch(globalProvider).currentUser.password,
+              roles: resp.roles,
+            ),
+          );
+      hasData = true;
+    } catch (e) {
+      log.info("getMyInfo $e");
+      hasData = false;
+    }
     return hasData;
   }
 
   Future<bool> userList() async {
     bool finished = false;
-    UserList_Output resp = UserList_Output();
-    await kkBaseRequest(
-      ApiUser.userList,
-      UserList_Input(),
-      resp,
-      HttpTool.postReq,
-      okFunc: () {
-        state.pbListUser.clear();
-        state.pbListUser.listUser.addAll(resp.listUser.listUser);
-        ref.notifyListeners();
-        finished = true;
-      },
-    );
+    try {
+      UserList_Output resp = await userClientStub.userList(UserList_Input());
+      state.pbListUser.clear();
+      state.pbListUser.listUser.addAll(resp.listUser.listUser);
+      ref.notifyListeners();
+      finished = true;
+    } catch (e) {
+      log.info("userList $e");
+      finished = false;
+    }
     return finished;
   }
 
   Future<bool> userAdd(UserAdd_Input param) async {
     bool finished = false;
-    UserAdd_Output resp = UserAdd_Output();
-    await kkBaseRequest(
-      ApiUser.userAdd,
-      param,
-      resp,
-      HttpTool.postReq,
-      okFunc: () {
-        KKSnackBar.ok(getGlobalCtx(), const Text('add success'));
-        finished = true;
-      },
-      errorFunc: () {
-        KKSnackBar.error(getGlobalCtx(), const Text('add error'));
-        finished = false;
-      },
-    );
+    try {
+      await userClientStub.userAdd(param);
+      KKSnackBar.ok(getGlobalCtx(), const Text('add success'));
+      finished = true;
+    } catch (e) {
+      log.info("userAdd $e");
+      KKSnackBar.error(getGlobalCtx(), const Text('add error'));
+      finished = false;
+    }
     return finished;
   }
 
   Future<void> userDelete(UserDelete_Input param) async {
-    UserDelete_Output resp = UserDelete_Output();
-    await kkBaseRequest(
-      ApiUser.userDelete,
-      param,
-      resp,
-      HttpTool.postReq,
-      okFunc: () {
-        KKSnackBar.ok(getGlobalCtx(), const Text('delete success'));
-        state.pbListUser.listUser.removeWhere(
-              (element) => element.userName == param.userName,
-        );
-        ref.notifyListeners();
-      },
-    );
+    try {
+      await userClientStub.userDelete(param);
+      KKSnackBar.ok(getGlobalCtx(), const Text('delete success'));
+      state.pbListUser.listUser.removeWhere(
+        (element) => element.userName == param.userName,
+      );
+      ref.notifyListeners();
+    } catch (e) {
+      log.info("userDelete $e");
+    }
   }
 
   Future<bool> userGrantRole(UserGrantRole_Input param) async {
     bool finished = false;
-    UserGrantRole_Output resp = UserGrantRole_Output();
-    await kkBaseRequest(
-      ApiUser.userGrantRole,
-      param,
-      resp,
-      HttpTool.postReq,
-      okFunc: () async {
-        KKSnackBar.ok(getGlobalCtx(), const Text('grant success'));
-        await userList();
-        ref.notifyListeners();
-        finished = true;
-      },
-      errorFunc: () {
-        KKSnackBar.error(getGlobalCtx(), const Text('grant error'));
-        finished = false;
-      },
-    );
+    try {
+      await userClientStub.userGrantRole(param);
+      KKSnackBar.ok(getGlobalCtx(), const Text('grant success'));
+      await userList();
+      ref.notifyListeners();
+      finished = true;
+    } catch (e) {
+      log.info("userGrantRole $e");
+      KKSnackBar.error(getGlobalCtx(), const Text('grant error'));
+      finished = false;
+    }
     return finished;
   }
 }

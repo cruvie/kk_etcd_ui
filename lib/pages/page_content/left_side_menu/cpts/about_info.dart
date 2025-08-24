@@ -15,7 +15,7 @@ Future<void> _initData() async {
   packageInfo = await PackageInfo.fromPlatform();
 }
 
-aboutInfo(BuildContext context) {
+void aboutInfo(BuildContext context) {
   _initData();
   showModalBottomSheet(
     showDragHandle: true,

@@ -4,7 +4,6 @@ import 'package:kk_etcd_go/internal/service_hub/user/api_def/Logout.pb.dart';
 import 'package:kk_etcd_ui/l10n/l10n.dart';
 
 import 'package:kk_etcd_ui/logic_global/state_global.dart';
-import 'package:kk_etcd_ui/pages/page_ai/view/page_ai.dart';
 import 'package:kk_etcd_ui/pages/page_backup/view/page_backup.dart';
 import 'package:kk_etcd_ui/pages/page_kv/view/page_add_kv/page_add_kv.dart';
 import 'package:kk_etcd_ui/pages/page_kv/view/page_kv.dart';
@@ -150,18 +149,6 @@ class _LeftSideMenuState extends ConsumerState<LeftSideMenu> {
                         title: Text(lTr(context).pageAddRole),
                       ),
                     ]),
-                ExpansionTile(
-                    leading: const Icon(Icons.chat_outlined),
-                    title: GestureDetector(
-                      child: Text("AI"),
-                      onTap: () {
-                        ref
-                            .read(globalProvider.notifier)
-                            .changeDestination(const PageAI());
-                      },
-                    ),
-                    childrenPadding: const EdgeInsets.only(left: 20),
-                    children: []),
               ],
             ),
           ),
@@ -201,7 +188,7 @@ class _LeftSideMenuState extends ConsumerState<LeftSideMenu> {
                     ref.read(userProvider.notifier).logout(Logout_Input());
                     // no matter success or not, we should remove token and return to login page
                     await LSAuthorizationToken.remove();
-                    await LSMyInfo.remove();
+                    LSMyInfo.remove();
                     ref.read(globalProvider.notifier).resetCurrentUser();
                     ToolNavigator.toPageLogin();
                   },

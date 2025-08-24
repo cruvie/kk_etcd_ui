@@ -101,7 +101,7 @@ class LSMyInfo {
     return user;
   }
 
-  static remove() {
+  static void remove() {
     KKUSp.remove(myInfo);
   }
 }

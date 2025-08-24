@@ -71,7 +71,7 @@ class _PageKVBackupState extends ConsumerState<PageKVBackup> {
 
   XFile? file;
 
-  pickFile() async {
+  Future<void> pickFile() async {
     const XTypeGroup typeGroup = XTypeGroup(
       extensions: <String>['json'],
     );

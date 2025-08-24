@@ -160,7 +160,7 @@ class _RoleEditState extends ConsumerState<RoleEdit> {
     return configDataRows;
   }
 
-  addPermDialog() {
+  void addPermDialog() {
     int permissionREAD = 0;
     int permissionWRITE = 1;
     int permissionREADWRITE = 2;

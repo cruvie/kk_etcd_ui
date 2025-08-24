@@ -11,7 +11,8 @@ part 'state_global.g.dart';
 class StateGlobal {
   PBUser currentUser = PBUser();
 
-  String serviceAddr = '';
+  String serviceHost = '';
+  String servicePort = '';
 
   PageController pageController = PageController();
 }
@@ -27,17 +28,23 @@ class Global extends _$Global {
     await ref.read(userProvider.notifier).getMyInfo();
   }
 
-  Future<void> init() async {
-    state.serviceAddr = await LSServiceAddr.get();
+  void init() {
+    state.serviceHost = LSServiceAddr.getHost() ?? '';
+    state.servicePort = LSServiceAddr.getPort().toString();
     ref.notifyListeners();
   }
 
-  Future<void> setServiceAddr(String addr) async {
-    state.serviceAddr = addr;
+  Future<void> setServiceHost(String host) async {
+    state.serviceHost = host;
     ref.notifyListeners();
   }
 
-  updateCurrentUser(PBUser info) async {
+  Future<void> setServicePort(String port) async {
+    state.servicePort = port;
+    ref.notifyListeners();
+  }
+
+  Future<void> updateCurrentUser(PBUser info) async {
     state.currentUser = info;
     await LSMyInfo.set(state.currentUser);
     ref.notifyListeners();
@@ -52,21 +59,21 @@ class Global extends _$Global {
     ref.notifyListeners();
   }
 
-  initPageController() {
+  void initPageController() {
     state.pageController = PageController();
     ref.notifyListeners();
   }
 
-  disposePageController() {
+  void disposePageController() {
     state.pageController.dispose();
     ref.notifyListeners();
   }
 
-  changeDestination(Widget page) {
+  void changeDestination(Widget page) {
     // log.info('changeDestination: ${page.toString()}');
     int index = allPages.indexWhere(
-          (element) =>
-      element.runtimeType.toString() == page.runtimeType.toString(),
+      (element) =>
+          element.runtimeType.toString() == page.runtimeType.toString(),
     );
     state.pageController.jumpToPage(index);
   }

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kk_etcd_ui/l10n/language_map.dart';
 import 'package:kk_ui/kk_util/kku_language.dart';
 
-showLanguagePopupMenu(WidgetRef ref) {
+PopupMenuButton<String> showLanguagePopupMenu(WidgetRef ref) {
   late List<String> languageList =
   LanguageMap.languageMap.entries.map((entry) => entry.key).toList();
   List<PopupMenuEntry<String>> list = [];

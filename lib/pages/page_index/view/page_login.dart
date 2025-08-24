@@ -44,16 +44,28 @@ class _PageLoginState extends ConsumerState<PageLogin> {
               Container(
                 margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                 child: TextFormField(
-                  initialValue: ref
-                      .watch(globalProvider)
-                      .serviceAddr,
+                  initialValue: ref.watch(globalProvider).serviceHost,
                   decoration: InputDecoration(
                     labelText: lTr(context).serviceAddress,
-                    hintText: "127.0.0.1:2333",
+                    hintText: "127.0.0.1",
                     icon: const Icon(Icons.link_outlined),
                   ),
                   onChanged: (value) {
-                    ref.read(globalProvider.notifier).setServiceAddr(value);
+                    ref.read(globalProvider.notifier).setServiceHost(value);
+                  },
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                child: TextFormField(
+                  initialValue: ref.watch(globalProvider).servicePort,
+                  decoration: InputDecoration(
+                    labelText: lTr(context).serviceAddress,
+                    hintText: "2333",
+                    icon: const Icon(Icons.link_outlined),
+                  ),
+                  onChanged: (value) {
+                    ref.read(globalProvider.notifier).setServicePort(value);
                   },
                 ),
               ),
@@ -114,18 +126,19 @@ class _PageLoginState extends ConsumerState<PageLogin> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       await LSServiceAddr.set(
-                        ref
-                            .watch(globalProvider)
-                            .serviceAddr,
+                        ref.watch(globalProvider).serviceHost,
+                        int.parse(ref.watch(globalProvider).servicePort),
                       );
                       await ref
                           .read(globalProvider.notifier)
                           .updateCurrentUser(
-                        PBUser(userName: userName, password: password),
-                      );
+                            PBUser(userName: userName, password: password),
+                          );
                       bool success = await readUser.login(
                         Login_Input(userName: userName, password: password),
+                        ref,
                       );
+                      debugPrint("login success: $success");
                       if (context.mounted && success) {
                         context.go(RouterPath.pageHome);
                       }
